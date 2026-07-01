@@ -1,0 +1,27 @@
+# Project Sentinel live data collection settings.
+# Advisor Mode only: collects diagnostics and never changes execution behavior.
+
+enabled: true
+
+symbols:
+  - XAUUSD
+  - US30
+  - EURUSD
+  - GBPUSD
+  - BTCUSD
+  - NAS100
+
+capture_interval_seconds: 180
+
+record_states:
+  - COLD
+  - WARM
+  - HOT
+  - EXECUTION_READY
+
+storage:
+  format: jsonl
+  path: data/live_data/live_signals.jsonl
+
+retention:
+  max_records: 100000

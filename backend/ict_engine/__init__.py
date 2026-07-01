@@ -1,0 +1,1 @@
+"""ICT setup validation package."""

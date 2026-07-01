@@ -1,0 +1,21 @@
+execution_mode: advisor
+
+allowed_modes:
+  - advisor
+  - assisted
+  - autonomous
+
+assisted_mode:
+  require_manual_confirmation: true
+  max_slippage_points: 50
+  allow_market_orders: true
+  allow_limit_orders: true
+  allow_stop_orders: false
+
+safety:
+  reject_if_news_lock: true
+  reject_if_risk_blocked: true
+  reject_if_guardrail_blocked: true
+  reject_if_confidence_below: 90
+  reject_if_rr_below: 3.0
+  reject_if_spread_too_high: true

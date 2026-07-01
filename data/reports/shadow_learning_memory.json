@@ -1,0 +1,314 @@
+{
+  "guardrail_confirmed": [
+    {
+      "bad_blocks": 0,
+      "block_reason": "grade_lock",
+      "good_blocks": 6,
+      "guardrail": "grade_lock",
+      "neutral_blocks": 0,
+      "session": "london_open",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "killzone",
+      "good_blocks": 6,
+      "guardrail": "killzone",
+      "neutral_blocks": 0,
+      "session": "london_continuation",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "memory_penalty",
+      "good_blocks": 6,
+      "guardrail": "memory_penalty",
+      "neutral_blocks": 0,
+      "session": "new_york_open",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "spread_slippage",
+      "good_blocks": 6,
+      "guardrail": "spread_slippage",
+      "neutral_blocks": 0,
+      "session": "new_york_open",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    }
+  ],
+  "policy_review_candidates": [
+    {
+      "bad_blocks": 6,
+      "block_reason": "execution_anomaly",
+      "good_blocks": 0,
+      "guardrail": "execution_anomaly",
+      "neutral_blocks": 0,
+      "session": "new_york_continuation",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 6,
+      "block_reason": "no_trade",
+      "good_blocks": 0,
+      "guardrail": "no_trade",
+      "neutral_blocks": 0,
+      "session": "new_york_continuation",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 6,
+      "block_reason": "risk_lock",
+      "good_blocks": 0,
+      "guardrail": "risk_block",
+      "neutral_blocks": 0,
+      "session": "new_york_open",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 6,
+      "block_reason": "symbol_lock",
+      "good_blocks": 0,
+      "guardrail": "symbol_lock",
+      "neutral_blocks": 0,
+      "session": "new_york_continuation",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    }
+  ],
+  "records": [
+    {
+      "bad_blocks": 6,
+      "block_reason": "execution_anomaly",
+      "good_blocks": 0,
+      "guardrail": "execution_anomaly",
+      "neutral_blocks": 0,
+      "session": "new_york_continuation",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "grade_lock",
+      "good_blocks": 6,
+      "guardrail": "grade_lock",
+      "neutral_blocks": 0,
+      "session": "london_open",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "killzone",
+      "good_blocks": 6,
+      "guardrail": "killzone",
+      "neutral_blocks": 0,
+      "session": "london_continuation",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "memory_penalty",
+      "good_blocks": 6,
+      "guardrail": "memory_penalty",
+      "neutral_blocks": 0,
+      "session": "new_york_open",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 6,
+      "block_reason": "no_trade",
+      "good_blocks": 0,
+      "guardrail": "no_trade",
+      "neutral_blocks": 0,
+      "session": "new_york_continuation",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "regime_uncertainty",
+      "good_blocks": 0,
+      "guardrail": "regime_uncertainty",
+      "neutral_blocks": 6,
+      "session": "new_york_open",
+      "status": "MONITOR",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 6,
+      "block_reason": "risk_lock",
+      "good_blocks": 0,
+      "guardrail": "risk_block",
+      "neutral_blocks": 0,
+      "session": "new_york_open",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 0,
+      "block_reason": "spread_slippage",
+      "good_blocks": 6,
+      "guardrail": "spread_slippage",
+      "neutral_blocks": 0,
+      "session": "new_york_open",
+      "status": "GUARDRAIL_CONFIRMED",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    },
+    {
+      "bad_blocks": 6,
+      "block_reason": "symbol_lock",
+      "good_blocks": 0,
+      "guardrail": "symbol_lock",
+      "neutral_blocks": 0,
+      "session": "new_york_continuation",
+      "status": "REVIEW_POLICY",
+      "symbols": [
+        "BTCUSD",
+        "EURUSD",
+        "GBPUSD",
+        "NAS100",
+        "US30",
+        "XAUUSD"
+      ],
+      "total": 6
+    }
+  ]
+}

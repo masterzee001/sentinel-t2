@@ -1,0 +1,25 @@
+# Project Sentinel live monitor settings.
+# Advisor Mode only: no order placement or execution integration.
+
+environment: development
+
+scan_interval_seconds:
+  development: 180
+  production: 60
+
+symbols:
+  - XAUUSD
+  - US30
+  - EURUSD
+  - GBPUSD
+  - BTCUSD
+  - NAS100
+
+alerts:
+  terminal: true
+  telegram: false
+  desktop: false
+
+heartbeat:
+  enabled: true
+  every_n_scans: 1

@@ -1,0 +1,53 @@
+version: "1.0"
+
+tier_1_production:
+  - US30
+
+tier_2_filtered_production:
+  - XAUUSD
+
+tier_3_demo_sandbox:
+  - BTCUSD
+  - NAS100
+
+tier_4_observer_only:
+  - EURUSD
+  - GBPUSD
+
+aliases:
+  BTCUSD:
+    - BTC
+    - BTCUSD
+    - BTCUSDm
+    - BTCUSD.cash
+    - BTCUSD.pro
+    - XBTUSD
+  NAS100:
+    - NAS100
+    - USTEC
+    - USTECH100M
+    - NAS100.cash
+    - NASUSD
+
+promotion_rules:
+  production:
+    min_pf: 1.5
+    min_wr: 55
+    min_trades: 30
+    max_dd: 4
+  observer:
+    min_pf: 1.0
+    max_pf: 1.5
+  disabled:
+    max_pf: 1.0
+
+execution:
+  observer_execution_allowed: false
+  demo_sandbox_execution_allowed: false
+  autonomous_execution_allowed: false
+
+observer_reasons:
+  BTCUSD: "BTCUSD demo sandbox: production execution disabled"
+  NAS100: "NAS100 demo sandbox: production execution disabled"
+  EURUSD: "EURUSD observer-only mode: production execution disabled"
+  GBPUSD: "GBPUSD observer-only mode: production execution disabled"

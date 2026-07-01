@@ -1,0 +1,10 @@
+{
+  "allowed_count": 12,
+  "critical_denial_count": 6,
+  "eligible_count": 24,
+  "false_override_rate": 0.0,
+  "override_accuracy": 100.0,
+  "override_benefit_score": 22.5,
+  "production_baseline_preserved": true,
+  "severity_classification_accuracy": 100.0
+}

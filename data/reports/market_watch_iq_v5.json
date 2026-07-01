@@ -1,0 +1,8 @@
+{
+  "block_decision_accuracy": 44.44,
+  "guardrail_confirmation_rate": 44.44,
+  "guardrail_iq": 50.0,
+  "opportunity_leak_rate": 44.44,
+  "policy_review_candidates": 4,
+  "shadow_simulation_accuracy": 100.0
+}

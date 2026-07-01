@@ -1,0 +1,56 @@
+enabled: true
+mode: CONTROLLED_PRODUCTION_PROMOTION
+
+production_symbols:
+  - XAUUSD
+  - US30
+
+sandbox_symbols:
+  - BTCUSD
+  - NAS100
+
+observer_symbols:
+  - EURUSD
+  - GBPUSD
+
+efde:
+  enabled: true
+  fps_threshold: 75
+  adverse_zone_minimum: 0.3
+  adverse_zone_maximum: 0.5
+  assisted_only: true
+  human_approval_required: true
+  auto_close_enabled: false
+
+a_plus_override:
+  enabled: true
+  minimum_confidence: 90
+  required_grade: A+
+  max_override_trades_per_session: 2
+  bypass_only:
+    - PRODUCTION_PORTFOLIO_SUPPRESSION
+  protected_blocks:
+    - DEMO_LIVE_RESTRICTION
+    - EXECUTION_ANOMALY
+    - KILL_SWITCH
+    - NEWS_LOCK
+    - RISK_LOCK
+    - SPREAD_LOCK
+    - SYMBOL_LOCK
+
+memory_soft_weighting:
+  enabled: true
+  max_bonus: 5
+  default_bonus: 3
+  requires_strong_alignment: true
+  requires_repeated_confirmation: true
+  requires_regime_match: true
+  must_not_force_execution_ready: true
+
+safety:
+  assisted_execution_mode: DEMO_ONLY
+  submit_orders_default: false
+  human_approval_required: true
+  autonomous_execution: false
+  live_funded_execution: false
+  broker_submission_changed: false

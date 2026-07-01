@@ -1,0 +1,19 @@
+enabled: true
+
+simulations: 10000
+random_seed: 271828
+
+risk_models:
+  - 0.25
+  - 0.5
+  - 0.75
+  - 1.0
+
+drawdown_limits:
+  internal_limit: 4.0
+  firm_limit: 6.0
+
+starting_balance: 2000
+
+backtest_report_path: data/reports/backtest_365d_summary.json
+

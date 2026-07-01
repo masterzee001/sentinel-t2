@@ -1,0 +1,19 @@
+# Project Sentinel trade planner settings.
+# Buffers are expressed in raw symbol price units.
+
+version: "0.1"
+planner_test_mode: true
+minimum_rr_to_final_target: 3.0
+
+stop_loss_buffers:
+  XAUUSD: 1.0
+  US30: 10.0
+  EURUSD: 0.0005
+  GBPUSD: 0.0005
+
+lot_sizing:
+  default_tick_value: 1.0
+  default_tick_size: 1.0
+  min_lot: 0.01
+  lot_step: 0.01
+  lot_precision: 2

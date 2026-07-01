@@ -1,0 +1,1889 @@
+{
+  "generated_at": "2026-06-30T01:46:05.529395+00:00",
+  "trades": [
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0001"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0002"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0003"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0004"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0005"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0006"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0007"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0008"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0009"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0010"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0011"
+    },
+    {
+      "adverse_excursion_pct": 0.55,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 36,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.5,
+            "regime_failure": 0.3,
+            "retest_failure": 0.3,
+            "structure_invalidation": 0.4,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 86,
+          "signals": {
+            "execution_friction": 0.4,
+            "momentum_failure": 1.0,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.8
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.5,
+      "early_exit_zone": "ADVERSE_ZONE_2",
+      "efde_rr": -0.5,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.5,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0012"
+    },
+    {
+      "adverse_excursion_pct": 0.34,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 81,
+          "signals": {
+            "execution_friction": 0.3,
+            "momentum_failure": 0.9,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.7
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.32,
+      "early_exit_zone": "ADVERSE_ZONE_1",
+      "efde_rr": -0.32,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.68,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0013"
+    },
+    {
+      "adverse_excursion_pct": 0.34,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 81,
+          "signals": {
+            "execution_friction": 0.3,
+            "momentum_failure": 0.9,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.7
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.32,
+      "early_exit_zone": "ADVERSE_ZONE_1",
+      "efde_rr": -0.32,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.68,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0014"
+    },
+    {
+      "adverse_excursion_pct": 0.34,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 81,
+          "signals": {
+            "execution_friction": 0.3,
+            "momentum_failure": 0.9,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.7
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.32,
+      "early_exit_zone": "ADVERSE_ZONE_1",
+      "efde_rr": -0.32,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.68,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0015"
+    },
+    {
+      "adverse_excursion_pct": 0.34,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 81,
+          "signals": {
+            "execution_friction": 0.3,
+            "momentum_failure": 0.9,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.7
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.32,
+      "early_exit_zone": "ADVERSE_ZONE_1",
+      "efde_rr": -0.32,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.68,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0016"
+    },
+    {
+      "adverse_excursion_pct": 0.34,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 81,
+          "signals": {
+            "execution_friction": 0.3,
+            "momentum_failure": 0.9,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.7
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.32,
+      "early_exit_zone": "ADVERSE_ZONE_1",
+      "efde_rr": -0.32,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.68,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0017"
+    },
+    {
+      "adverse_excursion_pct": 0.34,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "EARLY_EXIT_RECOMMENDED",
+          "fps": 81,
+          "signals": {
+            "execution_friction": 0.3,
+            "momentum_failure": 0.9,
+            "regime_failure": 0.8,
+            "retest_failure": 0.9,
+            "structure_invalidation": 1.0,
+            "time_failure": 0.7
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": true,
+      "early_exit_rr": -0.32,
+      "early_exit_zone": "ADVERSE_ZONE_1",
+      "efde_rr": -0.32,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.68,
+      "simulated_early_exit_outcome": "EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0018"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0019"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0020"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0021"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0022"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0023"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0024"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0025"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0026"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0027"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0028"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0029"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0030"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0031"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0032"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0033"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0034"
+    },
+    {
+      "adverse_excursion_pct": 0.52,
+      "adverse_zone": "ADVERSE_ZONE_2",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        },
+        {
+          "classification": "HOLD",
+          "fps": 25,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.3,
+            "regime_failure": 0.2,
+            "retest_failure": 0.2,
+            "structure_invalidation": 0.2,
+            "time_failure": 0.6
+          },
+          "threshold": 0.5,
+          "zone": "ADVERSE_ZONE_2"
+        }
+      ],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0035"
+    },
+    {
+      "adverse_excursion_pct": 0.4,
+      "adverse_zone": "ADVERSE_ZONE_1",
+      "broker_order_modified": false,
+      "checkpoints": [
+        {
+          "classification": "HOLD",
+          "fps": 17,
+          "signals": {
+            "execution_friction": 0.2,
+            "momentum_failure": 0.2,
+            "regime_failure": 0.1,
+            "retest_failure": 0.1,
+            "structure_invalidation": 0.1,
+            "time_failure": 0.4
+          },
+          "threshold": 0.3,
+          "zone": "ADVERSE_ZONE_1"
+        }
+      ],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": 1.4,
+      "early_exit_zone": null,
+      "efde_rr": 1.4,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "WIN",
+      "original_rr": 1.4,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0036"
+    },
+    {
+      "adverse_excursion_pct": 0.22,
+      "adverse_zone": "NONE",
+      "broker_order_modified": false,
+      "checkpoints": [],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": -1.0,
+      "early_exit_zone": null,
+      "efde_rr": -1.0,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "US30",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0037"
+    },
+    {
+      "adverse_excursion_pct": 0.22,
+      "adverse_zone": "NONE",
+      "broker_order_modified": false,
+      "checkpoints": [],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": -1.0,
+      "early_exit_zone": null,
+      "efde_rr": -1.0,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "BTCUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0038"
+    },
+    {
+      "adverse_excursion_pct": 0.22,
+      "adverse_zone": "NONE",
+      "broker_order_modified": false,
+      "checkpoints": [],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": -1.0,
+      "early_exit_zone": null,
+      "efde_rr": -1.0,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "NAS100",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0039"
+    },
+    {
+      "adverse_excursion_pct": 0.22,
+      "adverse_zone": "NONE",
+      "broker_order_modified": false,
+      "checkpoints": [],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": -1.0,
+      "early_exit_zone": null,
+      "efde_rr": -1.0,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "EURUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0040"
+    },
+    {
+      "adverse_excursion_pct": 0.22,
+      "adverse_zone": "NONE",
+      "broker_order_modified": false,
+      "checkpoints": [],
+      "confidence": 94,
+      "early_exit_recommended": false,
+      "early_exit_rr": -1.0,
+      "early_exit_zone": null,
+      "efde_rr": -1.0,
+      "false_early_exit": false,
+      "grade": "A+",
+      "micro_regime": "institutional_continuation",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "healthy_continuation_trend",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "trend_following",
+      "symbol": "GBPUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0041"
+    },
+    {
+      "adverse_excursion_pct": 0.22,
+      "adverse_zone": "NONE",
+      "broker_order_modified": false,
+      "checkpoints": [],
+      "confidence": 88,
+      "early_exit_recommended": false,
+      "early_exit_rr": -1.0,
+      "early_exit_zone": null,
+      "efde_rr": -1.0,
+      "false_early_exit": false,
+      "grade": "A",
+      "micro_regime": "controlled_pullback",
+      "missed_winner": 0.0,
+      "original_outcome": "LOSS",
+      "original_rr": -1.0,
+      "production_change": false,
+      "regime": "sweep_reversal",
+      "saved_loss": 0.0,
+      "simulated_early_exit_outcome": "NO_EARLY_EXIT",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD",
+      "timestamp": "2026-06-29T12:00:00+00:00",
+      "trade_id": "EFDE-0042"
+    }
+  ]
+}

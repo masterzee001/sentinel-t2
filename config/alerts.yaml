@@ -1,0 +1,25 @@
+# Project Sentinel alert engine settings.
+# Version 0.1 supports terminal alerts only.
+
+enabled: true
+terminal: true
+desktop: false
+telegram: true
+
+telegram_settings:
+  parse_mode: HTML
+  disable_web_page_preview: true
+
+alert_on:
+  - WARM_TO_HOT
+  - HOT_TO_EXECUTION_READY
+  - EXECUTION_READY_TO_LOWER
+  - RISK_BLOCKED
+  - NEWS_LOCK_ACTIVE
+
+cooldown_minutes: 5
+
+observer_symbols:
+  - BTCUSD
+  - NAS100
+observer_hot_realert_confidence_delta: 5

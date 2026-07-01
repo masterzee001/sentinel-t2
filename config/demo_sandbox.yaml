@@ -1,0 +1,29 @@
+enabled: false
+mode: DEMO_ONLY
+
+allowed_symbols:
+  - BTCUSD
+  - NAS100
+
+allowed_grades:
+  - A+
+  - A
+
+default_risk_percent: 0.05
+max_risk_percent: 0.10
+
+human_approval_required: true
+submit_orders: false
+production_metrics_excluded: true
+challenge_mode_allowed: false
+
+max_slippage_points:
+  BTCUSD: 300
+  NAS100: 120
+
+max_spread_points:
+  BTCUSD: 500
+  NAS100: 150
+
+duplicate_order_protection: true
+require_fresh_ticket_seconds: 120

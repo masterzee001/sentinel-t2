@@ -1,0 +1,19 @@
+market_watch:
+  enabled: true
+  affect_production: false
+  advisory_only: true
+  minimum_advisory_threshold: 70
+  minimum_weighted_score: 75
+  minimum_session_quality: 50
+  expectancy_multipliers:
+    trend_following: 1.2
+    ict_liquidity: 0.8
+    mean_reversion: 1.0
+  pattern_multipliers:
+    noisy_chop: 0.0
+
+experimental_targets:
+  profit_factor_above: 2.0
+  win_rate_above: 60.0
+  trades_above: 90
+  max_drawdown_below: 4.0

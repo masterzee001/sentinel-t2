@@ -1,0 +1,16 @@
+{
+  "avg_candidate_rr": 1.3,
+  "candidate_count": 18,
+  "improves_pf": true,
+  "improves_trade_count": true,
+  "metrics": {
+    "max_drawdown": 3.98,
+    "pf": 2.96,
+    "trades": 169,
+    "win_rate": 74.08
+  },
+  "pass": true,
+  "preserves_elite_thresholds": true,
+  "production_rule_change": false,
+  "rationale": "A+ and execution-ready setups require stronger block justification."
+}

@@ -1,0 +1,54 @@
+# Approved trading sessions for Project Sentinel.
+# All times use WAT and 24-hour HH:MM format.
+
+version: "1.1"
+timezone: "Africa/Lagos"
+timezone_label: "WAT"
+
+markets:
+  XAUUSD:
+    enabled: true
+    sessions:
+      london:
+        start: "08:00"
+        end: "11:00"
+      new_york:
+        start: "13:30"
+        end: "16:00"
+
+  US30:
+    enabled: true
+    sessions:
+      new_york:
+        start: "13:30"
+        end: "16:00"
+
+  EURUSD:
+    enabled: true
+    watchlist: true
+    sessions:
+      london:
+        start: "08:00"
+        end: "11:00"
+      new_york:
+        start: "13:30"
+        end: "16:00"
+
+  GBPUSD:
+    enabled: true
+    watchlist: true
+    sessions:
+      london:
+        start: "08:00"
+        end: "11:00"
+      new_york:
+        start: "13:30"
+        end: "16:00"
+
+modes:
+  conservative:
+    session_filter: "approved_sessions_only"
+  balanced:
+    session_filter: "approved_sessions_only"
+  aggressive:
+    session_filter: "approved_sessions_only"

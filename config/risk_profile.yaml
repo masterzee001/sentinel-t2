@@ -1,0 +1,39 @@
+# Project Sentinel prop firm risk profile.
+# Risk controls are hard boundaries and must override setup quality.
+
+version: "1.1"
+environment: "development"
+account_mode: "demo"
+account:
+  starting_balance: 5000
+  currency: "USD"
+
+drawdown:
+  firm_max_drawdown_percent: 6.0
+  internal_max_drawdown_percent: 4.0
+  lock_account_at_drawdown_percent: 4.0
+
+daily_limits:
+  max_trades_per_day: 2
+  daily_loss_limit_percent: 1.0
+  stop_after_consecutive_losses: 2
+  cooldown_after_stop_loss_minutes: 15
+
+risk_per_trade:
+  week_1_percent: 0.5
+  week_2_percent_if_profitable: 1.0
+  forex_development_percent: 0.25
+
+portfolio_limits:
+  max_total_open_planned_risk_percent: 1.0
+
+modes:
+  conservative:
+    risk_multiplier: 1.0
+    notes: "Default constitution risk profile."
+  balanced:
+    risk_multiplier: 1.0
+    notes: "Reserved for future mode-specific tuning."
+  aggressive:
+    risk_multiplier: 1.0
+    notes: "Must remain inside constitution drawdown and daily limits."

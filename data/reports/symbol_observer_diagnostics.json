@@ -1,0 +1,62 @@
+{
+  "decision": "PASS",
+  "generated_at": "2026-07-01T17:44:24.805495+00:00",
+  "observer_diagnostics": {
+    "BTCUSD": {
+      "candles_available": true,
+      "data_status": "CANDLES_AVAILABLE_NO_SETUPS",
+      "display_symbol": "BTC",
+      "execution_allowed": false,
+      "guardrails_blocking_all_opportunities": false,
+      "historical_data": true,
+      "pf": 0.0,
+      "production_excluded": true,
+      "setups_forming": false,
+      "symbol": "BTCUSD",
+      "trades": 0,
+      "wr": 0.0
+    },
+    "EURUSD": {
+      "candles_available": true,
+      "data_status": "GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES",
+      "display_symbol": "EURUSD",
+      "execution_allowed": false,
+      "guardrails_blocking_all_opportunities": true,
+      "historical_data": true,
+      "pf": 1.06,
+      "production_excluded": true,
+      "setups_forming": true,
+      "symbol": "EURUSD",
+      "trades": 101,
+      "wr": 51.39
+    },
+    "GBPUSD": {
+      "candles_available": true,
+      "data_status": "GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES",
+      "display_symbol": "GBPUSD",
+      "execution_allowed": false,
+      "guardrails_blocking_all_opportunities": true,
+      "historical_data": true,
+      "pf": 1.03,
+      "production_excluded": true,
+      "setups_forming": true,
+      "symbol": "GBPUSD",
+      "trades": 102,
+      "wr": 50.0
+    },
+    "NAS100": {
+      "candles_available": true,
+      "data_status": "GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES",
+      "display_symbol": "NAS100/USTEC",
+      "execution_allowed": false,
+      "guardrails_blocking_all_opportunities": true,
+      "historical_data": true,
+      "pf": 2.0,
+      "production_excluded": true,
+      "setups_forming": true,
+      "symbol": "NAS100",
+      "trades": 24,
+      "wr": 65.22
+    }
+  }
+}

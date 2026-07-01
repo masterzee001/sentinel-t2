@@ -1,0 +1,27 @@
+enabled: true
+
+checks:
+  mt5_connected: true
+  account_verified: true
+  risk_allowed: true
+  news_clear: true
+  killzone_valid: true
+  guardrails_pass: true
+  spread_acceptable: true
+  lot_valid: true
+  rr_minimum: 3.0
+  execution_mode_assisted: true
+  manual_confirmation_required: true
+
+spread_limits:
+  XAUUSD: 80
+  US30: 150
+  EURUSD: 20
+  GBPUSD: 25
+  BTCUSD: 300
+
+allowed_accounts:
+  demo:
+    - MetaQuotes-Demo
+  live: []
+

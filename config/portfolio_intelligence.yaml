@@ -1,0 +1,43 @@
+enabled: true
+mode: DIAGNOSTIC_ADVISORY_ONLY
+affect_production: false
+
+production_symbols:
+  - XAUUSD
+  - US30
+
+sandbox_symbols:
+  - BTCUSD
+  - NAS100
+
+observer_symbols:
+  - EURUSD
+  - GBPUSD
+
+pas:
+  allow_threshold: 75
+  reduced_risk_threshold: 60
+  weights:
+    exposure: 0.20
+    correlation: 0.20
+    regime: 0.20
+    risk_budget: 0.15
+    timeframe_confluence: 0.15
+    opportunity_cost: 0.10
+
+risk_budget:
+  daily_portfolio_risk_budget_percent: 1.0
+  max_concurrent_production_trades: 2
+  max_same_cluster_trades: 1
+  max_total_cluster_risk_percent: 0.6
+  reduced_risk_multiplier: 0.5
+
+safety:
+  minimum_core_confidence: 90
+  mss_required: true
+  grade_lock_required: true
+  killzone_required: true
+  human_approval_required: true
+  autonomous_execution: false
+  broker_submission_changed: false
+  submit_orders_default: false

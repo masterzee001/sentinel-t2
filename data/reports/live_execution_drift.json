@@ -1,0 +1,22 @@
+{
+  "backtest": {
+    "max_drawdown": 3.72,
+    "pf": 2.84,
+    "trades": 151,
+    "win_rate": 72.6
+  },
+  "classification": "STABLE",
+  "execution_drift": 1.51,
+  "live_paper": {
+    "avg_latency": 407.5,
+    "avg_rr": 0.36,
+    "avg_slippage": 3.25,
+    "avg_spread": 23.5,
+    "max_drawdown": 1.15,
+    "pf": 2.8,
+    "trades": 10,
+    "win_rate": 71.43
+  },
+  "pf_drift": -1.41,
+  "wr_drift": -1.61
+}

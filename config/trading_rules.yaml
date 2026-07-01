@@ -1,0 +1,82 @@
+# Machine-readable Sentinel hard rules.
+# These rules prepare the system for future engines without adding Python logic yet.
+
+version: "1.1"
+
+philosophy:
+  never_take_bad_trade: true
+  missing_good_trade_is_acceptable: true
+  taking_bad_trade_is_unacceptable: true
+
+markets:
+  allowed:
+    - "XAUUSD"
+    - "US30"
+    - "EURUSD"
+    - "GBPUSD"
+    - "BTCUSD"
+    - "NAS100"
+  priority:
+    - symbol: "XAUUSD"
+      rank: 1
+      tier: "priority"
+    - symbol: "US30"
+      rank: 2
+      tier: "priority"
+    - symbol: "EURUSD"
+      rank: 3
+      tier: "watchlist"
+    - symbol: "GBPUSD"
+      rank: 4
+      tier: "watchlist"
+    - symbol: "BTCUSD"
+      rank: 5
+      tier: "demo_sandbox"
+    - symbol: "NAS100"
+      rank: 6
+      tier: "demo_sandbox"
+  watchlist:
+    - "EURUSD"
+    - "GBPUSD"
+  forex:
+    enabled: true
+    symbols:
+      - "EURUSD"
+      - "GBPUSD"
+    minimum_confidence: 95
+    require_a_grade_setup: true
+
+hard_filters:
+  require_valid_session: true
+  require_daily_bias: true
+  require_h4_narrative: true
+  require_liquidity_sweep: true
+  require_mss: true
+  require_fvg: true
+  require_return_to_fvg: true
+  require_premium_discount_alignment: true
+  require_clear_target: true
+  minimum_rr: 3.0
+
+trade_management:
+  move_stop_loss_to_break_even_at_r: 1.0
+  partial_take_profit:
+    at_r: 2.0
+    close_percent: 30
+  trail_remaining_percent: 70
+
+extra_rules:
+  cooldown_after_stop_loss_minutes: 15
+  one_trade_per_narrative: true
+  high_impact_news_lock:
+    enabled: true
+    minutes_before: 30
+    minutes_after: 30
+
+modes:
+  conservative:
+    hard_rules_can_be_relaxed: false
+  balanced:
+    hard_rules_can_be_relaxed: false
+  aggressive:
+    hard_rules_can_be_relaxed: false

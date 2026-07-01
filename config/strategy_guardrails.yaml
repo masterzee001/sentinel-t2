@@ -1,0 +1,70 @@
+enabled: true
+
+symbol_expansion:
+  observer_only: true
+  affect_production: false
+
+disabled_trade_symbols:
+  - GBPUSD
+
+blocked_killzones:
+  - london_continuation
+
+symbol_execution_tiers:
+  production:
+    - US30
+  filtered_production:
+    - XAUUSD
+  demo_sandbox:
+    - BTCUSD
+    - NAS100
+  observer_only:
+    - EURUSD
+    - GBPUSD
+
+minimum_execution_confidence: 95
+
+minimum_execution_confidence_by_symbol_type:
+  priority: 90
+  forex: 95
+
+adaptive_penalties:
+  london_open: 12
+  london_continuation: 100
+  range_phase: 8
+  no_smt_confirmation: 5
+  no_smt_expansion: 5
+  forex_without_smt: 7
+  distribution_without_smt: 5
+
+adaptive_bonuses:
+  new_york_continuation: 5
+  smt_confirmation: 3
+
+robustness_365d:
+  enabled: true
+  eurusd_disabled_reason: "EURUSD observer mode: 365D PF below threshold"
+  xauusd_require_smt_or_confidence: 95
+  xauusd_smt_min_sample: 10
+  xauusd_smt_sample_trades: 0
+  xauusd_block_london_open_without_smt: true
+  xauusd_block_london_continuation: true
+  us30_allowed_killzones:
+    - new_york_open
+    - new_york_continuation
+  us30_preferred_killzone: new_york_continuation
+  block_london_continuation: true
+  london_open_requires_smt: true
+  no_smt_expansion_penalty: true
+  warn_no_smt_loss_cluster: true
+
+forex_rules:
+  require_smt_confirmation: true
+  allowed_symbols:
+    - EURUSD
+  disabled_symbols:
+    - GBPUSD
+
+narrative_rules:
+  block_range_phase: true
+  caution_distribution_without_smt: true

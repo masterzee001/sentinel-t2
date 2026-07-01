@@ -1,0 +1,137 @@
+{
+  "best_regimes": [
+    "healthy_continuation_trend",
+    "expansion_impulse",
+    "sweep_reversal"
+  ],
+  "generated_at": "2026-07-01T17:44:07.168909+00:00",
+  "strategy_expectancy": {
+    "accumulation": {
+      "avg_rr": 0.19,
+      "best_strategy": "mean_reversion",
+      "pf": 1.74,
+      "regime": "accumulation",
+      "wr": 60.4
+    },
+    "balanced_range": {
+      "avg_rr": 0.27,
+      "best_strategy": "mean_reversion",
+      "pf": 1.92,
+      "regime": "balanced_range",
+      "wr": 62.8
+    },
+    "compression_trap": {
+      "avg_rr": -0.38,
+      "best_strategy": "no_trade",
+      "pf": 0.42,
+      "regime": "compression_trap",
+      "wr": 31.0
+    },
+    "distribution": {
+      "avg_rr": 0.31,
+      "best_strategy": "mean_reversion",
+      "pf": 2.08,
+      "regime": "distribution",
+      "wr": 65.0
+    },
+    "early_trend": {
+      "avg_rr": 0.34,
+      "best_strategy": "trend_following",
+      "pf": 2.15,
+      "regime": "early_trend",
+      "wr": 64.8
+    },
+    "engineered_liquidity_range": {
+      "avg_rr": 0.33,
+      "best_strategy": "ict_liquidity",
+      "pf": 2.12,
+      "regime": "engineered_liquidity_range",
+      "wr": 63.9
+    },
+    "exhausted_trend": {
+      "avg_rr": 0.24,
+      "best_strategy": "mean_reversion",
+      "pf": 1.84,
+      "regime": "exhausted_trend",
+      "wr": 61.3
+    },
+    "exhaustion_reversal": {
+      "avg_rr": 0.46,
+      "best_strategy": "mean_reversion",
+      "pf": 2.54,
+      "regime": "exhaustion_reversal",
+      "wr": 69.5
+    },
+    "expansion_impulse": {
+      "avg_rr": 0.52,
+      "best_strategy": "trend_following",
+      "pf": 2.76,
+      "regime": "expansion_impulse",
+      "wr": 71.8
+    },
+    "fake_breakout": {
+      "avg_rr": -0.29,
+      "best_strategy": "no_trade",
+      "pf": 0.58,
+      "regime": "fake_breakout",
+      "wr": 35.7
+    },
+    "healthy_continuation_trend": {
+      "avg_rr": 0.58,
+      "best_strategy": "trend_following",
+      "pf": 3.05,
+      "regime": "healthy_continuation_trend",
+      "wr": 74.2
+    },
+    "mature_trend": {
+      "avg_rr": 0.36,
+      "best_strategy": "trend_following",
+      "pf": 2.22,
+      "regime": "mature_trend",
+      "wr": 66.5
+    },
+    "noisy_chop": {
+      "avg_rr": 0.0,
+      "best_strategy": "no_trade",
+      "pf": 0.0,
+      "regime": "noisy_chop",
+      "wr": 0.0
+    },
+    "sweep_continuation": {
+      "avg_rr": 0.44,
+      "best_strategy": "trend_following",
+      "pf": 2.48,
+      "regime": "sweep_continuation",
+      "wr": 68.6
+    },
+    "sweep_reversal": {
+      "avg_rr": 0.49,
+      "best_strategy": "ict_liquidity",
+      "pf": 2.68,
+      "regime": "sweep_reversal",
+      "wr": 70.1
+    }
+  },
+  "taxonomy": [
+    "early_trend",
+    "healthy_continuation_trend",
+    "mature_trend",
+    "exhausted_trend",
+    "balanced_range",
+    "accumulation",
+    "distribution",
+    "engineered_liquidity_range",
+    "compression_trap",
+    "fake_breakout",
+    "sweep_continuation",
+    "sweep_reversal",
+    "noisy_chop",
+    "expansion_impulse",
+    "exhaustion_reversal"
+  ],
+  "worst_regimes": [
+    "noisy_chop",
+    "compression_trap",
+    "fake_breakout"
+  ]
+}

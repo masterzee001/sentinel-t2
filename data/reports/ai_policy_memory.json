@@ -1,0 +1,102 @@
+{
+  "autonomous_execution": false,
+  "confirmed_good_policies": [
+    {
+      "action": "KEEP_SEPARATE",
+      "id": "keep_shadow_enhanced_separate",
+      "pcs": 97,
+      "strength": "strong",
+      "type": "risk_recommendation"
+    },
+    {
+      "action": "KEEP_POLICY",
+      "id": "preserve_grade_lock",
+      "pcs": 96,
+      "strength": "strong",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "KEEP_POLICY",
+      "id": "preserve_killzone",
+      "pcs": 96,
+      "strength": "strong",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "KEEP_NO_TRADE_REGIME",
+      "id": "preserve_low_expectancy_no_trade_regimes",
+      "pcs": 95,
+      "strength": "strong",
+      "type": "regime_recommendation"
+    },
+    {
+      "action": "KEEP_ROUTING_POLICY",
+      "id": "preserve_grade_aware_routing",
+      "pcs": 94,
+      "strength": "strong",
+      "type": "strategy_recommendation"
+    },
+    {
+      "action": "KEEP_FILTER",
+      "id": "keep_weak_ict_filtered",
+      "pcs": 89,
+      "strength": "medium",
+      "type": "strategy_recommendation"
+    }
+  ],
+  "generated_at": "2026-06-30T00:15:10.435374+00:00",
+  "input_sources": [
+    "a_plus_override_simulation",
+    "guardrail_leak_analysis",
+    "loss_memory_database",
+    "market_watch_iq_report",
+    "market_watch_iq_v2",
+    "market_watch_iq_v3",
+    "market_watch_iq_v4",
+    "market_watch_iq_v5",
+    "market_watch_iq_v6",
+    "no_trade_optimization",
+    "regime_strategy_expectancy",
+    "setup_expectancy_database",
+    "shadow_enhanced_comparison",
+    "shadow_learning_memory",
+    "symbol_lock_optimization"
+  ],
+  "mode": "ADVISORY_MEMORY_ONLY",
+  "policy_review_queue": [
+    {
+      "action": "ADVISORY_REVIEW_ONLY",
+      "id": "review_symbol_lock_top_candidate_conditions",
+      "pcs": 93,
+      "strength": "strong",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "ADVISORY_REVIEW_ONLY",
+      "id": "review_no_trade_institutional_continuation",
+      "pcs": 88,
+      "strength": "medium",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "SIMULATE_ONLY",
+      "id": "simulate_a_plus_override_layer",
+      "pcs": 86,
+      "strength": "medium",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "DIAGNOSTIC_REVIEW_ONLY",
+      "id": "review_risk_block_late_leaks",
+      "pcs": 80,
+      "strength": "medium",
+      "type": "risk_recommendation"
+    }
+  ],
+  "production_logic_modified": false,
+  "recommendation_strength_counts": {
+    "medium": 5,
+    "strong": 8,
+    "weak": 0
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "conditions": [
+    {
+      "condition_id": "LMV2-001",
+      "loss_severity": "MEDIUM",
+      "pattern": "liquidity_sweep_reversal",
+      "quality_grade": "REJECT",
+      "regime": "mature_trend",
+      "repeat_count": 2,
+      "rr_impact": -2.0,
+      "session": "london_open",
+      "strategy": "ict_liquidity",
+      "symbol": "US30"
+    },
+    {
+      "condition_id": "LMV2-002",
+      "loss_severity": "MEDIUM",
+      "pattern": "liquidity_sweep_reversal",
+      "quality_grade": "REJECT",
+      "regime": "mature_trend",
+      "repeat_count": 2,
+      "rr_impact": -2.0,
+      "session": "new_york_open",
+      "strategy": "ict_liquidity",
+      "symbol": "US30"
+    },
+    {
+      "condition_id": "LMV2-003",
+      "loss_severity": "LOW",
+      "pattern": "liquidity_sweep_reversal",
+      "quality_grade": "REJECT",
+      "regime": "sweep_continuation",
+      "repeat_count": 1,
+      "rr_impact": -1.0,
+      "session": "london_open",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD"
+    },
+    {
+      "condition_id": "LMV2-004",
+      "loss_severity": "MEDIUM",
+      "pattern": "liquidity_sweep_reversal",
+      "quality_grade": "REJECT",
+      "regime": "mature_trend",
+      "repeat_count": 2,
+      "rr_impact": -2.0,
+      "session": "new_york_open",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD"
+    },
+    {
+      "condition_id": "LMV2-005",
+      "loss_severity": "LOW",
+      "pattern": "liquidity_sweep_reversal",
+      "quality_grade": "REJECT",
+      "regime": "sweep_continuation",
+      "repeat_count": 1,
+      "rr_impact": -1.0,
+      "session": "new_york_open",
+      "strategy": "ict_liquidity",
+      "symbol": "XAUUSD"
+    },
+    {
+      "condition_id": "LMV2-006",
+      "loss_severity": "LOW",
+      "pattern": "trend_continuation",
+      "quality_grade": "C",
+      "regime": "sweep_continuation",
+      "repeat_count": 1,
+      "rr_impact": -1.0,
+      "session": "london_open",
+      "strategy": "mean_reversion",
+      "symbol": "EURUSD"
+    },
+    {
+      "condition_id": "LMV2-007",
+      "loss_severity": "MEDIUM",
+      "pattern": "trend_continuation",
+      "quality_grade": "C",
+      "regime": "sweep_continuation",
+      "repeat_count": 3,
+      "rr_impact": -3.0,
+      "session": "new_york_open",
+      "strategy": "mean_reversion",
+      "symbol": "XAUUSD"
+    },
+    {
+      "condition_id": "LMV2-008",
+      "loss_severity": "LOW",
+      "pattern": "compression_breakout",
+      "quality_grade": "C",
+      "regime": "exhausted_trend",
+      "repeat_count": 1,
+      "rr_impact": -1.0,
+      "session": "new_york_open",
+      "strategy": "trend_following",
+      "symbol": "NAS100"
+    },
+    {
+      "condition_id": "LMV2-009",
+      "loss_severity": "LOW",
+      "pattern": "noisy_chop",
+      "quality_grade": "REJECT",
+      "regime": "noisy_chop",
+      "repeat_count": 1,
+      "rr_impact": -1.0,
+      "session": "new_york_open",
+      "strategy": "trend_following",
+      "symbol": "NAS100"
+    },
+    {
+      "condition_id": "LMV2-010",
+      "loss_severity": "MEDIUM",
+      "pattern": "compression_breakout",
+      "quality_grade": "C",
+      "regime": "exhausted_trend",
+      "repeat_count": 2,
+      "rr_impact": -2.0,
+      "session": "london_open",
+      "strategy": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "condition_id": "LMV2-011",
+      "loss_severity": "MEDIUM",
+      "pattern": "noisy_chop",
+      "quality_grade": "REJECT",
+      "regime": "noisy_chop",
+      "repeat_count": 2,
+      "rr_impact": -2.0,
+      "session": "london_open",
+      "strategy": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "condition_id": "LMV2-012",
+      "loss_severity": "MEDIUM",
+      "pattern": "compression_breakout",
+      "quality_grade": "C",
+      "regime": "exhausted_trend",
+      "repeat_count": 2,
+      "rr_impact": -2.0,
+      "session": "new_york_open",
+      "strategy": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "condition_id": "LMV2-013",
+      "loss_severity": "MEDIUM",
+      "pattern": "noisy_chop",
+      "quality_grade": "REJECT",
+      "regime": "noisy_chop",
+      "repeat_count": 3,
+      "rr_impact": -3.0,
+      "session": "new_york_open",
+      "strategy": "trend_following",
+      "symbol": "US30"
+    }
+  ],
+  "total_conditions": 13,
+  "total_repeats": 23,
+  "version": "loss_memory_v2"
+}

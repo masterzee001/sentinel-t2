@@ -1,0 +1,26 @@
+lookback_days: 30
+symbols:
+  - XAUUSD
+  - US30
+  - EURUSD
+  - GBPUSD
+  - BTCUSD
+  - NAS100
+
+symbol_expansion:
+  observer_only: true
+  affect_production: false
+
+market_watch:
+  enabled: true
+  affect_production: false
+  advisory_only: true
+
+minimum_confidence: 90
+starting_balance: 5000
+risk_per_trade_percent: 0.5
+
+simulation:
+  use_tp1_as_win: true
+  use_tp3_as_full_win: true
+  stop_at_sl: true

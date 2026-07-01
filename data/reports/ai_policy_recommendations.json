@@ -1,0 +1,206 @@
+{
+  "false_recommendation_rate": 0.0,
+  "generated_at": "2026-06-30T00:15:10.435374+00:00",
+  "mode": "ADVISORY_ONLY_AI_POLICY_ENGINE",
+  "recommendation_accuracy": 100.0,
+  "recommendation_count": 13,
+  "recommendations": [
+    {
+      "action": "KEEP_SEPARATE",
+      "advisory_only": true,
+      "evidence": [
+        "shadow_pf=2.89",
+        "shadow_trades=175",
+        "shadow_dd=3.95"
+      ],
+      "id": "keep_shadow_enhanced_separate",
+      "pcs": 97,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Keep shadow-enhanced metrics separate from production until live sample validation is complete.",
+      "type": "risk_recommendation"
+    },
+    {
+      "action": "KEEP_POLICY",
+      "advisory_only": true,
+      "evidence": [
+        "leak_ratio=0.0",
+        "efficiency=100.0"
+      ],
+      "id": "preserve_grade_lock",
+      "pcs": 96,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Preserve grade_lock; it is blocking losses without measurable edge leakage.",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "KEEP_POLICY",
+      "advisory_only": true,
+      "evidence": [
+        "leak_ratio=0.0",
+        "efficiency=100.0"
+      ],
+      "id": "preserve_killzone",
+      "pcs": 96,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Preserve killzone; it is blocking losses without measurable edge leakage.",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "KEEP_NO_TRADE_REGIME",
+      "advisory_only": true,
+      "evidence": [
+        "compression_trap PF=0.42",
+        "fake_breakout PF=0.58",
+        "noisy_chop PF=0.0"
+      ],
+      "id": "preserve_low_expectancy_no_trade_regimes",
+      "pcs": 95,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Preserve no-trade treatment for noisy chop, compression traps, and fake breakouts.",
+      "type": "regime_recommendation"
+    },
+    {
+      "action": "KEEP_ROUTING_POLICY",
+      "advisory_only": true,
+      "evidence": [
+        "A+ PF=3.0",
+        "A+ WR=75.0%",
+        "C PF=0.58"
+      ],
+      "id": "preserve_grade_aware_routing",
+      "pcs": 94,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Preserve grade-aware routing; A+ setups dominate expectancy while C-grade setups remain negative.",
+      "type": "strategy_recommendation"
+    },
+    {
+      "action": "ADVISORY_REVIEW_ONLY",
+      "advisory_only": true,
+      "evidence": [
+        "symbol_lock_leak_ratio=100.0",
+        "top_symbol=BTCUSD",
+        "top_symbol_expectancy=1.5",
+        "conditional_unlock_candidate=True"
+      ],
+      "id": "review_symbol_lock_top_candidate_conditions",
+      "pcs": 93,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Review symbol lock only under the current top-ranked observer symbol conditions.",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "ADVISORY_PRIORITY",
+      "advisory_only": true,
+      "evidence": [
+        "trend_following_A+_PF=3.5",
+        "trend_following_A+_WR=77.78%",
+        "trend_following_A+_trades=18"
+      ],
+      "id": "prefer_trend_following_a_plus",
+      "pcs": 92,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Prefer trend-following A+ setups when session, regime, and guardrails agree.",
+      "type": "strategy_recommendation"
+    },
+    {
+      "action": "ADVISORY_PRIORITY",
+      "advisory_only": true,
+      "evidence": [
+        "best_regime=healthy_continuation_trend",
+        "best_pf=3.05",
+        "best_strategy=trend_following",
+        "reported_best=healthy_continuation_trend,expansion_impulse,sweep_reversal"
+      ],
+      "id": "prioritize_best_regimes",
+      "pcs": 91,
+      "production_change": false,
+      "strength": "strong",
+      "title": "Prioritize healthy continuation, expansion impulse, and sweep reversal regimes in advisory scoring.",
+      "type": "regime_recommendation"
+    },
+    {
+      "action": "KEEP_FILTER",
+      "advisory_only": true,
+      "evidence": [
+        "ict_liquidity_C_PF=0.5",
+        "ict_liquidity_C_WR=33.33%"
+      ],
+      "id": "keep_weak_ict_filtered",
+      "pcs": 89,
+      "production_change": false,
+      "strength": "medium",
+      "title": "Keep weak ICT liquidity setups filtered unless MSS, displacement, target clarity, and noise checks are complete.",
+      "type": "strategy_recommendation"
+    },
+    {
+      "action": "ADVISORY_REVIEW_ONLY",
+      "advisory_only": true,
+      "evidence": [
+        "institutional_continuation_leaks=6",
+        "strong_leaks=6"
+      ],
+      "id": "review_no_trade_institutional_continuation",
+      "pcs": 88,
+      "production_change": false,
+      "strength": "medium",
+      "title": "Review strict no-trade blocks on institutional continuation while preserving noisy-chop blocks.",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "SIMULATE_ONLY",
+      "advisory_only": true,
+      "evidence": [
+        "hypothetical_pf=2.96",
+        "hypothetical_trades=169",
+        "safe_candidates=conditional_symbol_lock_review,institutional_continuation_no_trade_review,a_plus_override_review"
+      ],
+      "id": "simulate_a_plus_override_layer",
+      "pcs": 86,
+      "production_change": false,
+      "strength": "medium",
+      "title": "Continue simulating an A+ override layer that requires stronger justification for final-stage blocks.",
+      "type": "policy_recommendation"
+    },
+    {
+      "action": "ADVISORY_PRIORITY",
+      "advisory_only": true,
+      "evidence": [
+        "mean_reversion_A+_PF=2.5",
+        "mean_reversion_A+_WR=71.43%"
+      ],
+      "id": "retain_mean_reversion_a_plus",
+      "pcs": 82,
+      "production_change": false,
+      "strength": "medium",
+      "title": "Retain mean-reversion A+ as an advisory candidate in validated range or exhaustion regimes.",
+      "type": "strategy_recommendation"
+    },
+    {
+      "action": "DIAGNOSTIC_REVIEW_ONLY",
+      "advisory_only": true,
+      "evidence": [
+        "risk_block_leak_ratio=100.0",
+        "risk_block_efficiency=0.0"
+      ],
+      "id": "review_risk_block_late_leaks",
+      "pcs": 80,
+      "production_change": false,
+      "strength": "medium",
+      "title": "Review late risk-block leakage diagnostically; keep live risk caps unchanged.",
+      "type": "risk_recommendation"
+    }
+  ],
+  "safety": {
+    "autonomous_execution": false,
+    "broker_order_submission": false,
+    "human_approval_bypassed": false,
+    "production_logic_modified": false
+  }
+}

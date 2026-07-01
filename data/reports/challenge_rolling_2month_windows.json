@@ -1,0 +1,1270 @@
+{
+  "summary": {
+    "avoid_windows": [
+      "May 2025-Jun 2025",
+      "Oct 2025-Nov 2025",
+      "May 2026-Jun 2026"
+    ],
+    "best_window": {
+      "best_profile": "profile_4",
+      "label": "Mar 2026-Apr 2026",
+      "max_dd_percent": 3.3,
+      "net_return_percent": 12.86,
+      "score": 10.22,
+      "target_reached": true
+    },
+    "lower_risk_preferred_windows": [],
+    "most_consistent_risk_profile": "profile_4",
+    "worst_window": {
+      "best_profile": "profile_4",
+      "label": "May 2025-Jun 2025",
+      "max_dd_percent": 5.87,
+      "net_return_percent": 6.16,
+      "score": 1.46,
+      "target_reached": false
+    }
+  },
+  "windows": [
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-02-28",
+      "label": "Jan 2025-Feb 2025",
+      "period_stats": {
+        "end_date": "2025-02-28",
+        "label": "Jan 2025+Feb 2025",
+        "net_r": 7.62,
+        "pf": 3.17,
+        "quality": 1.05,
+        "start_date": "2025-01-01",
+        "trades": 16,
+        "wr": 73.35
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.66,
+          "net_return_percent": 1.91,
+          "pf": 3.17,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 16,
+          "wr": 73.35
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.33,
+          "net_return_percent": 3.81,
+          "pf": 3.17,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 16,
+          "wr": 73.35
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.12,
+          "net_return_percent": 6.1,
+          "pf": 3.17,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 16,
+          "wr": 73.35
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.65,
+          "net_return_percent": 7.62,
+          "pf": 3.17,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 16,
+          "wr": 73.35
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.18,
+          "net_return_percent": 9.14,
+          "pf": 3.17,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 16,
+          "wr": 73.35
+        }
+      },
+      "start_date": "2025-01-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-03-31",
+      "label": "Feb 2025-Mar 2025",
+      "period_stats": {
+        "end_date": "2025-03-31",
+        "label": "Feb 2025+Mar 2025",
+        "net_r": 7.03,
+        "pf": 3.0,
+        "quality": 0.99,
+        "start_date": "2025-02-01",
+        "trades": 18,
+        "wr": 72.31
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.9,
+          "net_return_percent": 1.76,
+          "pf": 3.0,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 18,
+          "wr": 72.31
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.79,
+          "net_return_percent": 3.52,
+          "pf": 3.0,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 18,
+          "wr": 72.31
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.87,
+          "net_return_percent": 5.62,
+          "pf": 3.0,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 18,
+          "wr": 72.31
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.59,
+          "net_return_percent": 7.03,
+          "pf": 3.0,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 18,
+          "wr": 72.31
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.31,
+          "net_return_percent": 8.44,
+          "pf": 3.0,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 18,
+          "wr": 72.31
+        }
+      },
+      "start_date": "2025-02-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-04-30",
+      "label": "Mar 2025-Apr 2025",
+      "period_stats": {
+        "end_date": "2025-04-30",
+        "label": "Mar 2025+Apr 2025",
+        "net_r": 10.47,
+        "pf": 3.47,
+        "quality": 1.15,
+        "start_date": "2025-03-01",
+        "trades": 21,
+        "wr": 75.14
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.72,
+          "net_return_percent": 2.62,
+          "pf": 3.47,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 75.14
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 1.44,
+          "net_return_percent": 5.24,
+          "pf": 3.47,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 75.14
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.31,
+          "net_return_percent": 8.38,
+          "pf": 3.47,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 75.14
+        },
+        "profile_3": {
+          "days_to_target": 58,
+          "failure_reason": "",
+          "max_dd_percent": 2.89,
+          "net_return_percent": 10.47,
+          "pf": 3.47,
+          "risk_percent": 1.0,
+          "target_reached": true,
+          "trades": 21,
+          "wr": 75.14
+        },
+        "profile_4": {
+          "days_to_target": 49,
+          "failure_reason": "",
+          "max_dd_percent": 3.47,
+          "net_return_percent": 12.56,
+          "pf": 3.47,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 21,
+          "wr": 75.14
+        }
+      },
+      "start_date": "2025-03-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-05-31",
+      "label": "Apr 2025-May 2025",
+      "period_stats": {
+        "end_date": "2025-05-31",
+        "label": "Apr 2025+May 2025",
+        "net_r": 7.43,
+        "pf": 2.92,
+        "quality": 0.98,
+        "start_date": "2025-04-01",
+        "trades": 23,
+        "wr": 71.89
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.18,
+          "net_return_percent": 1.86,
+          "pf": 2.92,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 71.89
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.36,
+          "net_return_percent": 3.71,
+          "pf": 2.92,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 71.89
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.77,
+          "net_return_percent": 5.94,
+          "pf": 2.92,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 71.89
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.72,
+          "net_return_percent": 7.43,
+          "pf": 2.92,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 71.89
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "daily_loss_breach",
+          "max_dd_percent": 5.66,
+          "net_return_percent": 8.92,
+          "pf": 2.92,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 71.89
+        }
+      },
+      "start_date": "2025-04-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-06-30",
+      "label": "May 2025-Jun 2025",
+      "period_stats": {
+        "end_date": "2025-06-30",
+        "label": "May 2025+Jun 2025",
+        "net_r": 5.13,
+        "pf": 2.63,
+        "quality": 0.91,
+        "start_date": "2025-05-01",
+        "trades": 20,
+        "wr": 70.15
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.22,
+          "net_return_percent": 1.28,
+          "pf": 2.63,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 70.15
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.44,
+          "net_return_percent": 2.56,
+          "pf": 2.63,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 70.15
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 3.91,
+          "net_return_percent": 4.1,
+          "pf": 2.63,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 70.15
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.89,
+          "net_return_percent": 5.13,
+          "pf": 2.63,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 70.15
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "daily_loss_breach",
+          "max_dd_percent": 5.87,
+          "net_return_percent": 6.16,
+          "pf": 2.63,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 70.15
+        }
+      },
+      "start_date": "2025-05-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-07-31",
+      "label": "Jun 2025-Jul 2025",
+      "period_stats": {
+        "end_date": "2025-07-31",
+        "label": "Jun 2025+Jul 2025",
+        "net_r": 8.48,
+        "pf": 3.16,
+        "quality": 1.05,
+        "start_date": "2025-06-01",
+        "trades": 17,
+        "wr": 73.3
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.7,
+          "net_return_percent": 2.12,
+          "pf": 3.16,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.3
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.41,
+          "net_return_percent": 4.24,
+          "pf": 3.16,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.3
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.25,
+          "net_return_percent": 6.78,
+          "pf": 3.16,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.3
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.82,
+          "net_return_percent": 8.48,
+          "pf": 3.16,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.3
+        },
+        "profile_4": {
+          "days_to_target": 60,
+          "failure_reason": "",
+          "max_dd_percent": 3.38,
+          "net_return_percent": 10.18,
+          "pf": 3.16,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 17,
+          "wr": 73.3
+        }
+      },
+      "start_date": "2025-06-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-08-31",
+      "label": "Jul 2025-Aug 2025",
+      "period_stats": {
+        "end_date": "2025-08-31",
+        "label": "Jul 2025+Aug 2025",
+        "net_r": 6.66,
+        "pf": 2.77,
+        "quality": 0.92,
+        "start_date": "2025-07-01",
+        "trades": 19,
+        "wr": 70.93
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.13,
+          "net_return_percent": 1.67,
+          "pf": 2.77,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 70.93
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.27,
+          "net_return_percent": 3.33,
+          "pf": 2.77,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 70.93
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.63,
+          "net_return_percent": 5.33,
+          "pf": 2.77,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 70.93
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.54,
+          "net_return_percent": 6.66,
+          "pf": 2.77,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 70.93
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "daily_loss_breach",
+          "max_dd_percent": 5.44,
+          "net_return_percent": 7.99,
+          "pf": 2.77,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 70.93
+        }
+      },
+      "start_date": "2025-07-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-09-30",
+      "label": "Aug 2025-Sep 2025",
+      "period_stats": {
+        "end_date": "2025-09-30",
+        "label": "Aug 2025+Sep 2025",
+        "net_r": 8.44,
+        "pf": 3.11,
+        "quality": 1.02,
+        "start_date": "2025-08-01",
+        "trades": 21,
+        "wr": 72.96
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.96,
+          "net_return_percent": 2.11,
+          "pf": 3.11,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 72.96
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.92,
+          "net_return_percent": 4.22,
+          "pf": 3.11,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 72.96
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.07,
+          "net_return_percent": 6.75,
+          "pf": 3.11,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 72.96
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.83,
+          "net_return_percent": 8.44,
+          "pf": 3.11,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 21,
+          "wr": 72.96
+        },
+        "profile_4": {
+          "days_to_target": 60,
+          "failure_reason": "",
+          "max_dd_percent": 4.6,
+          "net_return_percent": 10.13,
+          "pf": 3.11,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 21,
+          "wr": 72.96
+        }
+      },
+      "start_date": "2025-08-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-10-31",
+      "label": "Sep 2025-Oct 2025",
+      "period_stats": {
+        "end_date": "2025-10-31",
+        "label": "Sep 2025+Oct 2025",
+        "net_r": 7.65,
+        "pf": 2.96,
+        "quality": 0.99,
+        "start_date": "2025-09-01",
+        "trades": 23,
+        "wr": 72.11
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.15,
+          "net_return_percent": 1.91,
+          "pf": 2.96,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 72.11
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.29,
+          "net_return_percent": 3.83,
+          "pf": 2.96,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 72.11
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.67,
+          "net_return_percent": 6.12,
+          "pf": 2.96,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 72.11
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.59,
+          "net_return_percent": 7.65,
+          "pf": 2.96,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 72.11
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "daily_loss_breach",
+          "max_dd_percent": 5.5,
+          "net_return_percent": 9.18,
+          "pf": 2.96,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 23,
+          "wr": 72.11
+        }
+      },
+      "start_date": "2025-09-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-11-30",
+      "label": "Oct 2025-Nov 2025",
+      "period_stats": {
+        "end_date": "2025-11-30",
+        "label": "Oct 2025+Nov 2025",
+        "net_r": 5.91,
+        "pf": 2.79,
+        "quality": 0.96,
+        "start_date": "2025-10-01",
+        "trades": 20,
+        "wr": 71.08
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.08,
+          "net_return_percent": 1.48,
+          "pf": 2.79,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 71.08
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.16,
+          "net_return_percent": 2.96,
+          "pf": 2.79,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 71.08
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 3.46,
+          "net_return_percent": 4.73,
+          "pf": 2.79,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 71.08
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.33,
+          "net_return_percent": 5.91,
+          "pf": 2.79,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 71.08
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "daily_loss_breach",
+          "max_dd_percent": 5.19,
+          "net_return_percent": 7.09,
+          "pf": 2.79,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 71.08
+        }
+      },
+      "start_date": "2025-10-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2025-12-31",
+      "label": "Nov 2025-Dec 2025",
+      "period_stats": {
+        "end_date": "2025-12-31",
+        "label": "Nov 2025+Dec 2025",
+        "net_r": 6.92,
+        "pf": 3.15,
+        "quality": 1.05,
+        "start_date": "2025-11-01",
+        "trades": 17,
+        "wr": 73.25
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.7,
+          "net_return_percent": 1.73,
+          "pf": 3.15,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.25
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.41,
+          "net_return_percent": 3.46,
+          "pf": 3.15,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.25
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.25,
+          "net_return_percent": 5.54,
+          "pf": 3.15,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.25
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.82,
+          "net_return_percent": 6.92,
+          "pf": 3.15,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.25
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.38,
+          "net_return_percent": 8.3,
+          "pf": 3.15,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 73.25
+        }
+      },
+      "start_date": "2025-11-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2026-01-31",
+      "label": "Dec 2025-Jan 2026",
+      "period_stats": {
+        "end_date": "2026-01-31",
+        "label": "Dec 2025+Jan 2026",
+        "net_r": 9.09,
+        "pf": 3.25,
+        "quality": 1.07,
+        "start_date": "2025-12-01",
+        "trades": 19,
+        "wr": 73.81
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.73,
+          "net_return_percent": 2.27,
+          "pf": 3.25,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 73.81
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.47,
+          "net_return_percent": 4.54,
+          "pf": 3.25,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 73.81
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.35,
+          "net_return_percent": 7.27,
+          "pf": 3.25,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 73.81
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.93,
+          "net_return_percent": 9.09,
+          "pf": 3.25,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 73.81
+        },
+        "profile_4": {
+          "days_to_target": 57,
+          "failure_reason": "",
+          "max_dd_percent": 3.52,
+          "net_return_percent": 10.91,
+          "pf": 3.25,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 19,
+          "wr": 73.81
+        }
+      },
+      "start_date": "2025-12-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2026-02-28",
+      "label": "Jan 2026-Feb 2026",
+      "period_stats": {
+        "end_date": "2026-02-28",
+        "label": "Jan 2026+Feb 2026",
+        "net_r": 9.55,
+        "pf": 3.17,
+        "quality": 1.05,
+        "start_date": "2026-01-01",
+        "trades": 20,
+        "wr": 73.35
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.83,
+          "net_return_percent": 2.39,
+          "pf": 3.17,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 73.35
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.66,
+          "net_return_percent": 4.78,
+          "pf": 3.17,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 73.35
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.65,
+          "net_return_percent": 7.64,
+          "pf": 3.17,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 73.35
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.31,
+          "net_return_percent": 9.55,
+          "pf": 3.17,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 73.35
+        },
+        "profile_4": {
+          "days_to_target": 51,
+          "failure_reason": "",
+          "max_dd_percent": 3.98,
+          "net_return_percent": 11.46,
+          "pf": 3.17,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 20,
+          "wr": 73.35
+        }
+      },
+      "start_date": "2026-01-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2026-03-31",
+      "label": "Feb 2026-Mar 2026",
+      "period_stats": {
+        "end_date": "2026-03-31",
+        "label": "Feb 2026+Mar 2026",
+        "net_r": 8.75,
+        "pf": 2.99,
+        "quality": 0.99,
+        "start_date": "2026-02-01",
+        "trades": 22,
+        "wr": 72.29
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.1,
+          "net_return_percent": 2.19,
+          "pf": 2.99,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 22,
+          "wr": 72.29
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.19,
+          "net_return_percent": 4.38,
+          "pf": 2.99,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 22,
+          "wr": 72.29
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.51,
+          "net_return_percent": 7.0,
+          "pf": 2.99,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 22,
+          "wr": 72.29
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.39,
+          "net_return_percent": 8.75,
+          "pf": 2.99,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 22,
+          "wr": 72.29
+        },
+        "profile_4": {
+          "days_to_target": 56,
+          "failure_reason": "",
+          "max_dd_percent": 5.26,
+          "net_return_percent": 10.5,
+          "pf": 2.99,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 22,
+          "wr": 72.29
+        }
+      },
+      "start_date": "2026-02-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2026-04-30",
+      "label": "Mar 2026-Apr 2026",
+      "period_stats": {
+        "end_date": "2026-04-30",
+        "label": "Mar 2026+Apr 2026",
+        "net_r": 10.72,
+        "pf": 3.4,
+        "quality": 1.15,
+        "start_date": "2026-03-01",
+        "trades": 20,
+        "wr": 74.72
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.69,
+          "net_return_percent": 2.68,
+          "pf": 3.4,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 74.72
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 1.38,
+          "net_return_percent": 5.36,
+          "pf": 3.4,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 74.72
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 2.2,
+          "net_return_percent": 8.58,
+          "pf": 3.4,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 20,
+          "wr": 74.72
+        },
+        "profile_3": {
+          "days_to_target": 57,
+          "failure_reason": "",
+          "max_dd_percent": 2.75,
+          "net_return_percent": 10.72,
+          "pf": 3.4,
+          "risk_percent": 1.0,
+          "target_reached": true,
+          "trades": 20,
+          "wr": 74.72
+        },
+        "profile_4": {
+          "days_to_target": 47,
+          "failure_reason": "",
+          "max_dd_percent": 3.3,
+          "net_return_percent": 12.86,
+          "pf": 3.4,
+          "risk_percent": 1.2,
+          "target_reached": true,
+          "trades": 20,
+          "wr": 74.72
+        }
+      },
+      "start_date": "2026-03-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2026-05-31",
+      "label": "Apr 2026-May 2026",
+      "period_stats": {
+        "end_date": "2026-05-31",
+        "label": "Apr 2026+May 2026",
+        "net_r": 5.71,
+        "pf": 2.91,
+        "quality": 0.98,
+        "start_date": "2026-04-01",
+        "trades": 17,
+        "wr": 71.81
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 0.87,
+          "net_return_percent": 1.43,
+          "pf": 2.91,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 71.81
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.74,
+          "net_return_percent": 2.85,
+          "pf": 2.91,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 71.81
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.79,
+          "net_return_percent": 4.57,
+          "pf": 2.91,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 71.81
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 3.49,
+          "net_return_percent": 5.71,
+          "pf": 2.91,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 71.81
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.18,
+          "net_return_percent": 6.85,
+          "pf": 2.91,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 17,
+          "wr": 71.81
+        }
+      },
+      "start_date": "2026-04-01"
+    },
+    {
+      "best_profile": "profile_4",
+      "end_date": "2026-06-30",
+      "label": "May 2026-Jun 2026",
+      "period_stats": {
+        "end_date": "2026-06-30",
+        "label": "May 2026+Jun 2026",
+        "net_r": 5.14,
+        "pf": 2.78,
+        "quality": 0.91,
+        "start_date": "2026-05-01",
+        "trades": 19,
+        "wr": 71.01
+      },
+      "profiles": {
+        "profile_0": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 1.16,
+          "net_return_percent": 1.28,
+          "pf": 2.78,
+          "risk_percent": 0.25,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 71.01
+        },
+        "profile_1": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 2.32,
+          "net_return_percent": 2.57,
+          "pf": 2.78,
+          "risk_percent": 0.5,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 71.01
+        },
+        "profile_2": {
+          "days_to_target": null,
+          "failure_reason": "timeout",
+          "max_dd_percent": 3.71,
+          "net_return_percent": 4.11,
+          "pf": 2.78,
+          "risk_percent": 0.8,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 71.01
+        },
+        "profile_3": {
+          "days_to_target": null,
+          "failure_reason": "stagnation",
+          "max_dd_percent": 4.64,
+          "net_return_percent": 5.14,
+          "pf": 2.78,
+          "risk_percent": 1.0,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 71.01
+        },
+        "profile_4": {
+          "days_to_target": null,
+          "failure_reason": "daily_loss_breach",
+          "max_dd_percent": 5.57,
+          "net_return_percent": 6.17,
+          "pf": 2.78,
+          "risk_percent": 1.2,
+          "target_reached": false,
+          "trades": 19,
+          "wr": 71.01
+        }
+      },
+      "start_date": "2026-05-01"
+    }
+  ]
+}

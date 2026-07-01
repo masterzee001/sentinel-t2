@@ -1,0 +1,15 @@
+# Project Sentinel AI Coach settings.
+# Advisor Mode only. No LLM/API integration and no trade execution.
+
+enabled: true
+mode: advisor
+journal_path: data/journal/sentinel_decisions.jsonl
+fallback_to_synthetic: true
+minimum_bucket_trades: 1
+low_win_rate_warning: 45.0
+critical_drawdown_percent: 6.0
+news_lock_warning_rate: 0.25
+risk_block_warning_rate: 0.15
+execution_ready_target_rate: 0.10
+safe_summary_max_recommendations: 2
+

@@ -1,0 +1,81 @@
+{
+  "accuracy": 91.2,
+  "best": [
+    "institutional_continuation",
+    "genuine_expansion",
+    "true_reversal"
+  ],
+  "confusion_pairs": [
+    {
+      "count": 3,
+      "from": "late_continuation",
+      "to": "institutional_continuation"
+    },
+    {
+      "count": 2,
+      "from": "continuation_sweep_trap",
+      "to": "true_reversal"
+    },
+    {
+      "count": 2,
+      "from": "exhaustion_expansion",
+      "to": "genuine_expansion"
+    }
+  ],
+  "confusion_rate": 8.8,
+  "counts": {
+    "continuation_sweep_trap": 6,
+    "exhausted_trend": 5,
+    "fake_breakout": 24,
+    "institutional_continuation": 34,
+    "late_continuation": 16,
+    "noisy_chop": 6
+  },
+  "expectancy": {
+    "continuation_sweep_trap": {
+      "best_strategy": "no_trade",
+      "pf": 0.68,
+      "wr": 34.9
+    },
+    "exhaustion_continuation": {
+      "best_strategy": "no_trade",
+      "pf": 0.74,
+      "wr": 38.2
+    },
+    "exhaustion_expansion": {
+      "best_strategy": "mean_reversion",
+      "pf": 1.86,
+      "wr": 60.5
+    },
+    "genuine_expansion": {
+      "best_strategy": "trend_following",
+      "pf": 3.04,
+      "wr": 73.6
+    },
+    "institutional_continuation": {
+      "best_strategy": "trend_following",
+      "pf": 3.18,
+      "wr": 75.1
+    },
+    "late_continuation": {
+      "best_strategy": "trend_following",
+      "pf": 2.18,
+      "wr": 65.4
+    },
+    "noisy_chop": {
+      "best_strategy": "no_trade",
+      "pf": 0.0,
+      "wr": 0.0
+    },
+    "true_reversal": {
+      "best_strategy": "ict_liquidity",
+      "pf": 2.92,
+      "wr": 72.8
+    }
+  },
+  "worst": [
+    "noisy_chop",
+    "continuation_sweep_trap",
+    "exhaustion_continuation"
+  ]
+}

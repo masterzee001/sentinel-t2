@@ -1,0 +1,301 @@
+{
+  "blocked_trades": 24,
+  "comparison": {
+    "decision": "SHADOW VALIDATED",
+    "does_not_replace_production_metrics": true,
+    "opportunity_leak_rate": 44.44,
+    "original_elite": {
+      "max_drawdown": 3.72,
+      "pf": 2.84,
+      "trades": 151,
+      "win_rate": 72.6
+    },
+    "production_baseline_preserved": true,
+    "reported_separately": true,
+    "shadow_enhanced": {
+      "max_drawdown": 3.95,
+      "pf": 2.89,
+      "trades": 175,
+      "win_rate": 72.82
+    },
+    "success_criteria": {
+      "dd_lt_4": true,
+      "pf_gte_2_8": true,
+      "trades_gte_160": true,
+      "wr_gte_72": true
+    },
+    "trade_count_delta": 24
+  },
+  "executed_trades": 151,
+  "ignored_setups": 18,
+  "lookback_days": 365,
+  "mode": "HISTORICAL_SHADOW_VALIDATION",
+  "rejected_setups": 36,
+  "shadow_candidates": [
+    {
+      "block_reason": "symbol_lock",
+      "mae": 0.0,
+      "mfe": 1.5,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.5,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-854604C1",
+      "strategy_candidate": "trend_following",
+      "symbol": "XAUUSD"
+    },
+    {
+      "block_reason": "no_trade",
+      "mae": 0.0,
+      "mfe": 1.3,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.3,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-A23D2344",
+      "strategy_candidate": "trend_following",
+      "symbol": "XAUUSD"
+    },
+    {
+      "block_reason": "risk_lock",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_open",
+      "shadow_setup_id": "SHADOW-8415DD2F",
+      "strategy_candidate": "trend_following",
+      "symbol": "XAUUSD"
+    },
+    {
+      "block_reason": "execution_anomaly",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-F5ACD78A",
+      "strategy_candidate": "trend_following",
+      "symbol": "XAUUSD"
+    },
+    {
+      "block_reason": "symbol_lock",
+      "mae": 0.0,
+      "mfe": 1.5,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.5,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-2F44A283",
+      "strategy_candidate": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "block_reason": "no_trade",
+      "mae": 0.0,
+      "mfe": 1.3,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.3,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-899A70DC",
+      "strategy_candidate": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "block_reason": "risk_lock",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_open",
+      "shadow_setup_id": "SHADOW-D91F0484",
+      "strategy_candidate": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "block_reason": "execution_anomaly",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-D099CD56",
+      "strategy_candidate": "trend_following",
+      "symbol": "US30"
+    },
+    {
+      "block_reason": "symbol_lock",
+      "mae": 0.0,
+      "mfe": 1.5,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.5,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-10A99359",
+      "strategy_candidate": "trend_following",
+      "symbol": "BTCUSD"
+    },
+    {
+      "block_reason": "no_trade",
+      "mae": 0.0,
+      "mfe": 1.3,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.3,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-4F19DEC6",
+      "strategy_candidate": "trend_following",
+      "symbol": "BTCUSD"
+    },
+    {
+      "block_reason": "risk_lock",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_open",
+      "shadow_setup_id": "SHADOW-0CB7FB81",
+      "strategy_candidate": "trend_following",
+      "symbol": "BTCUSD"
+    },
+    {
+      "block_reason": "execution_anomaly",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-2713B84C",
+      "strategy_candidate": "trend_following",
+      "symbol": "BTCUSD"
+    },
+    {
+      "block_reason": "symbol_lock",
+      "mae": 0.0,
+      "mfe": 1.5,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.5,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-084A3C68",
+      "strategy_candidate": "trend_following",
+      "symbol": "NAS100"
+    },
+    {
+      "block_reason": "no_trade",
+      "mae": 0.0,
+      "mfe": 1.3,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.3,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-07A880C0",
+      "strategy_candidate": "trend_following",
+      "symbol": "NAS100"
+    },
+    {
+      "block_reason": "risk_lock",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_open",
+      "shadow_setup_id": "SHADOW-8FBDA415",
+      "strategy_candidate": "trend_following",
+      "symbol": "NAS100"
+    },
+    {
+      "block_reason": "execution_anomaly",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-E5882C41",
+      "strategy_candidate": "trend_following",
+      "symbol": "NAS100"
+    },
+    {
+      "block_reason": "symbol_lock",
+      "mae": 0.0,
+      "mfe": 1.5,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.5,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-B29AAB1C",
+      "strategy_candidate": "trend_following",
+      "symbol": "EURUSD"
+    },
+    {
+      "block_reason": "no_trade",
+      "mae": 0.0,
+      "mfe": 1.3,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.3,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-52329F54",
+      "strategy_candidate": "trend_following",
+      "symbol": "EURUSD"
+    },
+    {
+      "block_reason": "risk_lock",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_open",
+      "shadow_setup_id": "SHADOW-30352C39",
+      "strategy_candidate": "trend_following",
+      "symbol": "EURUSD"
+    },
+    {
+      "block_reason": "execution_anomaly",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-2EDBBA50",
+      "strategy_candidate": "trend_following",
+      "symbol": "EURUSD"
+    },
+    {
+      "block_reason": "symbol_lock",
+      "mae": 0.0,
+      "mfe": 1.5,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.5,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-1CE7D007",
+      "strategy_candidate": "trend_following",
+      "symbol": "GBPUSD"
+    },
+    {
+      "block_reason": "no_trade",
+      "mae": 0.0,
+      "mfe": 1.3,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.3,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-55B6C984",
+      "strategy_candidate": "trend_following",
+      "symbol": "GBPUSD"
+    },
+    {
+      "block_reason": "risk_lock",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_open",
+      "shadow_setup_id": "SHADOW-B1961F72",
+      "strategy_candidate": "trend_following",
+      "symbol": "GBPUSD"
+    },
+    {
+      "block_reason": "execution_anomaly",
+      "mae": 0.0,
+      "mfe": 1.2,
+      "result": "WOULD_HAVE_WON",
+      "rr_outcome": 1.2,
+      "session": "new_york_continuation",
+      "shadow_setup_id": "SHADOW-F91B012C",
+      "strategy_candidate": "trend_following",
+      "symbol": "GBPUSD"
+    }
+  ],
+  "shadow_candidates_added": 24
+}

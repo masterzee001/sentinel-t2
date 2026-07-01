@@ -1,0 +1,8 @@
+# Project Sentinel decision journal settings.
+# Journal storage is local only and must never include credentials.
+
+enabled: true
+storage_type: jsonl
+path: data/journal/sentinel_decisions.jsonl
+record_diagnostic_plans: true
+record_rejected_setups: true

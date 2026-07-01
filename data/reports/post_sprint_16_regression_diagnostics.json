@@ -1,0 +1,156 @@
+{
+  "a_plus_override": {
+    "false_override_rate": 0.0,
+    "override_count": 12,
+    "override_win_rate": 100.0,
+    "recovered_trades": 7,
+    "reported_separately": true
+  },
+  "best_regime": "healthy_continuation_trend",
+  "confidence_distribution": {
+    "COLD": 0,
+    "EXECUTION_READY": 52,
+    "HOT": 20,
+    "WARM": 0
+  },
+  "decision": "PASS",
+  "diagnostic_source": "market_watch routing records filtered to US30/XAUUSD plus validated production portfolio metrics",
+  "efde": {
+    "average_loss_after": -0.58,
+    "average_loss_before": -1.0,
+    "dd_delta": -0.35,
+    "false_exit_rate": 0.0,
+    "losses_reduced": 18,
+    "reported_separately": true,
+    "saved_loss_value": 10.08
+  },
+  "extended_coverage": {
+    "cached_end_month": "2026-06",
+    "cached_months": [
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06"
+    ],
+    "cached_start_month": "2025-07",
+    "coverage_status": "PARTIAL_CACHE_USED",
+    "note": "Cached production backtest artifacts cover the validated 365D portfolio only; Jan-Jun 2025 candles are not present in cached report artifacts.",
+    "requested_end": "2026-06-30",
+    "requested_start": "2025-01-01"
+  },
+  "generated_at": "2026-06-30T13:12:00.657767+00:00",
+  "memory_engine": {
+    "m1_contribution": 10.0,
+    "m5_contribution": 15.0,
+    "memory_alignment_contribution": 15.0,
+    "production_score_impact": 0.0,
+    "score_stickiness_warnings": 1,
+    "stale_symbols": [
+      "XAUUSD"
+    ],
+    "trigger_contribution": 25.0
+  },
+  "mode": "PRODUCTION_FILTERED_DIAGNOSTICS",
+  "regime_breakdown": {
+    "Expansion": {
+      "avg_rr": 0.52,
+      "best_strategy": "trend_following",
+      "pf": 2.76,
+      "regime": "expansion_impulse",
+      "wr": 71.8
+    },
+    "News": {
+      "avg_rr": 0.0,
+      "best_strategy": "no_trade_when_news_lock_active",
+      "pf": 0.0,
+      "regime": "news_regime",
+      "status": "clear",
+      "wr": 0.0
+    },
+    "Range": {
+      "avg_rr": 0.27,
+      "best_strategy": "mean_reversion",
+      "pf": 1.92,
+      "regime": "balanced_range",
+      "wr": 62.8
+    },
+    "Trend": {
+      "avg_rr": 0.58,
+      "best_strategy": "trend_following",
+      "pf": 3.05,
+      "regime": "healthy_continuation_trend",
+      "wr": 74.2
+    }
+  },
+  "rejection_distribution": {
+    "MSS not confirmed": 17,
+    "grade_lock": 20,
+    "killzone": 19,
+    "no_trade": 15,
+    "risk_lock": 0,
+    "symbol_lock": 0
+  },
+  "safety": {
+    "assisted_execution_dry_run_or_disabled": true,
+    "autonomous_execution_disabled": true,
+    "broker_submission_disabled": true,
+    "config_drift_detected": false,
+    "excluded_symbols": [
+      "BTCUSD",
+      "EURUSD",
+      "GBPUSD",
+      "NAS100"
+    ],
+    "observer_excluded": true,
+    "production_baseline_preserved": true,
+    "production_symbols": [
+      "US30",
+      "XAUUSD"
+    ],
+    "sandbox_excluded": true
+  },
+  "shadow_context": {
+    "decision": "SHADOW VALIDATED",
+    "does_not_replace_production_metrics": true,
+    "opportunity_leak_rate": 44.44,
+    "original_elite": {
+      "max_drawdown": 3.72,
+      "pf": 2.84,
+      "trades": 151,
+      "win_rate": 72.6
+    },
+    "production_baseline_preserved": true,
+    "reported_separately": true,
+    "shadow_enhanced": {
+      "max_drawdown": 3.95,
+      "pf": 2.89,
+      "trades": 175,
+      "win_rate": 72.82
+    },
+    "success_criteria": {
+      "dd_lt_4": true,
+      "pf_gte_2_8": true,
+      "trades_gte_160": true,
+      "wr_gte_72": true
+    },
+    "trade_count_delta": 24
+  },
+  "signal_funnel": {
+    "approved_trades": 56,
+    "execution_ready_setups": 52,
+    "hot_setups": 20,
+    "losses": 19,
+    "qualifying_setups": 118,
+    "total_scans": 4802,
+    "wins": 27
+  },
+  "worst_regime": "noisy_chop"
+}

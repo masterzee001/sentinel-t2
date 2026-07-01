@@ -1,0 +1,35 @@
+enabled: true
+
+pairs:
+  - name: "EURUSD_GBPUSD"
+    primary: "EURUSD"
+    comparison: "GBPUSD"
+    weight: 10
+    preferred_sessions:
+      - london_open
+      - london_continuation
+      - new_york_open
+
+  - name: "XAUUSD_EURUSD"
+    primary: "XAUUSD"
+    comparison: "EURUSD"
+    weight: 7
+    preferred_sessions:
+      - london_open
+      - new_york_open
+
+  - name: "XAUUSD_GBPUSD"
+    primary: "XAUUSD"
+    comparison: "GBPUSD"
+    weight: 7
+    preferred_sessions:
+      - london_open
+      - new_york_open
+
+  - name: "US30_XAUUSD"
+    primary: "US30"
+    comparison: "XAUUSD"
+    weight: 5
+    preferred_sessions:
+      - new_york_open
+

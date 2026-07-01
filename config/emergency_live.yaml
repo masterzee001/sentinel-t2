@@ -1,0 +1,17 @@
+# Project Sentinel emergency live deployment protocol.
+# Controlled assisted live only. No autonomous execution.
+
+enabled: true
+risk_percent: 0.1
+max_risk_percent: 0.25
+allowed_symbols:
+  - US30
+  - XAUUSD
+allowed_grades:
+  - A+
+human_approval_required: true
+max_trades_per_day: 2
+kill_switch:
+  daily_loss_r: -1
+  consecutive_losses: 3
+  max_drawdown_percent: 2

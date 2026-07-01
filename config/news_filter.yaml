@@ -1,0 +1,13 @@
+# Project Sentinel high-impact news filter.
+# Version 0.1 uses manual/config-based events only.
+
+enabled: true
+timezone: WAT
+pre_event_block_minutes: 30
+post_event_block_minutes: 30
+
+events:
+  - name: "Example CPI"
+    currency: "USD"
+    impact: "high"
+    datetime: "2026-06-28 14:30"

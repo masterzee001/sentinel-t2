@@ -1,0 +1,61 @@
+timezone: WAT
+
+killzones:
+  london_open:
+    start: "08:00"
+    end: "09:30"
+    symbols:
+      - XAUUSD
+      - EURUSD
+      - GBPUSD
+    quality_score: 10
+    commentary: "London open raid window."
+
+  london_continuation:
+    start: "09:30"
+    end: "11:00"
+    symbols:
+      - XAUUSD
+      - EURUSD
+      - GBPUSD
+    quality_score: 7
+    commentary: "London continuation or reversal confirmation window."
+
+  new_york_open:
+    start: "13:30"
+    end: "15:00"
+    symbols:
+      - XAUUSD
+      - US30
+      - EURUSD
+      - GBPUSD
+      - BTCUSD
+      - NAS100
+    quality_score: 10
+    commentary: "New York open volatility and displacement window."
+
+  new_york_continuation:
+    start: "15:00"
+    end: "16:00"
+    symbols:
+      - XAUUSD
+      - US30
+      - EURUSD
+      - GBPUSD
+      - BTCUSD
+      - NAS100
+    quality_score: 7
+    commentary: "New York continuation or target delivery window."
+
+  dead_zone:
+    start: "16:00"
+    end: "23:59"
+    symbols:
+      - XAUUSD
+      - US30
+      - EURUSD
+      - GBPUSD
+      - BTCUSD
+      - NAS100
+    quality_score: 0
+    commentary: "Outside preferred execution window. Avoid new trades."

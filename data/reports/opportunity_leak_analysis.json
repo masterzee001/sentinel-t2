@@ -1,0 +1,80 @@
+{
+  "bad_blocks": 24,
+  "groups": {
+    "block_reason": {
+      "execution_anomaly": 6,
+      "no_trade": 6,
+      "risk_lock": 6,
+      "symbol_lock": 6
+    },
+    "confidence_band": {
+      "EXECUTION_READY": 18,
+      "HOT": 6
+    },
+    "grade": {
+      "A+": 24
+    },
+    "guardrail": {
+      "execution_anomaly": 6,
+      "no_trade": 6,
+      "risk_block": 6,
+      "symbol_lock": 6
+    },
+    "micro_regime": {
+      "execution_ready_anomaly": 6,
+      "institutional_continuation": 12,
+      "risk_cap_blocked_winner": 6
+    },
+    "regime": {
+      "late_execution_guardrail": 6,
+      "risk_cap_pressure": 6,
+      "strict_no_trade_filter": 6,
+      "validated_symbol_lock_candidate": 6
+    },
+    "session": {
+      "new_york_continuation": 18,
+      "new_york_open": 6
+    },
+    "strategy": {
+      "trend_following": 24
+    },
+    "symbol": {
+      "BTCUSD": 4,
+      "EURUSD": 4,
+      "GBPUSD": 4,
+      "NAS100": 4,
+      "US30": 4,
+      "XAUUSD": 4
+    }
+  },
+  "opportunity_leak_rate": 44.44,
+  "recommendation": "Keep diagnostic only; review repeated BAD_BLOCK clusters before any rule proposal.",
+  "top_leak_sources": [
+    {
+      "bad_blocks": 24,
+      "group": "grade",
+      "value": "A+"
+    },
+    {
+      "bad_blocks": 24,
+      "group": "strategy",
+      "value": "trend_following"
+    },
+    {
+      "bad_blocks": 18,
+      "group": "confidence_band",
+      "value": "EXECUTION_READY"
+    },
+    {
+      "bad_blocks": 18,
+      "group": "session",
+      "value": "new_york_continuation"
+    },
+    {
+      "bad_blocks": 12,
+      "group": "micro_regime",
+      "value": "institutional_continuation"
+    }
+  ],
+  "total_classified_blocks": 54
+}

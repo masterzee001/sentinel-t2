@@ -1,0 +1,105 @@
+{
+  "decision": "PASS",
+  "generated_at": "2026-07-01T06:51:58.510027+00:00",
+  "governance": {
+    "PTD": "PASS",
+    "SLP": "PASS",
+    "UTP": "PASS",
+    "note": "Candidate discovery, final decision, cost, and lifecycle now share common infrastructure across live/replay/backtest surfaces."
+  },
+  "mode": "PHASE_O_SENTINEL_CONVERGENCE",
+  "recommendation": "Maintain UNIZIM by routing future scanners and engines through shared candidate, decision, cost, state, and lifecycle registries.",
+  "remaining_truth_gaps": {
+    "count": 0,
+    "violations": []
+  },
+  "shared_candidate_scanner": {
+    "remaining_violations": [],
+    "scanner_available": true,
+    "scanner_enforced_by_backtest": true,
+    "scanner_enforced_by_live": true,
+    "scanner_enforced_by_replay": true,
+    "status": "PASS"
+  },
+  "shared_decision_adapter": {
+    "adapter_available": true,
+    "adapter_enforced_by_backtest": true,
+    "adapter_enforced_by_live": true,
+    "adapter_enforced_by_replay": true,
+    "notes": [
+      "Backtest/replay candidate decisions are routed through SharedDecisionAdapter.",
+      "Live monitor confidence decisions are routed through SharedDecisionAdapter with ConfidenceAnalyzer underneath."
+    ],
+    "remaining_violations": [],
+    "status": "PASS"
+  },
+  "single_cost_engine": {
+    "coverage": {
+      "backtest": "ENFORCED_IN_TRADE_SIMULATOR",
+      "demo": "ENFORCED_IN_ASSISTED_AND_SANDBOX_VALIDATION",
+      "live": "ENFORCED_AS_VALIDATION_DIAGNOSTIC_NO_ORDER_SIDE_EFFECT",
+      "paper": "ENFORCED_IN_LIVE_PAPER_RUNTIME",
+      "replay": "ENFORCED_IN_TRADE_SIMULATOR"
+    },
+    "single_cost_engine_available": true,
+    "single_cost_engine_enforced": true,
+    "status": "PASS"
+  },
+  "trade_lifecycle_parity": {
+    "canonical_lifecycle_available": true,
+    "canonical_lifecycle_enforced": true,
+    "mode_status": {
+      "backtest": "ENFORCED_IN_TRADE_SIMULATOR_RESULT",
+      "demo": "ENFORCED_BY_TICKET_STATUS_AND_SHARED_STATE_REGISTRY",
+      "live": "ENFORCED_BY_POSITION_MANAGER_AND_SHARED_STATE_REGISTRY",
+      "paper": "ENFORCED_IN_LIVE_PAPER_RUNTIME",
+      "replay": "ENFORCED_IN_TRADE_SIMULATOR_RESULT"
+    },
+    "required_lifecycle": [
+      "CANDIDATE",
+      "APPROVED",
+      "WAITING_ENTRY",
+      "ENTERED",
+      "ACTIVE",
+      "DEFENSIVE",
+      "PARTIAL_EXIT",
+      "FULL_EXIT",
+      "CLOSED"
+    ],
+    "status": "PASS"
+  },
+  "unified_state_registry": {
+    "ambiguities": [
+      {
+        "label": "HOT",
+        "meanings": [
+          "Production confidence band",
+          "Observer movement state when OBSERVER_ prefix is omitted",
+          "Terminal/Telegram urgency label"
+        ],
+        "status": "AMBIGUOUS"
+      },
+      {
+        "label": "ACTIVE",
+        "meanings": [
+          "Symbol registry status",
+          "Trade lifecycle state",
+          "Runtime service health label"
+        ],
+        "status": "AMBIGUOUS"
+      },
+      {
+        "label": "APPROVED",
+        "meanings": [
+          "Human approval status",
+          "Backtest selected trade status",
+          "Ticket lifecycle state"
+        ],
+        "status": "AMBIGUOUS"
+      }
+    ],
+    "registry_available": true,
+    "status": "PASS"
+  },
+  "unizim_achieved": true
+}

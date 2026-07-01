@@ -1,0 +1,35 @@
+# Project Sentinel confidence scoring weights.
+# These values are editable and will feed the future Confidence Engine.
+
+version: "1.1"
+
+modes:
+  conservative:
+    daily_bias: 15
+    h4_narrative: 20
+    liquidity_sweep: 20
+    mss: 20
+    fvg_quality: 15
+    session_quality: 5
+    target_clarity: 5
+    minimum_confidence: 90
+
+  balanced:
+    daily_bias: 15
+    h4_narrative: 20
+    liquidity_sweep: 20
+    mss: 20
+    fvg_quality: 15
+    session_quality: 5
+    target_clarity: 5
+    minimum_confidence: 90
+
+  aggressive:
+    daily_bias: 15
+    h4_narrative: 20
+    liquidity_sweep: 20
+    mss: 20
+    fvg_quality: 15
+    session_quality: 5
+    target_clarity: 5
+    minimum_confidence: 90

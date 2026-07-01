@@ -1,0 +1,29 @@
+enabled: true
+mode: assisted
+
+breakeven:
+  enabled: true
+  trigger_r: 1.0
+  buffer_points:
+    XAUUSD: 20
+    US30: 50
+    EURUSD: 5
+    GBPUSD: 5
+
+partial_profit:
+  enabled: true
+  trigger_r: 2.0
+  close_percent: 30
+
+trailing:
+  enabled: true
+  mode: structure
+  assisted_only: true
+
+pending_invalidation:
+  cancel_on_news_lock: true
+  cancel_on_risk_block: true
+  cancel_on_killzone_expired: true
+  cancel_on_confidence_below: HOT
+  cancel_on_mss_invalidated: true
+  cancel_if_target_hit_before_entry: true

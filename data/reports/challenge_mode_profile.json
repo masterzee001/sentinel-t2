@@ -1,0 +1,93 @@
+{
+  "challenge_rules": {
+    "daily_loss_limit_percent": 5,
+    "max_loss_limit_percent": 10,
+    "phase_1_target_percent": 10,
+    "phase_2_target_percent": 5
+  },
+  "checks": {
+    "aggressive_profile": true,
+    "balanced_profile": true,
+    "challenge_config": true,
+    "emergency_isolation": true,
+    "enabled_false_by_default": true,
+    "governor": true,
+    "production_baseline_preserved": true,
+    "rejected_risk_1_20": true
+  },
+  "decision": "PASS",
+  "enabled": false,
+  "generated_at": "2026-06-30T02:20:21.596190+00:00",
+  "governor": {
+    "daily_hard_stop_percent": 3,
+    "daily_soft_stop_percent": 2,
+    "profit_lock_percent": 5,
+    "reduce_risk_after_losses": 2,
+    "reduced_risk_multiplier": 0.5
+  },
+  "mode": "CONFIGURATION_ONLY",
+  "production_baseline": {
+    "dd": 3.72,
+    "pf": 2.84,
+    "trades": 151,
+    "wr": 72.6
+  },
+  "profile_validation": {
+    "aggressive": {
+      "reasons": [],
+      "risk_percent": 1.0,
+      "valid": true
+    },
+    "balanced": {
+      "reasons": [],
+      "risk_percent": 0.8,
+      "valid": true
+    }
+  },
+  "profiles": {
+    "aggressive": {
+      "a_plus_override_advisory": true,
+      "allowed_grades": [
+        "A+",
+        "A"
+      ],
+      "allowed_symbols": [
+        "XAUUSD",
+        "US30"
+      ],
+      "efde_enabled": true,
+      "human_approval_required": true,
+      "max_trades_per_day": 4,
+      "risk_percent": 1.0
+    },
+    "balanced": {
+      "a_plus_override_advisory": true,
+      "allowed_grades": [
+        "A+",
+        "A"
+      ],
+      "allowed_symbols": [
+        "XAUUSD",
+        "US30"
+      ],
+      "efde_enabled": true,
+      "human_approval_required": true,
+      "max_trades_per_day": 4,
+      "risk_percent": 0.8
+    }
+  },
+  "rejected_real_risks": [
+    1.2
+  ],
+  "safety": {
+    "autonomous_execution": false,
+    "broker_execution": false,
+    "does_not_override_autonomous_execution_disabled": true,
+    "does_not_override_broker_submission_disabled": true,
+    "does_not_override_kill_switch": true,
+    "emergency_live_mode_separate": true,
+    "human_approval_required": true,
+    "live_activation": false
+  },
+  "selected_profile": "balanced"
+}
