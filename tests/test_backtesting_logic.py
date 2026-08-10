@@ -165,6 +165,30 @@ def test_scan_symbol_routes_decisions_through_live_confidence_brain():
     assert trade["simulation"]["rr"] < 0.0
 
 
+def test_one_position_per_symbol_blocks_overlapping_candidates():
+    engine = BacktestEngine(connector=object())
+    engine.killzone_analyzer = FakeKillzoneAnalyzer()
+
+    # Two breakout candles four bars apart: without occupancy both would form
+    # candidates; with one_position_per_symbol only the first may trade.
+    times = pd.date_range("2026-06-01", periods=100, freq="15min", tz="UTC")
+    highs, lows, closes, opens = [101.0] * 100, [99.5] * 100, [100.0] * 100, [100.0] * 100
+    for breakout in (64, 68):
+        highs[breakout] = 106.0 + breakout
+        lows[breakout] = 100.0
+        closes[breakout] = 105.5 + breakout
+    for i in range(69, 100):
+        highs[i], lows[i], closes[i] = 103.0, 100.5, 101.5
+    frame = pd.DataFrame({"time": times, "open": opens, "high": highs, "low": lows, "close": closes})
+
+    trades, _ = engine.scan_symbol("US30", frame)
+    assert len(trades) == 1
+
+    engine.config["scan"]["one_position_per_symbol"] = False
+    unbounded_trades, _ = engine.scan_symbol("US30", frame)
+    assert len(unbounded_trades) >= 2
+
+
 def test_scan_symbol_records_reason_ledger_for_admitted_and_rejected_candidates():
     engine = BacktestEngine(connector=object())
     engine.killzone_analyzer = FakeKillzoneAnalyzer()

@@ -20,6 +20,17 @@ minimum_confidence: 90
 starting_balance: 5000
 risk_per_trade_percent: 0.5
 
+# step_candles 1 + one_position_per_symbol: scan every bar so results cannot
+# depend on window-start alignment (phase luck), while a symbol with an open
+# forward window admits no new candidate (no overlapping-trade inflation).
+scan:
+  timeframe: M15
+  warmup_candles: 60
+  forward_candles: 24
+  step_candles: 1
+  one_position_per_symbol: true
+  minimum_rr: 3.0
+
 simulation:
   use_tp1_as_win: true
   use_tp3_as_full_win: true

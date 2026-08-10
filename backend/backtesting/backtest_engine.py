@@ -59,7 +59,8 @@ class BacktestEngine:
             "timeframe": "M15",
             "warmup_candles": 60,
             "forward_candles": 24,
-            "step_candles": 4,
+            "step_candles": 1,
+            "one_position_per_symbol": True,
             "minimum_rr": 3.0,
         },
     }
@@ -186,12 +187,20 @@ class BacktestEngine:
         warmup = int(scan_config.get("warmup_candles", 60))
         forward = int(scan_config.get("forward_candles", 24))
         step = max(int(scan_config.get("step_candles", 4)), 1)
+        one_position = bool(scan_config.get("one_position_per_symbol", True))
         minimum_rr = float(scan_config.get("minimum_rr", 3.0))
         trades: list[dict[str, Any]] = []
         setups_scanned = 0
+        occupied_until = -1
 
         end = max(len(candles) - forward, warmup)
         for index in range(warmup, end, step):
+            # One position per symbol: while a recorded trade's forward window
+            # is open, no new candidate may form. With step=1 scanning this
+            # removes both scan-phase alignment luck and overlapping-trade
+            # inflation (a live account cannot stack near-duplicate entries).
+            if one_position and index <= occupied_until:
+                continue
             history = candles.iloc[:index + 1]
             current_candle = history.iloc[-1]
             killzone = self.killzone_analyzer.analyze(symbol, current_time=current_candle.get("time"))
@@ -282,6 +291,7 @@ class BacktestEngine:
                 "simulation": simulation,
             }
             trades.append(trade)
+            occupied_until = index + forward
 
         return trades, setups_scanned
 
