@@ -1,81 +1,81 @@
 {
   "baseline": {
-    "active_positions": 179,
-    "gross_loss_rr": 67.63,
-    "gross_win_rr": 89.15,
-    "net_rr": 21.52,
-    "risk_weighted_pf": 1.32
+    "active_positions": 166,
+    "gross_loss_rr": 73.86,
+    "gross_win_rr": 76.71,
+    "net_rr": 2.85,
+    "risk_weighted_pf": 1.04
   },
   "evaluated_quarters": 9,
-  "evaluated_trades": 179,
-  "generated_at": "2026-08-10T15:39:59.973887+00:00",
+  "evaluated_trades": 166,
+  "generated_at": "2026-08-10T15:48:11.541124+00:00",
   "managed_exits": false,
   "min_training_quarters": 4,
   "mode": "EXPANDING_WINDOW_OUT_OF_SAMPLE",
   "multiplier_usage": {
-    "MARGINAL": 30,
-    "POSITIVE": 40,
-    "STARVED": 14,
-    "STRONG": 15,
-    "UNPROVEN": 80
+    "MARGINAL": 11,
+    "POSITIVE": 28,
+    "STARVED": 39,
+    "STRONG": 16,
+    "UNPROVEN": 72
   },
   "per_quarter": {
     "2024-Q3": {
-      "baseline_net_rr": 3.15,
-      "sized_net_rr": 1.57,
-      "trades": 12
+      "baseline_net_rr": 5.18,
+      "sized_net_rr": 5.18,
+      "trades": 15
     },
     "2024-Q4": {
-      "baseline_net_rr": 5.27,
-      "sized_net_rr": 2.63,
-      "trades": 26
+      "baseline_net_rr": -1.52,
+      "sized_net_rr": -1.52,
+      "trades": 17
     },
     "2025-Q1": {
-      "baseline_net_rr": 4.24,
-      "sized_net_rr": -0.31,
-      "trades": 20
-    },
-    "2025-Q2": {
-      "baseline_net_rr": -4.99,
-      "sized_net_rr": -1.61,
-      "trades": 33
-    },
-    "2025-Q3": {
-      "baseline_net_rr": 0.68,
-      "sized_net_rr": 0.23,
-      "trades": 6
-    },
-    "2025-Q4": {
-      "baseline_net_rr": 5.92,
-      "sized_net_rr": 1.39,
+      "baseline_net_rr": 0.07,
+      "sized_net_rr": -2.4,
       "trades": 23
     },
-    "2026-Q1": {
-      "baseline_net_rr": 5.47,
-      "sized_net_rr": 6.03,
+    "2025-Q2": {
+      "baseline_net_rr": -1.58,
+      "sized_net_rr": -1.58,
+      "trades": 22
+    },
+    "2025-Q3": {
+      "baseline_net_rr": 0.6,
+      "sized_net_rr": 1.07,
+      "trades": 8
+    },
+    "2025-Q4": {
+      "baseline_net_rr": 4.08,
+      "sized_net_rr": 1.1,
       "trades": 20
     },
+    "2026-Q1": {
+      "baseline_net_rr": -0.11,
+      "sized_net_rr": 0.53,
+      "trades": 31
+    },
     "2026-Q2": {
-      "baseline_net_rr": 2.08,
-      "sized_net_rr": -0.29,
-      "trades": 28
+      "baseline_net_rr": -5.74,
+      "sized_net_rr": -2.7,
+      "trades": 26
     },
     "2026-Q3": {
-      "baseline_net_rr": -0.3,
-      "sized_net_rr": -0.73,
-      "trades": 11
+      "baseline_net_rr": 1.87,
+      "sized_net_rr": -1.04,
+      "trades": 4
     }
   },
   "requested_days": 1095,
   "sized": {
-    "active_positions": 165,
-    "gross_loss_rr": 46.34,
-    "gross_win_rr": 55.27,
-    "net_rr": 8.92,
-    "risk_weighted_pf": 1.19
+    "active_positions": 127,
+    "gross_loss_rr": 59.19,
+    "gross_win_rr": 57.83,
+    "net_rr": -1.36,
+    "risk_weighted_pf": 0.98
   },
-  "trades_skipped_by_sizer": 14,
-  "trades_taken": 165,
+  "trades_skipped_by_sizer": 39,
+  "trades_taken": 127,
   "verdict": {
     "net_rr_improved": false,
     "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",

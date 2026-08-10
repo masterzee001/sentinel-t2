@@ -30,8 +30,15 @@ class ExpectancySizer:
     UNPROVEN_MULTIPLIER = 0.5
     MIN_CELL_SAMPLE = 15
 
-    def __init__(self, table: dict[str, dict[str, Any]] | None = None) -> None:
+    def __init__(
+        self,
+        table: dict[str, dict[str, Any]] | None = None,
+        unproven_multiplier: float | None = None,
+    ) -> None:
         self.table = table or {}
+        self.unproven_multiplier = (
+            float(unproven_multiplier) if unproven_multiplier is not None else self.UNPROVEN_MULTIPLIER
+        )
 
     # ------------------------------------------------------------------ build
     @classmethod
@@ -78,8 +85,10 @@ class ExpectancySizer:
         return cells
 
     @classmethod
-    def from_trades(cls, trades: list[dict[str, Any]]) -> "ExpectancySizer":
-        return cls(cls.build_table(trades))
+    def from_trades(
+        cls, trades: list[dict[str, Any]], unproven_multiplier: float | None = None
+    ) -> "ExpectancySizer":
+        return cls(cls.build_table(trades), unproven_multiplier=unproven_multiplier)
 
     # ------------------------------------------------------------------ apply
     def multiplier_for(self, symbol: str, narrative_phase: str, killzone: str) -> dict[str, Any]:
@@ -89,7 +98,7 @@ class ExpectancySizer:
         if not row or int(row.get("trades", 0)) < self.MIN_CELL_SAMPLE:
             return {
                 "cell": key,
-                "multiplier": self.UNPROVEN_MULTIPLIER,
+                "multiplier": self.unproven_multiplier,
                 "classification": "UNPROVEN",
                 "sample": int(row.get("trades", 0)) if row else 0,
                 "avg_rr": float(row.get("avg_rr", 0.0)) if row else 0.0,

@@ -44,6 +44,7 @@ def main() -> int:
         help="Simulate the live management plan (BE at 1R, 30%% partial at 2R, run to 3R).",
     )
     parser.add_argument("--exclude", nargs="*", default=[], help="Symbols to exclude from the scan.")
+    parser.add_argument("--unproven-multiplier", type=float, default=None, help="Override the UNPROVEN cell multiplier (default 0.5).")
     args = parser.parse_args()
 
     logger.remove()
@@ -58,7 +59,7 @@ def main() -> int:
             }
             engine.simulator = type(engine.simulator)(simulation_config)
         trades = collect_production_trades(engine, days=args.days, exclude=args.exclude)
-        report = walkforward_evaluation(trades)
+        report = walkforward_evaluation(trades, unproven_multiplier=args.unproven_multiplier)
         report["generated_at"] = datetime.now(UTC).isoformat()
         report["requested_days"] = args.days
         report["managed_exits"] = bool(args.managed_exits)
@@ -98,7 +99,7 @@ def collect_production_trades(
     return sorted(selected, key=lambda trade: str(trade.get("timestamp", "")))
 
 
-def walkforward_evaluation(trades: list[dict[str, Any]]) -> dict[str, Any]:
+def walkforward_evaluation(trades: list[dict[str, Any]], *, unproven_multiplier: float | None = None) -> dict[str, Any]:
     """Expanding-window evaluation: size each quarter with prior-quarter tables only."""
     quarters = sorted({quarter_key(trade.get("timestamp", "")) for trade in trades if quarter_key(trade.get("timestamp", ""))})
     per_quarter: dict[str, dict[str, Any]] = {}
@@ -115,7 +116,7 @@ def walkforward_evaluation(trades: list[dict[str, Any]]) -> dict[str, Any]:
         evaluation = [trade for trade in trades if quarter_key(trade.get("timestamp", "")) == quarter]
         if not evaluation:
             continue
-        sizer = ExpectancySizer.from_trades(training)
+        sizer = ExpectancySizer.from_trades(training, unproven_multiplier=unproven_multiplier)
         quarter_baseline: list[float] = []
         quarter_sized: list[float] = []
         for trade in evaluation:
