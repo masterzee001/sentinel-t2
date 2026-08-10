@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-07-02T06:21:00.077159",
+  "funnel": {
+    "scanned": 907,
+    "candidates_formed": 902,
+    "candidates_rejected": 902,
+    "candidates_admitted": 0,
+    "executed_trades": 0,
+    "completion_rate_pct": 99.45,
+    "rejection_rate_pct": 100.0,
+    "admission_rate_pct": 0.0,
+    "execution_rate_pct": 0.0
+  },
+  "tier_distribution": {
+    "tier_3b": 60.0,
+    "tier_3a": 27.4,
+    "tier_1": 12.6
+  },
+  "rejection_codes": {
+    "UNCLASSIFIED": {
+      "count": 3061,
+      "percentage": 60.0,
+      "tier": "tier_3b",
+      "avg_severity": 0.2
+    },
+    "MSS_ABSENT": {
+      "count": 704,
+      "percentage": 13.8,
+      "tier": "tier_3a",
+      "avg_severity": 0.9
+    },
+    "FVG_MSS_MISALIGNMENT": {
+      "count": 407,
+      "percentage": 7.98,
+      "tier": "tier_3a",
+      "avg_severity": 0.9
+    },
+    "KILLZONE_INVALID": {
+      "count": 641,
+      "percentage": 12.56,
+      "tier": "tier_1",
+      "avg_severity": 1.0
+    },
+    "NEWS_LOCK": {
+      "count": 2,
+      "percentage": 0.04,
+      "tier": "tier_1",
+      "avg_severity": 1.0
+    },
+    "NO_EXECUTABLE_FVG": {
+      "count": 287,
+      "percentage": 5.63,
+      "tier": "tier_3a",
+      "avg_severity": 0.9
+    }
+  },
+  "top_rejection_codes": [
+    {
+      "code": "UNCLASSIFIED",
+      "count": 3061
+    },
+    {
+      "code": "MSS_ABSENT",
+      "count": 704
+    },
+    {
+      "code": "KILLZONE_INVALID",
+      "count": 641
+    },
+    {
+      "code": "FVG_MSS_MISALIGNMENT",
+      "count": 407
+    },
+    {
+      "code": "NO_EXECUTABLE_FVG",
+      "count": 287
+    },
+    {
+      "code": "NEWS_LOCK",
+      "count": 2
+    }
+  ],
+  "false_rejections": {
+    "eventual_winners_rejected": 0,
+    "by_tier": {},
+    "by_code": {},
+    "mfe_statistics": {
+      "samples": 0,
+      "avg_mfe": 0.0,
+      "avg_rr_potential": 0.0,
+      "max_mfe": 0.0,
+      "min_mfe": 0.0
+    }
+  },
+  "total_rejection_metrics": 902
+}
