@@ -162,3 +162,35 @@ def _build_candidate(
         "liquidity_sweep_confirmed": True,
         "mss_confirmed": True,
     }
+
+
+SMT_RECENT_BARS = 6
+SMT_PRIOR_BARS = 12
+
+
+def smt_divergence(own: pd.DataFrame, reference: pd.DataFrame, direction: str) -> dict[str, Any]:
+    """Classic index SMT divergence, computed causally at the candidate bar.
+
+    Bullish: the traded symbol prints a lower low over the recent bars while
+    the correlated reference holds a higher low (failure to confirm the sweep).
+    Bearish is the mirror on highs. Feature-only: this function never touches
+    admission; it annotates trades so the filter can be judged by the gate.
+    """
+    needed = SMT_RECENT_BARS + SMT_PRIOR_BARS
+    if len(own) < needed or len(reference) < needed:
+        return {"available": False, "detected": False, "pattern": "insufficient_data"}
+    own_recent, own_prior = own.tail(SMT_RECENT_BARS), own.tail(needed).head(SMT_PRIOR_BARS)
+    ref_recent, ref_prior = reference.tail(SMT_RECENT_BARS), reference.tail(needed).head(SMT_PRIOR_BARS)
+    own_lower_low = float(own_recent["low"].min()) < float(own_prior["low"].min())
+    ref_lower_low = float(ref_recent["low"].min()) < float(ref_prior["low"].min())
+    own_higher_high = float(own_recent["high"].max()) > float(own_prior["high"].max())
+    ref_higher_high = float(ref_recent["high"].max()) > float(ref_prior["high"].max())
+    bullish_divergence = own_lower_low != ref_lower_low
+    bearish_divergence = own_higher_high != ref_higher_high
+    if direction == "bullish":
+        detected = bullish_divergence
+        pattern = "bullish_smt" if detected else ("aligned_lows" if own_lower_low == ref_lower_low else "none")
+    else:
+        detected = bearish_divergence
+        pattern = "bearish_smt" if detected else ("aligned_highs" if own_higher_high == ref_higher_high else "none")
+    return {"available": True, "detected": bool(detected), "pattern": pattern}

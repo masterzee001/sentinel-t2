@@ -11,7 +11,7 @@ import yaml
 from loguru import logger
 
 from backend.backtesting.historical_decision_brain import HistoricalBacktestDecisionBrain
-from backend.backtesting.historical_structure import detect_ict_candidate
+from backend.backtesting.historical_structure import detect_ict_candidate, smt_divergence
 from backend.backtesting.trade_simulator import TradeSimulator
 from backend.guardrails.strategy_guardrails import StrategyGuardrails
 from backend.killzone_engine.killzone_analyzer import KillzoneAnalyzer
@@ -87,6 +87,8 @@ class BacktestEngine:
         # One ReasonLedger dict per structural candidate (admitted AND rejected),
         # each with a replay outcome, so QAER/FRR are measurable per Law 4.
         self.candidate_ledgers: list[dict[str, Any]] = []
+        # Optional correlated-symbol candles for feature-only SMT annotation.
+        self.smt_reference_frames: dict[str, pd.DataFrame] = {}
 
     def reset_candidate_ledgers(self) -> None:
         """Clear accumulated per-candidate reason ledgers before a new run."""
@@ -291,6 +293,12 @@ class BacktestEngine:
                 "plan": plan,
                 "simulation": simulation,
             }
+            reference = self.smt_reference_frames.get(symbol)
+            if reference is not None and "time" in reference.columns:
+                # Feature-only annotation: computed causally at the candidate
+                # bar from the correlated symbol; never touches admission.
+                ref_history = reference[reference["time"] <= current_candle.get("time")]
+                trade["smt_feature"] = smt_divergence(history, ref_history, str(plan.get("direction")))
             trades.append(trade)
             occupied_until = index + forward
 
