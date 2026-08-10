@@ -90,6 +90,31 @@ def test_trade_simulation_applies_symbol_costs():
     assert timeout["rr"] == -0.045
 
 
+def test_managed_exit_simulation_books_partial_and_breakeven_stop():
+    simulator = TradeSimulator(
+        {
+            "apply_costs": False,
+            "exit_management": {"enabled": True, "breakeven_at_r": 1.0, "partial_at_r": 2.0, "partial_close_percent": 30, "final_target_r": 3.0},
+        }
+    )
+    plan = bullish_plan()  # entry 100, stop 90 (1R = 10 points)
+
+    # Runs to 2R (partial books 0.6R), then retraces to entry: BE stop on remainder.
+    be_after_partial = simulator.simulate(plan, candles(highs=[121.0, 121.0], lows=[95.0, 99.0]))
+    assert be_after_partial["hit_level"] == "BE_STOP"
+    assert be_after_partial["rr"] == 0.6
+    assert be_after_partial["outcome"] == "WIN"
+
+    # Straight run to 3R: 0.3 * 2R + 0.7 * 3R = 2.7R.
+    full_win = simulator.simulate(plan, candles(highs=[135.0], lows=[99.0]))
+    assert full_win["hit_level"] == "TP3"
+    assert full_win["rr"] == 2.7
+
+    # Straight loss before any progress: -1R.
+    loss = simulator.simulate(plan, candles(highs=[105.0], lows=[89.0]))
+    assert loss["rr"] == -1.0
+
+
 def test_trade_simulation_costs_can_be_disabled():
     simulator = TradeSimulator({"use_tp3_as_full_win": False, "apply_costs": False})
     plan = {**bullish_plan(), "symbol": "XAUUSD"}

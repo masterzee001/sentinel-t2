@@ -71,6 +71,20 @@ class TradeSimulator:
         cost = self.execution_cost(trade_plan.get("symbol"), stop_distance)
         cost_rr = float(cost.get("cost_rr", 0.0))
 
+        management = self.config.get("exit_management") or {}
+        if management.get("enabled", False):
+            return self.simulate_managed(
+                direction=direction,
+                entry=entry,
+                stop_distance=stop_distance,
+                forward_candles=forward_candles,
+                cost=cost,
+                breakeven_at_r=float(management.get("breakeven_at_r", 1.0)),
+                partial_at_r=float(management.get("partial_at_r", 2.0)),
+                partial_fraction=float(management.get("partial_close_percent", 30)) / 100.0,
+                final_target_r=float(management.get("final_target_r", 3.0)),
+            )
+
         for position, candle in forward_candles.reset_index(drop=True).iterrows():
             high = float(candle["high"])
             low = float(candle["low"])
@@ -85,6 +99,55 @@ class TradeSimulator:
 
         # Timeout exits are market closes: they still pay execution costs.
         return self.result("BREAKEVEN", round(-cost_rr, 4), "no_target_hit", None, cost)
+
+    def simulate_managed(
+        self,
+        *,
+        direction: str,
+        entry: float,
+        stop_distance: float,
+        forward_candles: pd.DataFrame,
+        cost: dict[str, Any],
+        breakeven_at_r: float,
+        partial_at_r: float,
+        partial_fraction: float,
+        final_target_r: float,
+    ) -> dict[str, Any]:
+        """Simulate the live management plan: BE move, partial close, run to final.
+
+        Conservative intrabar ordering: the stop is checked before targets in
+        every candle. Reaching breakeven_at_r moves the stop to entry; reaching
+        partial_at_r books the partial fraction; the remainder exits at the
+        final target, the (possibly moved) stop, or the timeout close.
+        """
+        sign = 1 if direction == "bullish" else -1
+        cost_rr = float(cost.get("cost_rr", 0.0))
+        stop_r = -1.0  # Stop location in R (0.0 after the breakeven move).
+        booked_rr = 0.0
+        remaining = 1.0
+        for position, candle in forward_candles.reset_index(drop=True).iterrows():
+            favorable_r = sign * (float(candle["high" if sign == 1 else "low"]) - entry) / stop_distance
+            adverse_r = sign * (float(candle["low" if sign == 1 else "high"]) - entry) / stop_distance
+            if adverse_r <= stop_r:
+                booked_rr += remaining * stop_r
+                return self.result(
+                    "LOSS" if stop_r < 0 else ("WIN" if booked_rr - cost_rr > 0 else "BREAKEVEN"),
+                    round(booked_rr - cost_rr, 4),
+                    "SL" if stop_r < 0 else "BE_STOP",
+                    int(position),
+                    cost,
+                )
+            if remaining > (1.0 - partial_fraction) and favorable_r >= partial_at_r:
+                booked_rr += partial_fraction * partial_at_r
+                remaining = round(remaining - partial_fraction, 6)
+            if stop_r < 0 and favorable_r >= breakeven_at_r:
+                stop_r = 0.0
+            if favorable_r >= final_target_r:
+                booked_rr += remaining * final_target_r
+                return self.result("WIN", round(booked_rr - cost_rr, 4), "TP3", int(position), cost)
+        net = round(booked_rr - cost_rr, 4)  # Timeout: remainder exits near entry.
+        outcome = "WIN" if net > 0 else ("LOSS" if net < -0.05 else "BREAKEVEN")
+        return self.result(outcome, net, "no_target_hit", None, cost)
 
     def execution_cost(self, symbol: Any, stop_distance: float) -> dict[str, Any]:
         """Return round-trip execution cost for a symbol, in price units and R."""

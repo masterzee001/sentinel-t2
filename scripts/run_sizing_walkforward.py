@@ -38,6 +38,11 @@ TABLE_PATH = PROJECT_ROOT / "data" / "reports" / "expectancy_table.json"
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--days", type=int, default=DEFAULT_DAYS)
+    parser.add_argument(
+        "--managed-exits",
+        action="store_true",
+        help="Simulate the live management plan (BE at 1R, 30%% partial at 2R, run to 3R).",
+    )
     args = parser.parse_args()
 
     logger.remove()
@@ -45,10 +50,17 @@ def main() -> int:
     try:
         connector.connect()
         engine = BacktestEngine(connector=connector)
+        if args.managed_exits:
+            simulation_config = {
+                **engine.config.get("simulation", {}),
+                "exit_management": {"enabled": True, "breakeven_at_r": 1.0, "partial_at_r": 2.0, "partial_close_percent": 30, "final_target_r": 3.0},
+            }
+            engine.simulator = type(engine.simulator)(simulation_config)
         trades = collect_production_trades(engine, days=args.days)
         report = walkforward_evaluation(trades)
         report["generated_at"] = datetime.now(UTC).isoformat()
         report["requested_days"] = args.days
+        report["managed_exits"] = bool(args.managed_exits)
         save_json(REPORT_PATH, report)
         # Full-history table for inspection and (if promoted) future live use.
         ExpectancySizer.from_trades(trades).save(TABLE_PATH)
