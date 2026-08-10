@@ -27,9 +27,10 @@ class StrategyGuardrails:
         "disabled_trade_symbols": ["GBPUSD"],
         "blocked_killzones": ["london_continuation"],
         "symbol_execution_tiers": {
-            "production": ["US30"],
+            "production": ["US30", "NAS100"],
             "filtered_production": ["XAUUSD"],
-            "observer_only": ["EURUSD", "GBPUSD", "BTCUSD", "NAS100"],
+            "demo_sandbox": ["BTCUSD"],
+            "observer_only": ["EURUSD", "GBPUSD"],
         },
         "minimum_execution_confidence": 95,
         "minimum_execution_confidence_by_symbol_type": {

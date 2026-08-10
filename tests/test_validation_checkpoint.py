@@ -10,13 +10,12 @@ from scripts.run_validation_checkpoint import build_validation_checkpoint
 def passing_report() -> dict:
     observer_diagnostics = {
         "BTCUSD": observer("CANDLES_AVAILABLE_NO_SETUPS", 0, 0.0, 0.0),
-        "NAS100": observer("GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES", 34, 1.08, 50.0),
         "EURUSD": observer("GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES", 106, 1.23, 52.44),
         "GBPUSD": observer("GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES", 117, 0.96, 48.96),
     }
     return {
         "advisor_mode_only": True,
-        "production_symbols": ["US30", "XAUUSD"],
+        "production_symbols": ["US30", "XAUUSD", "NAS100"],
         "symbol_expansion": {"observer_only": True, "affect_production": False},
         "comparison": {
             "raw_baseline": {"pf": 1.16, "win_rate": 52.22, "trades": 123, "max_drawdown": 3.94},
@@ -104,13 +103,13 @@ def test_validation_checkpoint_fails_when_report_does_not_reconcile():
 
 def test_observer_trades_cannot_affect_production_metrics():
     report = passing_report()
-    report["observer_diagnostics"]["NAS100"].update({"trades": 200, "pf": 9.0, "wr": 90.0})
+    report["observer_diagnostics"]["EURUSD"].update({"trades": 200, "pf": 9.0, "wr": 90.0})
 
     result = checkpoint(report)
 
     assert result["decision"] == "PASS"
     assert result["symbol_expansion_observer_only"]["pf"] == 1.58
-    assert result["observer_diagnostics"]["NAS100"]["trades"] == 200
+    assert result["observer_diagnostics"]["EURUSD"]["trades"] == 200
 
 
 def test_xau_smt_hard_block_remains_disabled_below_sample_threshold():
@@ -122,7 +121,7 @@ def test_xau_smt_hard_block_remains_disabled_below_sample_threshold():
 
 def test_validation_checkpoint_fails_if_observer_symbol_becomes_executable():
     report = passing_report()
-    report["observer_diagnostics"]["NAS100"]["execution_allowed"] = True
+    report["observer_diagnostics"]["EURUSD"]["execution_allowed"] = True
 
     result = checkpoint(report)
 

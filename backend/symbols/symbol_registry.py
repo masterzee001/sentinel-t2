@@ -16,9 +16,9 @@ class SymbolRegistry:
     """Load symbol tiers and classify symbols from backtest metrics."""
 
     DEFAULT_CONFIG = {
-        "tier_1_production": ["US30"],
+        "tier_1_production": ["US30", "NAS100"],
         "tier_2_filtered_production": ["XAUUSD"],
-        "tier_3_demo_sandbox": ["BTCUSD", "NAS100"],
+        "tier_3_demo_sandbox": ["BTCUSD"],
         "tier_4_observer_only": ["EURUSD", "GBPUSD"],
         "tier_3_observer": [],
         "tier_4_disabled": [],
@@ -38,7 +38,6 @@ class SymbolRegistry:
         },
         "observer_reasons": {
             "BTCUSD": "BTCUSD demo sandbox: production execution disabled",
-            "NAS100": "NAS100 demo sandbox: production execution disabled",
             "EURUSD": "EURUSD observer-only mode: production execution disabled",
             "GBPUSD": "GBPUSD observer-only mode: production execution disabled",
         },

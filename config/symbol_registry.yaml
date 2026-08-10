@@ -1,14 +1,17 @@
 version: "1.0"
 
+# NAS100 promoted 2026-08-10 (user-directed) after clearing the production
+# promotion rule on the first honest 365D backtest: PF 1.60, WR 60.0%,
+# 39 trades, DD within limit (rule: min_pf 1.5, min_wr 55, min_trades 30).
 tier_1_production:
   - US30
+  - NAS100
 
 tier_2_filtered_production:
   - XAUUSD
 
 tier_3_demo_sandbox:
   - BTCUSD
-  - NAS100
 
 tier_4_observer_only:
   - EURUSD
@@ -48,6 +51,5 @@ execution:
 
 observer_reasons:
   BTCUSD: "BTCUSD demo sandbox: production execution disabled"
-  NAS100: "NAS100 demo sandbox: production execution disabled"
   EURUSD: "EURUSD observer-only mode: production execution disabled"
   GBPUSD: "GBPUSD observer-only mode: production execution disabled"

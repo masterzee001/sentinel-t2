@@ -24,10 +24,11 @@ from backend.symbols.symbol_registry import SymbolRegistry
 
 
 DAYS = 365
-PRODUCTION_SYMBOLS = ["US30", "XAUUSD"]
-OBSERVER_DIAGNOSTIC_SYMBOLS = ["BTCUSD", "NAS100", "EURUSD", "GBPUSD"]
+PRODUCTION_SYMBOLS = ["US30", "XAUUSD", "NAS100"]
+OBSERVER_DIAGNOSTIC_SYMBOLS = ["BTCUSD", "EURUSD", "GBPUSD"]
 SYMBOLS = [*PRODUCTION_SYMBOLS, *OBSERVER_DIAGNOSTIC_SYMBOLS]
 REPORT_PATH = PROJECT_ROOT / "data" / "reports" / "backtest_365d_summary.json"
+REASON_LEDGER_PATH = PROJECT_ROOT / "data" / "reports" / "reason_ledger_365d.json"
 RAW_BASELINE_FINDINGS = {
     "profit_factor": 1.16,
     "win_rate": 52.22,
@@ -114,6 +115,14 @@ def main() -> int:
             approved_baseline=approved_robustness_metrics(),
             observer_only=observer_only_metrics,
         )
+        save_report(
+            {
+                "generated_at": report["generated_at"],
+                "summary": report.get("reason_ledger_summary", {}),
+                "candidates": engine.candidate_ledgers,
+            },
+            REASON_LEDGER_PATH,
+        )
         save_report(report, REPORT_PATH)
         print_report(report, REPORT_PATH)
         if report.get("reconciliation", {}).get("status") != "PASS":
@@ -130,6 +139,7 @@ def main() -> int:
 def build_365d_report(engine: BacktestEngine, registry: SymbolRegistry | None = None) -> dict[str, Any]:
     """Build a detailed 365-day adaptive-guardrail report."""
     registry = registry or SymbolRegistry()
+    engine.reset_candidate_ledgers()
     production_symbols = ordered_unique(registry.execution_symbols() or PRODUCTION_SYMBOLS)
     observer_symbols = ordered_unique(
         [symbol for symbol in registry.symbols() if symbol not in set(production_symbols)]
@@ -245,6 +255,7 @@ def build_365d_report(engine: BacktestEngine, registry: SymbolRegistry | None = 
             "symbol_breakdown": adaptive.get("by_symbol", {}),
         },
         "reconciliation": reconciliation,
+        "reason_ledger_summary": BacktestEngine.summarize_candidate_ledgers(engine.candidate_ledgers),
         "observer_diagnostics": observer_diagnostics,
         "symbol_breakdown": production_symbol_breakdown,
         "killzone_breakdown": {
@@ -740,6 +751,20 @@ def print_report(report: dict[str, Any], path: Path) -> None:
             f"{month}: PF {data.get('profit_factor', 0.0)}, WR {data.get('win_rate', 0.0)}%, "
             f"trades {data.get('trades_approved', 0)}, DD {data.get('max_drawdown', 0.0)}%"
         )
+    ledger = report.get("reason_ledger_summary", {})
+    if ledger:
+        print("")
+        print("REASON LEDGER (ADMISSION EFFICIENCY)")
+        print(f"Candidates: {ledger.get('total_candidates', 0)} | Admitted: {ledger.get('admitted', 0)} | Rejected: {ledger.get('rejected', 0)}")
+        print(f"QAER (winners admitted / HQ candidates): {ledger.get('qaer', 0.0)}%")
+        print(f"FRR (winners rejected / HQ candidates): {ledger.get('frr', 0.0)}%")
+        print(f"Rejected would-have-won: {ledger.get('rejected_would_have_won', 0)} | would-have-lost: {ledger.get('rejected_would_have_lost', 0)}")
+        print("Top rejection reasons:")
+        for code, row in list(ledger.get("rejection_reason_breakdown", {}).items())[:5]:
+            print(
+                f"  {code}: {row.get('count', 0)} blocks, {row.get('would_have_won', 0)} winners lost"
+                f" ({row.get('missed_rr', 0.0)}R missed), {row.get('would_have_lost', 0)} losses avoided"
+            )
 
 
 def display_killzone(name: Any) -> str:

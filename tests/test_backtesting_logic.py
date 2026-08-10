@@ -105,10 +105,7 @@ class FakeKillzoneAnalyzer:
         return {"is_valid": True, "active_killzone": "london_open", "quality_score": 12}
 
 
-def test_scan_symbol_routes_decisions_through_live_confidence_brain():
-    engine = BacktestEngine(connector=object())
-    engine.killzone_analyzer = FakeKillzoneAnalyzer()
-
+def breakout_frame() -> pd.DataFrame:
     times = pd.date_range("2026-06-01", periods=90, freq="15min", tz="UTC")
     highs = [101.0] * 90
     lows = [99.5] * 90
@@ -121,9 +118,14 @@ def test_scan_symbol_routes_decisions_through_live_confidence_brain():
         highs[i] = 103.0
         lows[i] = 100.5
         closes[i] = 101.5
-    frame = pd.DataFrame({"time": times, "open": opens, "high": highs, "low": lows, "close": closes})
+    return pd.DataFrame({"time": times, "open": opens, "high": highs, "low": lows, "close": closes})
 
-    trades, setups = engine.scan_symbol("XAUUSD", frame)
+
+def test_scan_symbol_routes_decisions_through_live_confidence_brain():
+    engine = BacktestEngine(connector=object())
+    engine.killzone_analyzer = FakeKillzoneAnalyzer()
+
+    trades, setups = engine.scan_symbol("XAUUSD", breakout_frame())
 
     assert setups >= 1
     assert len(trades) == 1
@@ -136,6 +138,85 @@ def test_scan_symbol_routes_decisions_through_live_confidence_brain():
     # Timeout exit pays execution costs instead of exiting free at 0.0R.
     assert trade["simulation"]["outcome"] == "BREAKEVEN"
     assert trade["simulation"]["rr"] < 0.0
+
+
+def test_scan_symbol_records_reason_ledger_for_admitted_and_rejected_candidates():
+    engine = BacktestEngine(connector=object())
+    engine.killzone_analyzer = FakeKillzoneAnalyzer()
+
+    engine.reset_candidate_ledgers()
+    engine.scan_symbol("XAUUSD", breakout_frame())
+    admitted = [item for item in engine.candidate_ledgers if item["decision"] == "admit"]
+    assert admitted
+    assert admitted[0]["mode"] == "replay"
+    assert admitted[0]["replay_outcome_status"] in {"would_have_won", "would_have_lost", "inconclusive"}
+    assert admitted[0]["confidence_components"]
+
+    # GBPUSD is guardrail-disabled: same structural candidate must be recorded
+    # as a rejected ledger entry with a replay outcome instead of vanishing.
+    engine.reset_candidate_ledgers()
+    engine.scan_symbol("GBPUSD", breakout_frame())
+    rejected = [item for item in engine.candidate_ledgers if item["decision"] == "reject"]
+    assert rejected
+    assert rejected[0]["risk_final"] == 0.0
+    assert rejected[0]["replay_outcome_status"] in {"would_have_won", "would_have_lost", "inconclusive"}
+    assert rejected[0]["veto_count"] >= 1
+
+
+def ledger_record(decision: str, confidence: int, outcome: str, rr: float, reason: str = "SYMBOL_LOCK") -> dict:
+    return {
+        "decision": decision,
+        "confidence_original": confidence,
+        "replay_outcome_status": outcome,
+        "primary_reason": reason,
+        "simulated_rr": rr,
+        "entries": [{"action": "veto", "tier": "tier_1_safety"}] if decision == "reject" else [],
+    }
+
+
+def test_extended_backtest_quarterly_grouping_and_stability():
+    from scripts.run_extended_backtest import quarter_key, quarterly_breakdown, stability_stats
+
+    trades = [
+        {"timestamp": "2025-02-10T08:00:00+00:00", "simulation": {"outcome": "WIN", "rr": 3.0}, "rr": 3.0, "pnl": 75.0},
+        {"timestamp": "2025-05-11T08:00:00+00:00", "simulation": {"outcome": "LOSS", "rr": -1.0}, "rr": -1.0, "pnl": -25.0},
+        {"timestamp": "2025-06-20T08:00:00+00:00", "simulation": {"outcome": "LOSS", "rr": -1.0}, "rr": -1.0, "pnl": -25.0},
+    ]
+
+    assert quarter_key("2025-02-10T08:00:00+00:00") == "2025-Q1"
+    assert quarter_key("2025-12-31") == "2025-Q4"
+    quarterly = quarterly_breakdown(trades, starting_balance=5000.0)
+    stability = stability_stats(quarterly)
+
+    assert quarterly["2025-Q1"]["trades_approved"] == 1
+    assert quarterly["2025-Q2"]["trades_approved"] == 2
+    assert stability["quarters"] == 2
+    assert stability["profitable_quarters"] == 1
+    assert stability["losing_quarters"] == 1
+    assert stability["worst_quarter"]["quarter"] == "2025-Q2"
+
+
+def test_summarize_candidate_ledgers_computes_qaer_and_frr():
+    ledgers = [
+        ledger_record("admit", 95, "would_have_won", 2.9),
+        ledger_record("admit", 92, "would_have_lost", -1.0),
+        ledger_record("reject", 91, "would_have_won", 3.0),
+        ledger_record("reject", 90, "would_have_lost", -1.0),
+        ledger_record("reject", 40, "would_have_won", 2.0),  # below HQ threshold
+    ]
+
+    summary = BacktestEngine.summarize_candidate_ledgers(ledgers, high_quality_confidence=70)
+
+    assert summary["total_candidates"] == 5
+    assert summary["admitted"] == 2
+    assert summary["rejected"] == 3
+    assert summary["high_quality_candidates"] == 4
+    assert summary["qaer"] == 25.0  # 1 admitted HQ winner / 4 HQ
+    assert summary["frr"] == 25.0  # 1 rejected HQ winner / 4 HQ
+    assert summary["rejection_reason_breakdown"]["SYMBOL_LOCK"]["count"] == 3
+    assert summary["rejection_reason_breakdown"]["SYMBOL_LOCK"]["would_have_won"] == 2
+    assert summary["rejection_reason_breakdown"]["SYMBOL_LOCK"]["missed_rr"] == 5.0
+    assert summary["tier_veto_breakdown"]["tier_1_safety"] == 3
 
 
 def test_metric_aggregation():

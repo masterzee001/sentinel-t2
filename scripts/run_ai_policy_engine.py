@@ -15,27 +15,31 @@ from backend.ai_policy.ai_policy_engine import AIPolicyEngine
 
 
 REPORT_DIR = PROJECT_ROOT / "data" / "reports"
-AI_RECOMMENDATIONS_PATH = REPORT_DIR / "ai_policy_recommendations.json"
-AI_MEMORY_PATH = REPORT_DIR / "ai_policy_memory.json"
-IQ_V7_PATH = REPORT_DIR / "market_watch_iq_v7.json"
+# Phase 0 quarantine: the AI policy engine's legacy inputs are synthetic
+# fixture reports (see data/reports/fixtures/README.md). The engine stays
+# advisory-only over fixture data until it is rebuilt on real replay outcomes.
+FIXTURE_DIR = REPORT_DIR / "fixtures"
+AI_RECOMMENDATIONS_PATH = FIXTURE_DIR / "ai_policy_recommendations.json"
+AI_MEMORY_PATH = FIXTURE_DIR / "ai_policy_memory.json"
+IQ_V7_PATH = FIXTURE_DIR / "market_watch_iq_v7.json"
 MASTER_MARKDOWN_PATH = REPORT_DIR / "master_sprint_10_ai_policy_engine.md"
 
 INPUT_PATHS = {
-    "setup_expectancy_database": REPORT_DIR / "setup_expectancy_database.json",
-    "loss_memory_database": REPORT_DIR / "loss_memory_database.json",
-    "shadow_learning_memory": REPORT_DIR / "shadow_learning_memory.json",
-    "guardrail_leak_analysis": REPORT_DIR / "guardrail_leak_analysis.json",
-    "regime_strategy_expectancy": REPORT_DIR / "regime_strategy_expectancy.json",
-    "market_watch_iq_report": REPORT_DIR / "market_watch_iq_report.json",
-    "market_watch_iq_v2": REPORT_DIR / "market_watch_iq_v2.json",
-    "market_watch_iq_v3": REPORT_DIR / "market_watch_iq_v3.json",
-    "market_watch_iq_v4": REPORT_DIR / "market_watch_iq_v4.json",
-    "market_watch_iq_v5": REPORT_DIR / "market_watch_iq_v5.json",
-    "market_watch_iq_v6": REPORT_DIR / "market_watch_iq_v6.json",
-    "symbol_lock_optimization": REPORT_DIR / "symbol_lock_optimization.json",
-    "no_trade_optimization": REPORT_DIR / "no_trade_optimization.json",
-    "a_plus_override_simulation": REPORT_DIR / "a_plus_override_simulation.json",
-    "shadow_enhanced_comparison": REPORT_DIR / "shadow_enhanced_comparison.json",
+    "setup_expectancy_database": FIXTURE_DIR / "setup_expectancy_database.json",
+    "loss_memory_database": FIXTURE_DIR / "loss_memory_database.json",
+    "shadow_learning_memory": FIXTURE_DIR / "shadow_learning_memory.json",
+    "guardrail_leak_analysis": FIXTURE_DIR / "guardrail_leak_analysis.json",
+    "regime_strategy_expectancy": FIXTURE_DIR / "regime_strategy_expectancy.json",
+    "market_watch_iq_report": FIXTURE_DIR / "market_watch_iq_report.json",
+    "market_watch_iq_v2": FIXTURE_DIR / "market_watch_iq_v2.json",
+    "market_watch_iq_v3": FIXTURE_DIR / "market_watch_iq_v3.json",
+    "market_watch_iq_v4": FIXTURE_DIR / "market_watch_iq_v4.json",
+    "market_watch_iq_v5": FIXTURE_DIR / "market_watch_iq_v5.json",
+    "market_watch_iq_v6": FIXTURE_DIR / "market_watch_iq_v6.json",
+    "symbol_lock_optimization": FIXTURE_DIR / "symbol_lock_optimization.json",
+    "no_trade_optimization": FIXTURE_DIR / "no_trade_optimization.json",
+    "a_plus_override_simulation": FIXTURE_DIR / "a_plus_override_simulation.json",
+    "shadow_enhanced_comparison": FIXTURE_DIR / "shadow_enhanced_comparison.json",
 }
 
 

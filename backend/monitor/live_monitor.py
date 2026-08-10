@@ -24,6 +24,7 @@ from backend.risk_manager.risk_governor import RiskGovernor, RiskGovernorError
 from backend.risk_manager.risk_state_store import RiskStateStore
 from backend.shared.shared_candidate_scanner import SharedCandidateScanner
 from backend.shared.shared_decision_adapter import DecisionRequest, SharedDecisionAdapter
+from backend.symbols.symbol_registry import SymbolRegistry
 from backend.trade_planner.trade_planner import TradePlanner, TradePlannerError
 
 
@@ -90,6 +91,7 @@ class LiveMonitor:
         self.risk_state_store = risk_state_store or RiskStateStore(
             project_root / ".sentinel_runtime" / "risk_state.json"
         )
+        self.symbol_registry = SymbolRegistry(config_dir=self.config_dir)
         self.risk_governor = risk_governor or RiskGovernor(
             connector=self.connector,
             config_dir=self.config_dir,
@@ -191,7 +193,9 @@ class LiveMonitor:
         normalized_symbol = symbol.upper().strip()
         if normalized_symbol == BTCObserver.SYMBOL:
             return self.btc_observer.observe()
-        if normalized_symbol == NAS100Observer.SYMBOL:
+        if normalized_symbol == NAS100Observer.SYMBOL and not self.symbol_registry.execution_allowed(
+            normalized_symbol
+        ):
             return self.nas100_observer.observe()
         risk_flags = RiskGovernor.decision_context_from_result(risk) if risk else {}
         try:

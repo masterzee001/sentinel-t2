@@ -78,14 +78,16 @@ def test_sandbox_disabled_by_default():
     assert engine.config["submit_orders"] is False
 
 
-def test_btc_nas_blocked_from_production_but_allowed_in_sandbox():
+def test_btc_stays_sandboxed_while_nas100_is_promoted_to_production():
+    # NAS100 was promoted to production tier 2026-08-10 after clearing the
+    # registry promotion rule on the honest 365D backtest (PF 1.60 / WR 60%).
     registry = SymbolRegistry()
     engine = make_engine()
 
     assert registry.execution_allowed("BTCUSD") is False
-    assert registry.execution_allowed("NAS100") is False
+    assert registry.execution_allowed("NAS100") is True
     assert registry.sandbox_execution_allowed("BTCUSD") is True
-    assert registry.sandbox_execution_allowed("NAS100") is True
+    assert registry.sandbox_execution_allowed("NAS100") is False
 
     ticket = engine.create_ticket(symbol="BTCUSD")
     validation = engine.sandbox_gate(ticket, context=context(), human_approved=True)
@@ -196,9 +198,9 @@ def test_status_report_dashboard_loader_and_production_baseline_preserved(tmp_pa
     assert summary["available"] is True
     assert report["production_baseline_preserved"] is True
     assert report["sandbox"]["production_metrics_excluded"] is True
-    assert set(report["symbol_tiers"]["demo_sandbox"]) == {"BTCUSD", "NAS100"}
+    assert set(report["symbol_tiers"]["demo_sandbox"]) == {"BTCUSD"}
     assert set(report["symbol_tiers"]["observer_only"]) == {"EURUSD", "GBPUSD"}
-    assert {"BTCUSD", "NAS100"}.issubset(set(frame["symbol"]))
+    assert "BTCUSD" in set(frame["symbol"])
 
 
 def test_telegram_sandbox_commands(monkeypatch):
@@ -213,7 +215,8 @@ def test_telegram_sandbox_commands(monkeypatch):
     approve = bot.handle_command("/sandbox_approve SBX-SAMPLE", "123")
 
     assert "SANDBOX DEMO ONLY" in status["response_text"]
-    assert "Demo Sandbox: BTCUSD, NAS100" in symbols["response_text"]
+    assert "Demo Sandbox: BTCUSD" in symbols["response_text"]
+    assert "Production: US30, NAS100, XAUUSD" in symbols["response_text"]
     assert "Ticket Type: SANDBOX_DEMO" in ticket["response_text"]
     assert "Order Send: NOT CALLED" in dry_run["response_text"]
     assert "Final Decision: APPROVED_DRY_RUN" in approve["response_text"]

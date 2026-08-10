@@ -10,14 +10,16 @@ disabled_trade_symbols:
 blocked_killzones:
   - london_continuation
 
+# NAS100 promoted to production 2026-08-10 (user-directed) after clearing the
+# registry promotion rule on the honest 365D backtest (PF 1.60, WR 60%, 39 trades).
 symbol_execution_tiers:
   production:
     - US30
+    - NAS100
   filtered_production:
     - XAUUSD
   demo_sandbox:
     - BTCUSD
-    - NAS100
   observer_only:
     - EURUSD
     - GBPUSD

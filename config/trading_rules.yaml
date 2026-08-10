@@ -23,16 +23,16 @@ markets:
     - symbol: "US30"
       rank: 2
       tier: "priority"
-    - symbol: "EURUSD"
+    - symbol: "NAS100"
       rank: 3
-      tier: "watchlist"
-    - symbol: "GBPUSD"
+      tier: "priority"
+    - symbol: "EURUSD"
       rank: 4
       tier: "watchlist"
-    - symbol: "BTCUSD"
+    - symbol: "GBPUSD"
       rank: 5
-      tier: "demo_sandbox"
-    - symbol: "NAS100"
+      tier: "watchlist"
+    - symbol: "BTCUSD"
       rank: 6
       tier: "demo_sandbox"
   watchlist:

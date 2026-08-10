@@ -174,7 +174,7 @@ def test_eurusd_cannot_reach_submit_order():
 def test_submit_order_blocks_observer_symbol_directly():
     engine = make_engine()
 
-    result = engine.submit_order({"symbol": "NAS100"})
+    result = engine.submit_order({"symbol": "BTCUSD"})
 
     assert result["order_result"] == "BLOCKED_OBSERVER_SYMBOL"
     assert result["order_submitted"] is False

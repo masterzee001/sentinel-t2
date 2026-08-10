@@ -16,6 +16,7 @@ from backend.guardrails.strategy_guardrails import StrategyGuardrails
 from backend.killzone_engine.killzone_analyzer import KillzoneAnalyzer
 from backend.market_data.mt5_connector import MT5Connector, MT5ConnectorError
 from backend.shared.confidence_band_registry import MSS_MODE_HISTORICAL_STRUCTURE_BREAK
+from backend.shared.reason_ledger import DecisionMode, DecisionType, ReasonLedger, ReasonTier
 
 
 class BacktestEngineError(RuntimeError):
@@ -81,9 +82,17 @@ class BacktestEngine:
             strategy_guardrails=self.strategy_guardrails,
             config_dir=self.config_dir,
         )
+        # One ReasonLedger dict per structural candidate (admitted AND rejected),
+        # each with a replay outcome, so QAER/FRR are measurable per Law 4.
+        self.candidate_ledgers: list[dict[str, Any]] = []
+
+    def reset_candidate_ledgers(self) -> None:
+        """Clear accumulated per-candidate reason ledgers before a new run."""
+        self.candidate_ledgers = []
 
     def run(self, lookback_days: int | None = None, symbols: list[str] | None = None) -> dict[str, Any]:
         """Run the configured backtest and return aggregate metrics."""
+        self.reset_candidate_ledgers()
         lookback_days = int(lookback_days or self.config["lookback_days"])
         symbols = [str(symbol).upper().strip() for symbol in (symbols or self.config["symbols"])]
         trades: list[dict[str, Any]] = []
@@ -205,17 +214,31 @@ class BacktestEngine:
                 for reason in decision.get("rejection_reasons", []) or []
                 if reason not in guardrail_reasons
             ]
+
+            # Simulate every structural candidate — including rejected ones —
+            # so each rejection carries a measurable would-have-won outcome.
+            simulation = self.simulator.simulate(plan, candles.iloc[index + 1:index + 1 + forward])
+            timestamp = (
+                current_candle.get("time").isoformat()
+                if hasattr(current_candle.get("time"), "isoformat")
+                else str(current_candle.get("time", ""))
+            )
+            self.record_candidate_ledger(
+                symbol=symbol,
+                timestamp=timestamp,
+                decision=decision,
+                adaptive_guardrail=adaptive_guardrail,
+                blocking_reasons=blocking_reasons,
+                simulation=simulation,
+            )
             if blocking_reasons:
                 continue
 
-            simulation = self.simulator.simulate(plan, candles.iloc[index + 1:index + 1 + forward])
             confidence = int(decision.get("total_confidence", 0) or 0)
             confidence_band = str(decision.get("confidence_band", "HOT"))
             trade = {
                 "symbol": symbol,
-                "timestamp": current_candle.get("time").isoformat()
-                if hasattr(current_candle.get("time"), "isoformat")
-                else str(current_candle.get("time", "")),
+                "timestamp": timestamp,
                 "killzone": killzone.get("active_killzone", "none"),
                 "confidence_band": confidence_band,
                 "guarded_confidence_band": adaptive_guardrail.get("adjusted_confidence_band", confidence_band),
@@ -245,6 +268,160 @@ class BacktestEngine:
             trades.append(trade)
 
         return trades, setups_scanned
+
+    def record_candidate_ledger(
+        self,
+        *,
+        symbol: str,
+        timestamp: str,
+        decision: dict[str, Any],
+        adaptive_guardrail: dict[str, Any],
+        blocking_reasons: list[str],
+        simulation: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Record one candidate's full reasoning + replay outcome (Law 4)."""
+        confidence = int(decision.get("total_confidence", 0) or 0)
+        adjusted = int(adaptive_guardrail.get("guardrail_adjusted_confidence", confidence) or confidence)
+        guardrail_blocked = adaptive_guardrail.get("status") == "BLOCKED"
+        admitted = not blocking_reasons and not guardrail_blocked
+        base_risk = float(self.config.get("risk_per_trade_percent", 0.5))
+        outcome = str(simulation.get("outcome", "BREAKEVEN"))
+        replay_status = {
+            "WIN": "would_have_won",
+            "LOSS": "would_have_lost",
+        }.get(outcome, "inconclusive")
+
+        ledger = ReasonLedger(
+            symbol=symbol,
+            timestamp=timestamp,
+            mode=DecisionMode.REPLAY,
+            decision=DecisionType.ADMIT if admitted else DecisionType.REJECT,
+            confidence_original=max(min(confidence, 100), 0),
+            confidence_final=max(min(adjusted, 100), 0),
+            risk_original=base_risk,
+            risk_final=base_risk if admitted else 0.0,
+            confidence_components=dict(decision.get("scores", {}) or {}),
+            replay_outcome_status=replay_status,
+        )
+        for reason in blocking_reasons:
+            tier, severity = self.classify_reason_tier(reason)
+            ledger.add_veto(
+                tier=tier,
+                reason_code=self.reason_code_for(reason),
+                severity=severity,
+                message=reason,
+                confidence_before=ledger.confidence_original,
+                confidence_after=ledger.confidence_final,
+                risk_before=base_risk,
+                risk_after=0.0,
+            )
+        for reason in adaptive_guardrail.get("reasons", []) or []:
+            tier, severity = self.classify_reason_tier(reason)
+            ledger.add_veto(
+                tier=tier,
+                reason_code=self.reason_code_for(reason),
+                severity=severity,
+                message=reason,
+                confidence_before=ledger.confidence_original,
+                confidence_after=ledger.confidence_final,
+                risk_before=base_risk,
+                risk_after=0.0,
+            )
+        for penalty in adaptive_guardrail.get("guardrail_penalties", []) or []:
+            ledger.add_penalty(
+                tier=ReasonTier.TIER_2B_MACRO_CONFIDENCE,
+                reason_code=self.reason_code_for(str(penalty.get("reason", "PENALTY"))),
+                severity=0.3,
+                message=str(penalty.get("reason", "")),
+                confidence_before=ledger.confidence_original,
+                confidence_after=ledger.confidence_final,
+                risk_before=base_risk,
+                risk_after=base_risk,
+                metadata={"value": penalty.get("value", 0)},
+            )
+        record = ledger.to_dict()
+        record["simulated_rr"] = float(simulation.get("rr", 0.0))
+        self.candidate_ledgers.append(record)
+        return record
+
+    @staticmethod
+    def reason_code_for(reason: str) -> str:
+        """Normalize a prose reason string into a stable reason code."""
+        cleaned = "".join(char if char.isalnum() or char.isspace() else " " for char in str(reason).upper())
+        return "_".join(cleaned.split())[:64] or "UNKNOWN"
+
+    @staticmethod
+    def classify_reason_tier(reason: str) -> tuple[ReasonTier, float]:
+        """Map a rejection reason string to its constitutional tier and severity."""
+        text = str(reason).lower()
+        if any(key in text for key in ("news lock", "daily loss", "max trades", "risk governor", "demo sandbox", "observer", "disabled by strategy guardrail", "not execution allowed")):
+            return ReasonTier.TIER_1_SAFETY, 1.0
+        if any(key in text for key in ("killzone", "session blocked", "london continuation", "london open")):
+            return ReasonTier.TIER_2A_MACRO_TRUTH, 0.8
+        if any(key in text for key in ("mss", "fvg", "order block", "premium", "discount", "stop", "directional", "sweep")):
+            return ReasonTier.TIER_3A_STRUCTURAL_VALIDITY, 0.9
+        if any(key in text for key in ("smt", "confidence", "grade")):
+            return ReasonTier.TIER_3B_SETUP_QUALITY, 0.5
+        return ReasonTier.TIER_2B_MACRO_CONFIDENCE, 0.4
+
+    @staticmethod
+    def summarize_candidate_ledgers(
+        ledgers: list[dict[str, Any]],
+        *,
+        high_quality_confidence: int = 70,
+    ) -> dict[str, Any]:
+        """Compute QAER/FRR and rejection attribution from candidate ledgers.
+
+        Per SENTINEL_CONSTITUTION.md section 7:
+          QAER = winning admitted trades / high-quality candidates
+          FRR  = rejected would-have-won candidates / high-quality candidates
+        """
+        total = len(ledgers)
+        admitted = [item for item in ledgers if item.get("decision") == "admit"]
+        rejected = [item for item in ledgers if item.get("decision") != "admit"]
+        high_quality = [item for item in ledgers if int(item.get("confidence_original", 0)) >= high_quality_confidence]
+        hq_admitted_winners = [
+            item for item in high_quality
+            if item.get("decision") == "admit" and item.get("replay_outcome_status") == "would_have_won"
+        ]
+        hq_rejected_winners = [
+            item for item in high_quality
+            if item.get("decision") != "admit" and item.get("replay_outcome_status") == "would_have_won"
+        ]
+        rejection_breakdown: dict[str, dict[str, Any]] = {}
+        for item in rejected:
+            code = str(item.get("primary_reason") or "UNCLASSIFIED")
+            row = rejection_breakdown.setdefault(
+                code, {"count": 0, "would_have_won": 0, "would_have_lost": 0, "inconclusive": 0, "missed_rr": 0.0}
+            )
+            row["count"] += 1
+            status = str(item.get("replay_outcome_status") or "inconclusive")
+            row[status if status in row else "inconclusive"] += 1
+            if status == "would_have_won":
+                row["missed_rr"] = round(row["missed_rr"] + max(float(item.get("simulated_rr", 0.0)), 0.0), 2)
+        tier_breakdown: dict[str, int] = {}
+        for item in rejected:
+            for entry in item.get("entries", []) or []:
+                if entry.get("action") == "veto":
+                    tier = str(entry.get("tier", "unknown"))
+                    tier_breakdown[tier] = tier_breakdown.get(tier, 0) + 1
+        hq_count = len(high_quality)
+        return {
+            "total_candidates": total,
+            "admitted": len(admitted),
+            "rejected": len(rejected),
+            "admitted_would_have_won": sum(1 for item in admitted if item.get("replay_outcome_status") == "would_have_won"),
+            "rejected_would_have_won": sum(1 for item in rejected if item.get("replay_outcome_status") == "would_have_won"),
+            "rejected_would_have_lost": sum(1 for item in rejected if item.get("replay_outcome_status") == "would_have_lost"),
+            "high_quality_candidates": hq_count,
+            "high_quality_threshold": high_quality_confidence,
+            "qaer": round(len(hq_admitted_winners) / hq_count * 100, 2) if hq_count else 0.0,
+            "frr": round(len(hq_rejected_winners) / hq_count * 100, 2) if hq_count else 0.0,
+            "rejection_reason_breakdown": dict(
+                sorted(rejection_breakdown.items(), key=lambda pair: -pair[1]["count"])
+            ),
+            "tier_veto_breakdown": tier_breakdown,
+        }
 
     def build_historical_plan(self, symbol: str, history: pd.DataFrame, killzone: dict[str, Any]) -> dict[str, Any]:
         """Build a structural candidate plan from candle structure.
