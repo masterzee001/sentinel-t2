@@ -147,12 +147,24 @@ class BacktestEngine:
             }
         return matrix
 
+    # MT5 rejects candle requests above its max-bars-in-chart setting
+    # (default 100k) with (-2, 'Invalid params'); stay safely below it.
+    MAX_CANDLE_REQUEST = 99_000
+
     def fetch_backtest_candles(self, symbol: str, lookback_days: int) -> pd.DataFrame:
         """Fetch enough M15 candles for the configured lookback and forward walk."""
         scan_config = self.config.get("scan", {})
         timeframe = str(scan_config.get("timeframe", "M15"))
         forward = int(scan_config.get("forward_candles", 24))
         count = max(lookback_days * 96 + forward + int(scan_config.get("warmup_candles", 60)), 120)
+        if count > self.MAX_CANDLE_REQUEST:
+            logger.warning(
+                "Candle request for {} capped at {} bars (requested {}); actual data span is reported honestly.",
+                symbol,
+                self.MAX_CANDLE_REQUEST,
+                count,
+            )
+            count = self.MAX_CANDLE_REQUEST
         try:
             candles = self.connector.get_historical_candles(symbol, timeframe, count=count)
         except Exception as exc:
