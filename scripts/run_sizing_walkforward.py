@@ -43,6 +43,7 @@ def main() -> int:
         action="store_true",
         help="Simulate the live management plan (BE at 1R, 30%% partial at 2R, run to 3R).",
     )
+    parser.add_argument("--exclude", nargs="*", default=[], help="Symbols to exclude from the scan.")
     args = parser.parse_args()
 
     logger.remove()
@@ -56,7 +57,7 @@ def main() -> int:
                 "exit_management": {"enabled": True, "breakeven_at_r": 1.0, "partial_at_r": 2.0, "partial_close_percent": 30, "final_target_r": 3.0},
             }
             engine.simulator = type(engine.simulator)(simulation_config)
-        trades = collect_production_trades(engine, days=args.days)
+        trades = collect_production_trades(engine, days=args.days, exclude=args.exclude)
         report = walkforward_evaluation(trades)
         report["generated_at"] = datetime.now(UTC).isoformat()
         report["requested_days"] = args.days
@@ -73,11 +74,16 @@ def main() -> int:
         connector.shutdown()
 
 
-def collect_production_trades(engine: BacktestEngine, *, days: int) -> list[dict[str, Any]]:
+def collect_production_trades(
+    engine: BacktestEngine, *, days: int, exclude: list[str] | None = None
+) -> list[dict[str, Any]]:
     """Scan production symbols and return adaptive-guardrail-passing trades."""
     registry = SymbolRegistry()
     engine.reset_candidate_ledgers()
-    production_symbols = ordered_unique(registry.execution_symbols())
+    excluded = {str(symbol).upper().strip() for symbol in (exclude or [])}
+    production_symbols = [
+        symbol for symbol in ordered_unique(registry.execution_symbols()) if symbol not in excluded
+    ]
     all_trades: list[dict[str, Any]] = []
     for symbol in production_symbols:
         candles = engine.fetch_backtest_candles(symbol, days)
