@@ -242,6 +242,10 @@ class BacktestEngine:
                 adaptive_guardrail=adaptive_guardrail,
                 blocking_reasons=blocking_reasons,
                 simulation=simulation,
+                cell={
+                    "narrative_phase": str(plan.get("narrative_phase", "unknown")),
+                    "killzone": str(killzone.get("active_killzone", "none")),
+                },
             )
             if blocking_reasons:
                 continue
@@ -290,6 +294,7 @@ class BacktestEngine:
         adaptive_guardrail: dict[str, Any],
         blocking_reasons: list[str],
         simulation: dict[str, Any],
+        cell: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Record one candidate's full reasoning + replay outcome (Law 4)."""
         confidence = int(decision.get("total_confidence", 0) or 0)
@@ -313,6 +318,7 @@ class BacktestEngine:
             risk_original=base_risk,
             risk_final=base_risk if admitted else 0.0,
             confidence_components=dict(decision.get("scores", {}) or {}),
+            portfolio_state=dict(cell or {}),
             replay_outcome_status=replay_status,
         )
         for reason in blocking_reasons:
