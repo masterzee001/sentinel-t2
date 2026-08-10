@@ -178,11 +178,15 @@ class MT5Connector:
         except ValueError as exc:
             raise MT5ConnectorError("MT5_LOGIN must be an integer account number.") from exc
 
-        return {
+        credentials: dict[str, Any] = {
             "login": login_value,
             "password": password,
             "server": server,
         }
+        terminal_path = os.getenv("MT5_TERMINAL_PATH")
+        if terminal_path:
+            credentials["path"] = terminal_path
+        return credentials
 
     def _require_mt5_package(self) -> None:
         if self.mt5 is None:
