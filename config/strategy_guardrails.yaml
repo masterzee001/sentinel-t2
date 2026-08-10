@@ -12,15 +12,17 @@ blocked_killzones:
 
 # NAS100 promoted to production 2026-08-10 (user-directed) after clearing the
 # registry promotion rule on the honest 365D backtest (PF 1.60, WR 60%, 39 trades).
+# XAUUSD demoted 2026-08-10: 3y PF 0.89; exclusion beat cell-starving
+# out-of-sample. Re-promotion requires MPV redesign to pass the gate.
 symbol_execution_tiers:
   production:
     - US30
     - NAS100
-  filtered_production:
-    - XAUUSD
+  filtered_production: []
   demo_sandbox:
     - BTCUSD
   observer_only:
+    - XAUUSD
     - EURUSD
     - GBPUSD
 

@@ -7,13 +7,17 @@ tier_1_production:
   - US30
   - NAS100
 
-tier_2_filtered_production:
-  - XAUUSD
+# XAUUSD demoted 2026-08-10: 3-year honest PF 0.89 under index logic; full
+# exclusion beat per-cell starving out-of-sample (+21.5R vs +14.5R book).
+# Re-promotion requires the Macro Pressure Vector redesign to pass the
+# walk-forward gate.
+tier_2_filtered_production: []
 
 tier_3_demo_sandbox:
   - BTCUSD
 
 tier_4_observer_only:
+  - XAUUSD
   - EURUSD
   - GBPUSD
 
@@ -50,6 +54,7 @@ execution:
   autonomous_execution_allowed: false
 
 observer_reasons:
+  XAUUSD: "XAUUSD observer mode: 3y PF 0.89 under index logic; pending MPV redesign"
   BTCUSD: "BTCUSD demo sandbox: production execution disabled"
   EURUSD: "EURUSD observer-only mode: production execution disabled"
   GBPUSD: "GBPUSD observer-only mode: production execution disabled"

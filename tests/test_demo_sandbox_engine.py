@@ -199,7 +199,7 @@ def test_status_report_dashboard_loader_and_production_baseline_preserved(tmp_pa
     assert report["production_baseline_preserved"] is True
     assert report["sandbox"]["production_metrics_excluded"] is True
     assert set(report["symbol_tiers"]["demo_sandbox"]) == {"BTCUSD"}
-    assert set(report["symbol_tiers"]["observer_only"]) == {"EURUSD", "GBPUSD"}
+    assert set(report["symbol_tiers"]["observer_only"]) == {"XAUUSD", "EURUSD", "GBPUSD"}
     assert "BTCUSD" in set(frame["symbol"])
 
 
@@ -216,7 +216,7 @@ def test_telegram_sandbox_commands(monkeypatch):
 
     assert "SANDBOX DEMO ONLY" in status["response_text"]
     assert "Demo Sandbox: BTCUSD" in symbols["response_text"]
-    assert "Production: US30, NAS100, XAUUSD" in symbols["response_text"]
+    assert "Production: US30, NAS100" in symbols["response_text"]
     assert "Ticket Type: SANDBOX_DEMO" in ticket["response_text"]
     assert "Order Send: NOT CALLED" in dry_run["response_text"]
     assert "Final Decision: APPROVED_DRY_RUN" in approve["response_text"]

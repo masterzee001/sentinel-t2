@@ -45,7 +45,7 @@ def make_engine() -> ExecutionEngine:
 
 def sample_plan(**overrides):
     plan = {
-        "symbol": "XAUUSD",
+        "symbol": "US30",
         "direction": "bearish",
         "confidence": 96,
         "execution_allowed": True,
@@ -152,7 +152,7 @@ def test_successful_mock_submit():
     assert result["order_submitted"] is True
     assert result["order_result"] == "SUCCESS"
     assert result["ticket"] == 12345
-    assert engine.connector.mt5.requests[0]["symbol"] == "XAUUSD"
+    assert engine.connector.mt5.requests[0]["symbol"] == "US30"
 
 
 def test_eurusd_cannot_reach_submit_order():

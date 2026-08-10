@@ -106,7 +106,7 @@ def make_exec_report(
         "ticket_id": "AEX-TEST",
         "created_at": now.isoformat(),
         "expires_at": (now + timedelta(seconds=120)).isoformat(),
-        "symbol": "XAUUSD",
+        "symbol": "US30",
         "side": "BUY",
         "entry_type": "LIMIT",
         "entry_price": 4010.0,
@@ -240,7 +240,7 @@ def test_exec_approve_dry_run_mode_does_not_call_order_send(tmp_path: Path, monk
     assert "Final Decision: APPROVED_DRY_RUN" in result["response_text"]
     assert "Submit Orders: FALSE" in result["response_text"]
     assert "Order Send: NOT CALLED" in result["response_text"]
-    assert "symbol: XAUUSD" in result["response_text"]
+    assert "symbol: US30" in result["response_text"]
     assert connector.mt5.requests == []
 
 
@@ -254,7 +254,7 @@ def test_execute_approve_alias_submits_demo_only_when_enabled_and_gates_pass(tmp
     assert "Final Decision: SUBMITTED_DEMO" in result["response_text"]
     assert "Submit Orders: TRUE" in result["response_text"]
     assert "Order Send: CALLED" in result["response_text"]
-    assert connector.mt5.requests[0]["symbol"] == "XAUUSD"
+    assert connector.mt5.requests[0]["symbol"] == "US30"
 
 
 def test_exec_approve_live_account_blocked(tmp_path: Path, monkeypatch):

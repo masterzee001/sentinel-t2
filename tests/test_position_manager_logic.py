@@ -37,7 +37,7 @@ def make_manager() -> PositionManager:
 def position(**overrides):
     value = {
         "ticket": 123456,
-        "symbol": "XAUUSD",
+        "symbol": "US30",
         "type": "BUY",
         "price_open": 4000.0,
         "price_current": 4020.0,
@@ -55,7 +55,7 @@ def position(**overrides):
 def order(**overrides):
     value = {
         "ticket": 654321,
-        "symbol": "XAUUSD",
+        "symbol": "US30",
         "type": "BUY_LIMIT",
         "price_open": 3990.0,
         "price_current": 4000.0,
@@ -82,7 +82,7 @@ def test_breakeven_trigger_recommends_move():
 
     assert result["current_r"] == 1.05
     assert result["actions"][0]["type"] == "MOVE_SL_TO_BE"
-    assert result["actions"][0]["request"]["sl"] == 4000.2
+    assert result["actions"][0]["request"]["sl"] == 4000.5
     assert result["submitted_actions"] == []
 
 

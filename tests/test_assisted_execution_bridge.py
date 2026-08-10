@@ -65,7 +65,7 @@ def make_bridge(*, account_mode: str = "demo", config: dict | None = None) -> As
 def make_ticket(bridge: AssistedExecutionBridge, **overrides) -> LockedTradeTicket:
     payload = {
         "ticket_id": "AEX-TEST",
-        "symbol": "XAUUSD",
+        "symbol": "US30",
         "side": "BUY",
         "entry_type": "LIMIT",
         "entry_price": 4010.0,
@@ -211,7 +211,7 @@ def test_dry_run_does_not_call_order_send():
     dry_run = bridge.dry_run(ticket, context=pass_context())
 
     assert dry_run["order_send_called"] is False
-    assert dry_run["order_payload"]["symbol"] == "XAUUSD"
+    assert dry_run["order_payload"]["symbol"] == "US30"
     assert bridge.connector.mt5.requests == []
 
 

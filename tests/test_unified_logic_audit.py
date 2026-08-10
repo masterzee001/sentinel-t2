@@ -57,9 +57,9 @@ def test_historical_replay_delegates_to_live_confidence_payload_logic():
         },
     }
 
-    approved = adapter.evaluate(DecisionRequest(mode="BACKTEST", symbol="XAUUSD", context=context))["decision"]
+    approved = adapter.evaluate(DecisionRequest(mode="BACKTEST", symbol="US30", context=context))["decision"]
     context["historical_analysis"]["ict"]["mss"]["detected"] = False
-    missing_mss = adapter.evaluate(DecisionRequest(mode="BACKTEST", symbol="XAUUSD", context=context))["decision"]
+    missing_mss = adapter.evaluate(DecisionRequest(mode="BACKTEST", symbol="US30", context=context))["decision"]
 
     assert approved["decision_source"] == "ConfidenceAnalyzer"
     assert approved["historical_adapter_source"] == "HistoricalBacktestDecisionBrain"

@@ -55,7 +55,7 @@ def write_report(root: Path) -> None:
                     {
                         "approval_id": "ELIVE-TEST",
                         "status": "PENDING",
-                        "proposal": {"symbol": "XAUUSD", "quality_grade": "A+", "risk_percent": 0.1},
+                        "proposal": {"symbol": "US30", "quality_grade": "A+", "risk_percent": 0.1},
                         "validation": {"valid": True, "broker_order_submission_allowed": False},
                     }
                 ],

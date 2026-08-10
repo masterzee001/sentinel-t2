@@ -127,7 +127,7 @@ def test_trade_simulation_costs_can_be_disabled():
 
 class FakeKillzoneAnalyzer:
     def analyze(self, symbol: str, current_time=None):
-        return {"is_valid": True, "active_killzone": "london_open", "quality_score": 12}
+        return {"is_valid": True, "active_killzone": "new_york_open", "quality_score": 12}
 
 
 def breakout_frame() -> pd.DataFrame:
@@ -150,7 +150,7 @@ def test_scan_symbol_routes_decisions_through_live_confidence_brain():
     engine = BacktestEngine(connector=object())
     engine.killzone_analyzer = FakeKillzoneAnalyzer()
 
-    trades, setups = engine.scan_symbol("XAUUSD", breakout_frame())
+    trades, setups = engine.scan_symbol("US30", breakout_frame())
 
     assert setups >= 1
     assert len(trades) == 1
@@ -170,7 +170,7 @@ def test_scan_symbol_records_reason_ledger_for_admitted_and_rejected_candidates(
     engine.killzone_analyzer = FakeKillzoneAnalyzer()
 
     engine.reset_candidate_ledgers()
-    engine.scan_symbol("XAUUSD", breakout_frame())
+    engine.scan_symbol("US30", breakout_frame())
     admitted = [item for item in engine.candidate_ledgers if item["decision"] == "admit"]
     assert admitted
     assert admitted[0]["mode"] == "replay"
@@ -247,7 +247,7 @@ def test_summarize_candidate_ledgers_computes_qaer_and_frr():
 def test_metric_aggregation():
     trades = [
         {
-            "symbol": "XAUUSD",
+            "symbol": "NAS100",
             "killzone": "new_york_open",
             "confidence_band": "EXECUTION_READY",
             "confidence": 96,
@@ -269,7 +269,7 @@ def test_metric_aggregation():
             "simulation": {"outcome": "LOSS", "rr": -1.0},
         },
         {
-            "symbol": "XAUUSD",
+            "symbol": "NAS100",
             "killzone": "london_open",
             "confidence_band": "HOT",
             "confidence": 88,
@@ -286,7 +286,7 @@ def test_metric_aggregation():
         setups_scanned=10,
         starting_balance=5000.0,
         risk_per_trade_percent=0.5,
-        symbols=["XAUUSD", "US30"],
+        symbols=["NAS100", "US30"],
     )
 
     assert results["overall"]["setups_scanned"] == 10
@@ -305,7 +305,7 @@ def test_metric_aggregation():
     assert results["guardrail_impact"]["before"]["trades"] == 3
     assert results["guardrail_impact"]["after"]["trades"] == 1
     assert results["guardrail_impact"]["trades_removed"] == 2
-    assert results["by_symbol"]["XAUUSD"]["wins"] == 1
+    assert results["by_symbol"]["NAS100"]["wins"] == 1
     assert results["by_symbol"]["US30"]["trades"] == 1
     assert results["by_killzone"]["london_open"]["trades_approved"] == 1
     assert results["by_killzone"]["new_york_open"]["trades_approved"] == 2
@@ -528,7 +528,7 @@ def test_drawdown_calculation():
 def test_guardrail_mode_summary_filters_blocked_trades():
     trades = [
         {
-            "symbol": "XAUUSD",
+            "symbol": "NAS100",
             "killzone": "london_open",
             "confidence_band": "EXECUTION_READY",
             "confidence": 98,
@@ -557,27 +557,27 @@ def test_guardrail_mode_summary_filters_blocked_trades():
         setups_scanned=12,
         starting_balance=5000.0,
         risk_per_trade_percent=0.5,
-        symbols=["XAUUSD", "US30"],
+        symbols=["NAS100", "US30"],
     )
 
     off = BacktestEngine.summarize_guardrail_mode(
         results,
         guardrails_enabled=False,
         starting_balance=5000.0,
-        symbols=["XAUUSD", "US30"],
+        symbols=["NAS100", "US30"],
     )
     on = BacktestEngine.summarize_guardrail_mode(
         results,
         guardrails_enabled=True,
         starting_balance=5000.0,
-        symbols=["XAUUSD", "US30"],
+        symbols=["NAS100", "US30"],
     )
 
     assert off["overall"]["trades_approved"] == 2
     assert off["overall"]["profit_factor"] == 3.0
     assert on["overall"]["trades_approved"] == 1
     assert on["overall"]["losses"] == 0
-    assert on["by_symbol"]["XAUUSD"]["trades_approved"] == 1
+    assert on["by_symbol"]["NAS100"]["trades_approved"] == 1
     assert on["by_symbol"]["US30"]["trades_approved"] == 0
     assert on["by_killzone"]["london_open"]["trades_approved"] == 1
     assert on["by_killzone"]["new_york_open"]["trades_approved"] == 0
@@ -604,7 +604,7 @@ def test_365d_loss_clusters_and_monthly_breakdown():
     trades = BacktestEngine.enrich_trade_pnl(
         [
             {
-                "symbol": "XAUUSD",
+                "symbol": "NAS100",
                 "timestamp": "2026-01-15T08:00:00+00:00",
                 "killzone": "london_open",
                 "guarded_confidence_band": "HOT",
@@ -614,7 +614,7 @@ def test_365d_loss_clusters_and_monthly_breakdown():
                 "simulation": {"outcome": "LOSS", "rr": -1.0},
             },
             {
-                "symbol": "XAUUSD",
+                "symbol": "NAS100",
                 "timestamp": "2026-01-20T08:00:00+00:00",
                 "killzone": "london_open",
                 "guarded_confidence_band": "HOT",
@@ -641,7 +641,7 @@ def test_365d_loss_clusters_and_monthly_breakdown():
     monthly = monthly_breakdown(trades, starting_balance=5000.0)
 
     assert clusters[0] == {
-        "symbol": "XAUUSD",
+        "symbol": "NAS100",
         "killzone": "london_open",
         "narrative": "distribution",
         "confidence_band": "HOT",

@@ -404,7 +404,7 @@ class PaperTradeSession:
     def build_session(cls) -> dict[str, Any]:
         return {
             "session_id": f"paper-{uuid.uuid4().hex[:12]}",
-            "symbol": "XAUUSD",
+            "symbol": "US30",
             "status": "SCANNING",
             "entry": 4010.0,
             "sl": 4028.0,

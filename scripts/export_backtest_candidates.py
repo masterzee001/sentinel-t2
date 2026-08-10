@@ -23,8 +23,8 @@ from backend.symbols.symbol_registry import SymbolRegistry
 
 
 DAYS = 365
-PRODUCTION_SYMBOLS = ["US30", "XAUUSD", "NAS100"]
-OBSERVER_DIAGNOSTIC_SYMBOLS = ["BTCUSD", "EURUSD", "GBPUSD"]
+PRODUCTION_SYMBOLS = ["US30", "NAS100"]
+OBSERVER_DIAGNOSTIC_SYMBOLS = ["XAUUSD", "BTCUSD", "EURUSD", "GBPUSD"]
 
 # Known production baseline for reconciliation
 KNOWN_BASELINE = {

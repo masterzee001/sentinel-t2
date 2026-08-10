@@ -24,8 +24,8 @@ from backend.symbols.symbol_registry import SymbolRegistry
 
 
 DAYS = 365
-PRODUCTION_SYMBOLS = ["US30", "XAUUSD", "NAS100"]
-OBSERVER_DIAGNOSTIC_SYMBOLS = ["BTCUSD", "EURUSD", "GBPUSD"]
+PRODUCTION_SYMBOLS = ["US30", "NAS100"]
+OBSERVER_DIAGNOSTIC_SYMBOLS = ["XAUUSD", "BTCUSD", "EURUSD", "GBPUSD"]
 SYMBOLS = [*PRODUCTION_SYMBOLS, *OBSERVER_DIAGNOSTIC_SYMBOLS]
 REPORT_PATH = PROJECT_ROOT / "data" / "reports" / "backtest_365d_summary.json"
 REASON_LEDGER_PATH = PROJECT_ROOT / "data" / "reports" / "reason_ledger_365d.json"

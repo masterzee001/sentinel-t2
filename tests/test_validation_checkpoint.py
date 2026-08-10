@@ -9,13 +9,14 @@ from scripts.run_validation_checkpoint import build_validation_checkpoint
 
 def passing_report() -> dict:
     observer_diagnostics = {
+        "XAUUSD": observer("GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES", 61, 0.86, 47.62),
         "BTCUSD": observer("CANDLES_AVAILABLE_NO_SETUPS", 0, 0.0, 0.0),
         "EURUSD": observer("GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES", 106, 1.23, 52.44),
         "GBPUSD": observer("GUARDRAILS_BLOCKING_ALL_OPPORTUNITIES", 117, 0.96, 48.96),
     }
     return {
         "advisor_mode_only": True,
-        "production_symbols": ["US30", "XAUUSD", "NAS100"],
+        "production_symbols": ["US30", "NAS100"],
         "symbol_expansion": {"observer_only": True, "affect_production": False},
         "comparison": {
             "raw_baseline": {"pf": 1.16, "win_rate": 52.22, "trades": 123, "max_drawdown": 3.94},
@@ -26,13 +27,13 @@ def passing_report() -> dict:
             "source": "current_backtest_scan",
             "symbol_breakdown": {
                 "US30": {"profit_factor": 1.69, "win_rate": 60.0, "trades": 47, "max_drawdown": 2.0},
-                "XAUUSD": {"profit_factor": 1.0, "win_rate": 50.0, "trades": 9, "max_drawdown": 0.99},
+                "NAS100": {"profit_factor": 1.6, "win_rate": 60.0, "trades": 39, "max_drawdown": 2.0},
             },
         },
         "reconciliation": {"status": "PASS"},
         "symbol_breakdown": {
             "US30": {"profit_factor": 1.69, "win_rate": 60.0, "trades": 47, "max_drawdown": 2.0},
-            "XAUUSD": {"profit_factor": 1.0, "win_rate": 50.0, "trades": 9, "max_drawdown": 0.99},
+            "NAS100": {"profit_factor": 1.6, "win_rate": 60.0, "trades": 39, "max_drawdown": 2.0},
         },
         "observer_diagnostics": observer_diagnostics,
         "xau_smt_split": approved_xau_smt_split(),

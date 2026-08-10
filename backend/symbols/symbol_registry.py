@@ -17,9 +17,9 @@ class SymbolRegistry:
 
     DEFAULT_CONFIG = {
         "tier_1_production": ["US30", "NAS100"],
-        "tier_2_filtered_production": ["XAUUSD"],
+        "tier_2_filtered_production": [],
         "tier_3_demo_sandbox": ["BTCUSD"],
-        "tier_4_observer_only": ["EURUSD", "GBPUSD"],
+        "tier_4_observer_only": ["XAUUSD", "EURUSD", "GBPUSD"],
         "tier_3_observer": [],
         "tier_4_disabled": [],
         "aliases": {
@@ -37,6 +37,7 @@ class SymbolRegistry:
             "autonomous_execution_allowed": False,
         },
         "observer_reasons": {
+            "XAUUSD": "XAUUSD observer mode: 3y PF 0.89 under index logic; pending MPV redesign",
             "BTCUSD": "BTCUSD demo sandbox: production execution disabled",
             "EURUSD": "EURUSD observer-only mode: production execution disabled",
             "GBPUSD": "GBPUSD observer-only mode: production execution disabled",

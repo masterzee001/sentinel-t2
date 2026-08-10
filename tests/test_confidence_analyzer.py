@@ -301,7 +301,7 @@ def test_approval_threshold(tmp_path: Path):
     total = analyzer.calculate_total_confidence(scores)
 
     reasons = analyzer.evaluate_hard_rejections(
-        symbol="XAUUSD",
+        symbol="US30",
         trend=trend,
         liquidity=liquidity,
         ict=ict,
