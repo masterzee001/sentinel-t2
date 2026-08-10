@@ -1,0 +1,249 @@
+{
+  "days": 1095,
+  "generated_at": "2026-08-10T15:38:02.366161+00:00",
+  "promoted_reference": {
+    "baseline_net_rr": 12.59,
+    "baseline_rwpf": 1.11,
+    "sized_net_rr": 14.5,
+    "sized_rwpf": 1.28
+  },
+  "variants": {
+    "be2r_3r_f24": {
+      "baseline": {
+        "active_positions": 284,
+        "gross_loss_rr": 122.38,
+        "gross_win_rr": 70.97,
+        "net_rr": -51.41,
+        "risk_weighted_pf": 0.58
+      },
+      "exit": {
+        "breakeven_at_r": 2.0,
+        "enabled": true,
+        "final_target_r": 3.0,
+        "partial_at_r": 99.0,
+        "partial_close_percent": 0
+      },
+      "forward_candles": 24,
+      "hypothesis": "A late (2R) breakeven protects without dying on noise.",
+      "per_quarter": {
+        "2024-Q3": {
+          "baseline_net_rr": -3.39,
+          "sized_net_rr": -1.69,
+          "trades": 24
+        },
+        "2024-Q4": {
+          "baseline_net_rr": -10.35,
+          "sized_net_rr": -4.64,
+          "trades": 41
+        },
+        "2025-Q1": {
+          "baseline_net_rr": -11.24,
+          "sized_net_rr": -5.32,
+          "trades": 30
+        },
+        "2025-Q2": {
+          "baseline_net_rr": -20.3,
+          "sized_net_rr": -6.36,
+          "trades": 46
+        },
+        "2025-Q3": {
+          "baseline_net_rr": -5.58,
+          "sized_net_rr": -0.07,
+          "trades": 14
+        },
+        "2025-Q4": {
+          "baseline_net_rr": -0.27,
+          "sized_net_rr": -2.83,
+          "trades": 33
+        },
+        "2026-Q1": {
+          "baseline_net_rr": -0.7,
+          "sized_net_rr": 0.4,
+          "trades": 34
+        },
+        "2026-Q2": {
+          "baseline_net_rr": -6.11,
+          "sized_net_rr": 1.28,
+          "trades": 42
+        },
+        "2026-Q3": {
+          "baseline_net_rr": 6.52,
+          "sized_net_rr": 0.0,
+          "trades": 20
+        }
+      },
+      "sized": {
+        "active_positions": 141,
+        "gross_loss_rr": 35.44,
+        "gross_win_rr": 16.21,
+        "net_rr": -19.23,
+        "risk_weighted_pf": 0.46
+      },
+      "trades_total": 408,
+      "verdict": {
+        "net_rr_improved": true,
+        "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",
+        "promote": false,
+        "risk_weighted_pf_improved": false
+      }
+    },
+    "runner_3r_f96": {
+      "baseline": {
+        "active_positions": 284,
+        "gross_loss_rr": 167.06,
+        "gross_win_rr": 180.66,
+        "net_rr": 13.59,
+        "risk_weighted_pf": 1.08
+      },
+      "exit": {
+        "breakeven_at_r": 99.0,
+        "enabled": true,
+        "final_target_r": 3.0,
+        "partial_at_r": 99.0,
+        "partial_close_percent": 0
+      },
+      "forward_candles": 96,
+      "hypothesis": "The 6h window was cutting runners short; give 3R targets 24h.",
+      "per_quarter": {
+        "2024-Q3": {
+          "baseline_net_rr": -3.39,
+          "sized_net_rr": -1.69,
+          "trades": 24
+        },
+        "2024-Q4": {
+          "baseline_net_rr": 7.65,
+          "sized_net_rr": 12.7,
+          "trades": 41
+        },
+        "2025-Q1": {
+          "baseline_net_rr": -6.24,
+          "sized_net_rr": -3.84,
+          "trades": 30
+        },
+        "2025-Q2": {
+          "baseline_net_rr": -8.3,
+          "sized_net_rr": -5.03,
+          "trades": 46
+        },
+        "2025-Q3": {
+          "baseline_net_rr": -5.58,
+          "sized_net_rr": -0.67,
+          "trades": 14
+        },
+        "2025-Q4": {
+          "baseline_net_rr": 2.73,
+          "sized_net_rr": 1.05,
+          "trades": 33
+        },
+        "2026-Q1": {
+          "baseline_net_rr": 18.3,
+          "sized_net_rr": 5.83,
+          "trades": 34
+        },
+        "2026-Q2": {
+          "baseline_net_rr": -5.11,
+          "sized_net_rr": 0.6,
+          "trades": 42
+        },
+        "2026-Q3": {
+          "baseline_net_rr": 13.52,
+          "sized_net_rr": 1.94,
+          "trades": 20
+        }
+      },
+      "sized": {
+        "active_positions": 155,
+        "gross_loss_rr": 61.24,
+        "gross_win_rr": 72.13,
+        "net_rr": 10.89,
+        "risk_weighted_pf": 1.18
+      },
+      "trades_total": 408,
+      "verdict": {
+        "net_rr_improved": false,
+        "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",
+        "promote": false,
+        "risk_weighted_pf_improved": true
+      }
+    },
+    "runner_4r_f96": {
+      "baseline": {
+        "active_positions": 284,
+        "gross_loss_rr": 172.08,
+        "gross_win_rr": 126.67,
+        "net_rr": -45.41,
+        "risk_weighted_pf": 0.74
+      },
+      "exit": {
+        "breakeven_at_r": 99.0,
+        "enabled": true,
+        "final_target_r": 4.0,
+        "partial_at_r": 99.0,
+        "partial_close_percent": 0
+      },
+      "forward_candles": 96,
+      "hypothesis": "Runner dominance suggests wider targets pay.",
+      "per_quarter": {
+        "2024-Q3": {
+          "baseline_net_rr": 0.61,
+          "sized_net_rr": 0.31,
+          "trades": 24
+        },
+        "2024-Q4": {
+          "baseline_net_rr": -3.35,
+          "sized_net_rr": -1.47,
+          "trades": 41
+        },
+        "2025-Q1": {
+          "baseline_net_rr": -14.24,
+          "sized_net_rr": -5.8,
+          "trades": 30
+        },
+        "2025-Q2": {
+          "baseline_net_rr": -24.3,
+          "sized_net_rr": -5.78,
+          "trades": 46
+        },
+        "2025-Q3": {
+          "baseline_net_rr": -4.58,
+          "sized_net_rr": -0.7,
+          "trades": 14
+        },
+        "2025-Q4": {
+          "baseline_net_rr": -6.27,
+          "sized_net_rr": -4.83,
+          "trades": 33
+        },
+        "2026-Q1": {
+          "baseline_net_rr": 9.3,
+          "sized_net_rr": -0.08,
+          "trades": 34
+        },
+        "2026-Q2": {
+          "baseline_net_rr": -10.11,
+          "sized_net_rr": -2.35,
+          "trades": 42
+        },
+        "2026-Q3": {
+          "baseline_net_rr": 7.52,
+          "sized_net_rr": 0.0,
+          "trades": 20
+        }
+      },
+      "sized": {
+        "active_positions": 142,
+        "gross_loss_rr": 52.23,
+        "gross_win_rr": 31.54,
+        "net_rr": -20.69,
+        "risk_weighted_pf": 0.6
+      },
+      "trades_total": 408,
+      "verdict": {
+        "net_rr_improved": true,
+        "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",
+        "promote": false,
+        "risk_weighted_pf_improved": false
+      }
+    }
+  }
+}
