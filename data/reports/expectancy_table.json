@@ -1,94 +1,124 @@
 {
   "cells": {
     "NAS100|distribution|new_york_continuation": {
-      "avg_rr": 0.0762,
-      "gross_loss_rr": 25.1789,
-      "gross_win_rr": 29.5208,
-      "losses": 29,
-      "net_rr": 4.3419,
-      "profit_factor": 1.17,
-      "trades": 57,
-      "wins": 28
+      "avg_rr": -0.0518,
+      "gross_loss_rr": 15.917,
+      "gross_win_rr": 14.2065,
+      "losses": 20,
+      "net_rr": -1.7105,
+      "profit_factor": 0.89,
+      "trades": 33,
+      "wins": 13
     },
     "NAS100|expansion|new_york_continuation": {
-      "avg_rr": -0.0306,
-      "gross_loss_rr": 26.8187,
-      "gross_win_rr": 25.2569,
-      "losses": 26,
-      "net_rr": -1.5618,
-      "profit_factor": 0.94,
-      "trades": 51,
-      "wins": 25
+      "avg_rr": -0.0132,
+      "gross_loss_rr": 9.7059,
+      "gross_win_rr": 9.4686,
+      "losses": 9,
+      "net_rr": -0.2373,
+      "profit_factor": 0.98,
+      "trades": 18,
+      "wins": 9
     },
     "NAS100|expansion|new_york_open": {
-      "avg_rr": 0.1341,
-      "gross_loss_rr": 38.4778,
-      "gross_win_rr": 52.2917,
-      "losses": 53,
-      "net_rr": 13.8139,
-      "profit_factor": 1.36,
-      "trades": 103,
-      "wins": 50
+      "avg_rr": -0.0157,
+      "gross_loss_rr": 23.6439,
+      "gross_win_rr": 22.8252,
+      "losses": 31,
+      "net_rr": -0.8187,
+      "profit_factor": 0.97,
+      "trades": 52,
+      "wins": 21
+    },
+    "NAS100|range|new_york_continuation": {
+      "avg_rr": 0.2132,
+      "gross_loss_rr": 14.0336,
+      "gross_win_rr": 21.2835,
+      "losses": 15,
+      "net_rr": 7.2499,
+      "profit_factor": 1.52,
+      "trades": 34,
+      "wins": 19
+    },
+    "NAS100|range|new_york_open": {
+      "avg_rr": -0.3048,
+      "gross_loss_rr": 8.6444,
+      "gross_win_rr": 4.6823,
+      "losses": 8,
+      "net_rr": -3.9621,
+      "profit_factor": 0.54,
+      "trades": 13,
+      "wins": 5
     },
     "NAS100|reversal|new_york_open": {
-      "avg_rr": 0.0757,
-      "gross_loss_rr": 31.8802,
-      "gross_win_rr": 37.1034,
-      "losses": 36,
-      "net_rr": 5.2232,
-      "profit_factor": 1.16,
-      "trades": 69,
-      "wins": 33
+      "avg_rr": 0.0442,
+      "gross_loss_rr": 25.8929,
+      "gross_win_rr": 28.1891,
+      "losses": 29,
+      "net_rr": 2.2962,
+      "profit_factor": 1.09,
+      "trades": 52,
+      "wins": 23
     },
     "US30|distribution|new_york_continuation": {
-      "avg_rr": -0.1024,
-      "gross_loss_rr": 20.9684,
-      "gross_win_rr": 17.0786,
-      "losses": 22,
-      "net_rr": -3.8898,
-      "profit_factor": 0.81,
-      "trades": 38,
-      "wins": 16
+      "avg_rr": -0.2423,
+      "gross_loss_rr": 18.941,
+      "gross_win_rr": 11.4311,
+      "losses": 19,
+      "net_rr": -7.5099,
+      "profit_factor": 0.6,
+      "trades": 31,
+      "wins": 12
     },
     "US30|expansion|new_york_continuation": {
-      "avg_rr": 0.2678,
-      "gross_loss_rr": 14.2827,
-      "gross_win_rr": 24.7286,
-      "losses": 17,
-      "net_rr": 10.4459,
-      "profit_factor": 1.73,
-      "trades": 39,
-      "wins": 22
+      "avg_rr": 0.1128,
+      "gross_loss_rr": 7.5213,
+      "gross_win_rr": 9.5509,
+      "losses": 8,
+      "net_rr": 2.0296,
+      "profit_factor": 1.27,
+      "trades": 18,
+      "wins": 10
     },
     "US30|expansion|new_york_open": {
-      "avg_rr": -0.0119,
-      "gross_loss_rr": 59.6298,
-      "gross_win_rr": 58.077,
-      "losses": 74,
-      "net_rr": -1.5528,
-      "profit_factor": 0.97,
-      "trades": 131,
-      "wins": 57
+      "avg_rr": 0.0728,
+      "gross_loss_rr": 27.9239,
+      "gross_win_rr": 33.3125,
+      "losses": 41,
+      "net_rr": 5.3886,
+      "profit_factor": 1.19,
+      "trades": 74,
+      "wins": 33
     },
     "US30|range|new_york_continuation": {
-      "avg_rr": -0.2028,
-      "gross_loss_rr": 25.3439,
-      "gross_win_rr": 17.0272,
-      "losses": 26,
-      "net_rr": -8.3167,
-      "profit_factor": 0.67,
-      "trades": 41,
-      "wins": 15
+      "avg_rr": -0.0613,
+      "gross_loss_rr": 41.043,
+      "gross_win_rr": 36.1411,
+      "losses": 41,
+      "net_rr": -4.9019,
+      "profit_factor": 0.88,
+      "trades": 80,
+      "wins": 39
+    },
+    "US30|range|new_york_open": {
+      "avg_rr": -0.4405,
+      "gross_loss_rr": 9.4933,
+      "gross_win_rr": 3.7672,
+      "losses": 9,
+      "net_rr": -5.7261,
+      "profit_factor": 0.4,
+      "trades": 13,
+      "wins": 4
     },
     "US30|reversal|new_york_open": {
-      "avg_rr": 0.0176,
-      "gross_loss_rr": 49.0529,
-      "gross_win_rr": 50.7452,
-      "losses": 50,
-      "net_rr": 1.6923,
-      "profit_factor": 1.03,
-      "trades": 96,
-      "wins": 46
+      "avg_rr": 0.009,
+      "gross_loss_rr": 27.7866,
+      "gross_win_rr": 28.2933,
+      "losses": 27,
+      "net_rr": 0.5067,
+      "profit_factor": 1.02,
+      "trades": 56,
+      "wins": 29
     }
   }
 }

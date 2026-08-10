@@ -45,6 +45,7 @@ def main() -> int:
     )
     parser.add_argument("--exclude", nargs="*", default=[], help="Symbols to exclude from the scan.")
     parser.add_argument("--unproven-multiplier", type=float, default=None, help="Override the UNPROVEN cell multiplier (default 0.5).")
+    parser.add_argument("--detector", choices=["breakout_proxy", "ict_structure"], default=None, help="Override the candidate detector.")
     args = parser.parse_args()
 
     logger.remove()
@@ -52,6 +53,8 @@ def main() -> int:
     try:
         connector.connect()
         engine = BacktestEngine(connector=connector)
+        if args.detector:
+            engine.config["scan"]["candidate_detector"] = args.detector
         if args.managed_exits:
             simulation_config = {
                 **engine.config.get("simulation", {}),
@@ -63,6 +66,7 @@ def main() -> int:
         report["generated_at"] = datetime.now(UTC).isoformat()
         report["requested_days"] = args.days
         report["managed_exits"] = bool(args.managed_exits)
+        report["detector"] = args.detector or engine.config["scan"].get("candidate_detector", "breakout_proxy")
         save_json(REPORT_PATH, report)
         # Full-history table for inspection and (if promoted) future live use.
         ExpectancySizer.from_trades(trades).save(TABLE_PATH)

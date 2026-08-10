@@ -11,6 +11,7 @@ import yaml
 from loguru import logger
 
 from backend.backtesting.historical_decision_brain import HistoricalBacktestDecisionBrain
+from backend.backtesting.historical_structure import detect_ict_candidate
 from backend.backtesting.trade_simulator import TradeSimulator
 from backend.guardrails.strategy_guardrails import StrategyGuardrails
 from backend.killzone_engine.killzone_analyzer import KillzoneAnalyzer
@@ -459,6 +460,10 @@ class BacktestEngine:
         guardrails belong to HistoricalBacktestDecisionBrain so that replay
         decisions match the live confidence path.
         """
+        detector = str(self.config.get("scan", {}).get("candidate_detector", "breakout_proxy"))
+        if detector == "ict_structure":
+            return self.build_ict_structure_plan(symbol, history, killzone)
+
         lookback = history.tail(20)
         current = history.iloc[-1]
         previous = history.iloc[-21:-1]
@@ -533,6 +538,79 @@ class BacktestEngine:
                 "score_breakdown": score_breakdown,
                 "raw_score_breakdown": raw_score_breakdown,
                 "planner": "historical_plan",
+                "decision_authority": "HistoricalBacktestDecisionBrain",
+            },
+        }
+
+    def build_ict_structure_plan(self, symbol: str, history: pd.DataFrame, killzone: dict[str, Any]) -> dict[str, Any]:
+        """Build a candidate plan from real ICT structure (sweep -> MSS -> FVG)."""
+        candidate = detect_ict_candidate(history)
+        if not candidate:
+            return {"candidate_detected": False, "execution_allowed": False}
+
+        lookback = history.tail(20)
+        current = history.iloc[-1]
+        average_range = float((lookback["high"] - lookback["low"]).mean())
+        candle_range = max(float(current["high"]) - float(current["low"]), 0.0)
+        minimum_rr = float(self.config.get("scan", {}).get("minimum_rr", 3.0))
+        direction = str(candidate["direction"])
+        multiplier = 1 if direction == "bullish" else -1
+        entry = float(candidate["entry"])
+        stop = float(candidate["stop"])
+        stop_distance = float(candidate["stop_distance"])
+        narrative_phase = self.classify_narrative_phase(
+            direction=direction,
+            killzone_name=str(killzone.get("active_killzone", "none")),
+            candle_range=candle_range,
+            average_range=average_range,
+        )
+        quality_score = int(killzone.get("quality_score", 0))
+        raw_score_breakdown = {
+            "daily_bias": 15,
+            "h4_narrative": 20 if narrative_phase in {"expansion", "reversal", "distribution"} else 5,
+            "liquidity_sweep": 20,  # A real sweep is a detection requirement here.
+            "mss": 20,              # A real MSS close is a detection requirement here.
+            "fvg_quality": 15 if candidate["fvg_grade"] == "A" else 11,
+            "session_quality": 5 if quality_score >= 10 else (4 if quality_score >= 7 else 0),
+            "target_clarity": 5,
+            "smt": 0,
+        }
+        score_breakdown = self.map_diagnostic_score_breakdown(raw_score_breakdown)
+        return {
+            "symbol": symbol,
+            "direction": direction,
+            "candidate_detected": True,
+            "narrative_phase": narrative_phase,
+            "smt_detected": False,
+            "smt_available": False,
+            "planner_quality": "historical_ict_structure",
+            "score_breakdown": score_breakdown,
+            "raw_score_breakdown": raw_score_breakdown,
+            "entry": {"price": round(entry, 5), "source": "ict_mss_confirmation_close"},
+            "stop_loss": {"price": round(stop, 5), "distance": round(stop_distance, 5), "source": "liquidity_sweep_extreme"},
+            "take_profit": {
+                "tp1": round(entry + multiplier * stop_distance, 5),
+                "tp2": round(entry + multiplier * stop_distance * 2, 5),
+                "tp3": round(entry + multiplier * stop_distance * minimum_rr, 5),
+            },
+            "execution_allowed": True,
+            "ict_structure": {
+                "swept_level": candidate["swept_level"],
+                "sweep_bar_offset": candidate["sweep_bar_offset"],
+                "mss_broken_level": candidate["mss_broken_level"],
+                "fvg_gap": candidate["fvg_gap"],
+                "fvg_grade": candidate["fvg_grade"],
+            },
+            "engine_stack": {
+                "trend": "historical_candle_structure",
+                "liquidity": "fractal_sweep_detected",
+                "ict": "sweep_mss_fvg_sequence",
+                "narrative": "historical_state_proxy",
+                "killzone": killzone,
+                "smt": "historical_smt_not_computed",
+                "score_breakdown": score_breakdown,
+                "raw_score_breakdown": raw_score_breakdown,
+                "planner": "historical_ict_plan",
                 "decision_authority": "HistoricalBacktestDecisionBrain",
             },
         }
