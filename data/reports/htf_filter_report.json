@@ -1,0 +1,66 @@
+{
+  "baseline": {
+    "active_positions": 625,
+    "gross_loss_rr": 291.63,
+    "gross_win_rr": 311.83,
+    "net_rr": 20.2,
+    "risk_weighted_pf": 1.07
+  },
+  "counter_trend_d1_bucket": {
+    "active_positions": 232,
+    "count": 232,
+    "gross_loss_rr": 107.13,
+    "gross_win_rr": 116.74,
+    "net_rr": 9.61,
+    "risk_weighted_pf": 1.09
+  },
+  "filters": {
+    "aligned_both": {
+      "active_positions": 393,
+      "dropped_trades": 232,
+      "gross_loss_rr": 184.5,
+      "gross_win_rr": 195.09,
+      "kept_trades": 393,
+      "net_rr": 10.58,
+      "risk_weighted_pf": 1.06,
+      "verdict": {
+        "net_rr_improved": false,
+        "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",
+        "promote": false,
+        "risk_weighted_pf_improved": false
+      }
+    },
+    "aligned_d1": {
+      "active_positions": 393,
+      "dropped_trades": 232,
+      "gross_loss_rr": 184.5,
+      "gross_win_rr": 195.09,
+      "kept_trades": 393,
+      "net_rr": 10.58,
+      "risk_weighted_pf": 1.06,
+      "verdict": {
+        "net_rr_improved": false,
+        "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",
+        "promote": false,
+        "risk_weighted_pf_improved": false
+      }
+    },
+    "aligned_h4": {
+      "active_positions": 625,
+      "dropped_trades": 0,
+      "gross_loss_rr": 291.63,
+      "gross_win_rr": 311.83,
+      "kept_trades": 625,
+      "net_rr": 20.2,
+      "risk_weighted_pf": 1.07,
+      "verdict": {
+        "net_rr_improved": false,
+        "note": "Both net R and risk-weighted PF must improve out-of-sample before this layer may touch the live path.",
+        "promote": false,
+        "risk_weighted_pf_improved": false
+      }
+    }
+  },
+  "generated_at": "2026-08-10T16:46:32.417224+00:00",
+  "trades_total": 625
+}

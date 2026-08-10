@@ -3,7 +3,7 @@ from __future__ import annotations
 import pandas as pd
 
 from backend.backtesting.backtest_engine import BacktestEngine
-from backend.backtesting.historical_structure import detect_ict_candidate, find_swing_points
+from backend.backtesting.historical_structure import detect_ict_candidate, find_swing_points, htf_bias, smt_divergence
 
 
 def frame(highs: list[float], lows: list[float], closes: list[float]) -> pd.DataFrame:
@@ -93,3 +93,34 @@ def test_engine_builds_ict_plan_when_detector_selected():
     assert plan["raw_score_breakdown"]["mss"] == 20
     assert plan["stop_loss"]["price"] == 98.4
     assert plan["take_profit"]["tp3"] > plan["entry"]["price"]
+
+
+def test_htf_bias_alignment_flags():
+    closes = [100.0 + i * 0.05 for i in range(120)]  # Steady uptrend.
+    uptrend = frame([c + 0.5 for c in closes], [c - 0.5 for c in closes], closes)
+
+    feature = htf_bias(uptrend, "bullish")
+    assert feature["available"] is True
+    assert feature["h4_bias"] == "bullish"
+    assert feature["d1_bias"] == "bullish"
+    assert feature["aligned_both"] is True
+    assert htf_bias(uptrend, "bearish")["aligned_d1"] is False
+
+    short = frame([101.0] * 50, [99.0] * 50, [100.0] * 50)
+    assert htf_bias(short, "bullish")["available"] is False
+
+
+def test_smt_divergence_detects_failure_to_confirm():
+    n = 20
+    own_lows = [99.5] * n
+    own_lows[-3] = 98.8  # Own symbol sweeps a lower low...
+    own = frame([101.0] * n, own_lows, [100.0] * n)
+    ref = frame([101.0] * n, [99.5] * n, [100.0] * n)  # ...reference holds.
+
+    feature = smt_divergence(own, ref, "bullish")
+    assert feature["available"] is True
+    assert feature["detected"] is True
+    assert feature["pattern"] == "bullish_smt"
+
+    aligned = smt_divergence(ref, ref, "bullish")
+    assert aligned["detected"] is False

@@ -194,3 +194,39 @@ def smt_divergence(own: pd.DataFrame, reference: pd.DataFrame, direction: str) -
         detected = bearish_divergence
         pattern = "bearish_smt" if detected else ("aligned_highs" if own_higher_high == ref_higher_high else "none")
     return {"available": True, "detected": bool(detected), "pattern": pattern}
+
+
+H4_BARS = 16   # 4 hours of M15 bars.
+D1_BARS = 96   # 24 hours of M15 bars.
+
+
+def htf_bias(history: pd.DataFrame, direction: str) -> dict[str, Any]:
+    """Higher-timeframe drift bias at the candidate bar, computed causally.
+
+    H4 bias = sign of close vs close 16 bars back; D1 bias = vs 96 bars back.
+    Annotation-only: alignment flags let the walk-forward judge HTF filters
+    without touching admission.
+    """
+    closes = [float(value) for value in history["close"]]
+    if len(closes) <= D1_BARS:
+        return {"available": False}
+    last = closes[-1]
+
+    def drift(bars_back: int) -> str:
+        prior = closes[-1 - bars_back]
+        if last > prior:
+            return "bullish"
+        if last < prior:
+            return "bearish"
+        return "flat"
+
+    h4 = drift(H4_BARS)
+    d1 = drift(D1_BARS)
+    return {
+        "available": True,
+        "h4_bias": h4,
+        "d1_bias": d1,
+        "aligned_h4": h4 == direction,
+        "aligned_d1": d1 == direction,
+        "aligned_both": h4 == direction and d1 == direction,
+    }

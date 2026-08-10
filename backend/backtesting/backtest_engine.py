@@ -11,7 +11,7 @@ import yaml
 from loguru import logger
 
 from backend.backtesting.historical_decision_brain import HistoricalBacktestDecisionBrain
-from backend.backtesting.historical_structure import detect_ict_candidate, smt_divergence
+from backend.backtesting.historical_structure import detect_ict_candidate, htf_bias, smt_divergence
 from backend.backtesting.trade_simulator import TradeSimulator
 from backend.guardrails.strategy_guardrails import StrategyGuardrails
 from backend.killzone_engine.killzone_analyzer import KillzoneAnalyzer
@@ -293,6 +293,7 @@ class BacktestEngine:
                 "plan": plan,
                 "simulation": simulation,
             }
+            trade["htf_feature"] = htf_bias(history, str(plan.get("direction")))
             reference = self.smt_reference_frames.get(symbol)
             if reference is not None and "time" in reference.columns:
                 # Feature-only annotation: computed causally at the candidate
