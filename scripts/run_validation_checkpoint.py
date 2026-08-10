@@ -17,7 +17,6 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from backend.symbols.symbol_registry import SymbolRegistry
 from scripts.run_backtest_365d import (
-    COMPARISON_TOLERANCE,
     OBSERVER_DIAGNOSTIC_SYMBOLS,
     approved_robustness_metrics,
     approved_xau_smt_split,
@@ -122,20 +121,29 @@ def build_regression_gates(
     def add_gate(name: str, passed: bool, detail: str) -> None:
         gates.append({"name": name, "pass": bool(passed), "detail": detail})
 
-    pf_delta = abs(float(observer_only.get("pf", 0.0)) - float(approved.get("pf", 0.0)))
-    wr_delta = abs(float(observer_only.get("win_rate", 0.0)) - float(approved.get("win_rate", 0.0)))
-    trade_delta = int(observer_only.get("trades", 0)) - int(approved.get("trades", 0))
     dd = float(observer_only.get("max_drawdown", 0.0))
+    production_source = str(report.get("production_portfolio", {}).get("source", ""))
+    reconciliation_status = str(report.get("reconciliation", {}).get("status", "MISSING"))
 
-    add_gate("production_pf_within_0_01", pf_delta <= COMPARISON_TOLERANCE["pf"], f"delta={pf_delta:.2f}")
-    add_gate("production_trade_count_locked", int(observer_only.get("trades", 0)) == 56, f"trades={observer_only.get('trades', 0)}")
-    add_gate("production_wr_locked", wr_delta <= COMPARISON_TOLERANCE["win_rate"], f"delta={wr_delta:.2f}")
+    # Phase 0 replaced the constant-equality gates (pf/wr/trade-count locked to a
+    # stored baseline) with integrity gates: metrics must be recomputed from the
+    # current scan and must reconcile against their own breakdowns. Drift from
+    # the legacy baseline is reported in the comparison block, never gated on.
+    add_gate(
+        "production_metrics_recomputed_from_scan",
+        production_source == "current_backtest_scan",
+        f"source={production_source or 'missing'}",
+    )
+    add_gate(
+        "production_reconciles_internally",
+        reconciliation_status == "PASS",
+        f"reconciliation={reconciliation_status}",
+    )
     add_gate("production_dd_below_3", dd <= APPROVED_DD_LIMIT, f"dd={dd:.2f}")
     add_gate(
         "observer_symbols_non_invasive",
-        metrics_within_tolerance(approved, observer_only)
-        and observer_symbols_excluded_from_production(report),
-        f"trade_delta={trade_delta}",
+        observer_symbols_excluded_from_production(report),
+        "observer symbols excluded from production portfolio",
     )
     add_gate(
         "observer_symbols_execution_disabled",

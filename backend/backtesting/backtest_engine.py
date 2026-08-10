@@ -10,11 +10,12 @@ import pandas as pd
 import yaml
 from loguru import logger
 
+from backend.backtesting.historical_decision_brain import HistoricalBacktestDecisionBrain
 from backend.backtesting.trade_simulator import TradeSimulator
 from backend.guardrails.strategy_guardrails import StrategyGuardrails
 from backend.killzone_engine.killzone_analyzer import KillzoneAnalyzer
 from backend.market_data.mt5_connector import MT5Connector, MT5ConnectorError
-from backend.shared.confidence_band_registry import MSS_MODE_SYNTHETIC_ASSUMED_TRUE, production_band
+from backend.shared.confidence_band_registry import MSS_MODE_HISTORICAL_STRUCTURE_BREAK
 
 
 class BacktestEngineError(RuntimeError):
@@ -67,6 +68,7 @@ class BacktestEngine:
         connector: MT5Connector | None = None,
         config_dir: str | Path | None = None,
         simulator: TradeSimulator | None = None,
+        decision_brain: HistoricalBacktestDecisionBrain | None = None,
     ) -> None:
         project_root = Path(__file__).resolve().parents[2]
         self.config_dir = Path(config_dir) if config_dir else project_root / "config"
@@ -75,6 +77,10 @@ class BacktestEngine:
         self.killzone_analyzer = KillzoneAnalyzer(config_dir=self.config_dir)
         self.strategy_guardrails = StrategyGuardrails(config_dir=self.config_dir)
         self.simulator = simulator or TradeSimulator(self.config.get("simulation", {}))
+        self.decision_brain = decision_brain or HistoricalBacktestDecisionBrain(
+            strategy_guardrails=self.strategy_guardrails,
+            config_dir=self.config_dir,
+        )
 
     def run(self, lookback_days: int | None = None, symbols: list[str] | None = None) -> dict[str, Any]:
         """Run the configured backtest and return aggregate metrics."""
@@ -147,12 +153,19 @@ class BacktestEngine:
         return self.normalize_candles(candles)
 
     def scan_symbol(self, symbol: str, candles: pd.DataFrame) -> tuple[list[dict[str, Any]], int]:
-        """Scan one symbol's candles for historical candidate plans."""
+        """Scan one symbol's candles for historical candidate plans.
+
+        Every candidate is scored by the live confidence brain via
+        HistoricalBacktestDecisionBrain: same weights, same hard rejections,
+        same guardrail path as live. Guardrail-only rejections keep the trade
+        in the record so guardrails-off vs. adaptive comparisons stay possible;
+        confidence or structural rejections drop it, exactly as live would.
+        """
         scan_config = self.config.get("scan", {})
         warmup = int(scan_config.get("warmup_candles", 60))
         forward = int(scan_config.get("forward_candles", 24))
         step = max(int(scan_config.get("step_candles", 4)), 1)
-        minimum_confidence = int(self.config["minimum_confidence"])
+        minimum_rr = float(scan_config.get("minimum_rr", 3.0))
         trades: list[dict[str, Any]] = []
         setups_scanned = 0
 
@@ -166,46 +179,48 @@ class BacktestEngine:
 
             setups_scanned += 1
             plan = self.build_historical_plan(symbol, history, killzone)
-            if not plan.get("execution_allowed") or int(plan.get("confidence", 0)) < minimum_confidence:
+            if not plan.get("candidate_detected"):
+                continue
+
+            decision = self.decision_brain.analyze(
+                symbol,
+                context={
+                    "mode": "BACKTEST",
+                    "minimum_rr": minimum_rr,
+                    "risk_reward": minimum_rr,
+                    "plan": plan,
+                    "killzone": killzone,
+                    "replay_mss": {
+                        "detected": True,
+                        "direction": plan.get("direction"),
+                        "mode": MSS_MODE_HISTORICAL_STRUCTURE_BREAK,
+                    },
+                },
+            )
+            adaptive_guardrail = decision.get("adaptive_guardrail") or decision.get("guardrail", {}) or {}
+            hard_guardrail = decision.get("hard_guardrail", {}) or {}
+            guardrail_reasons = set(adaptive_guardrail.get("reasons", []) or [])
+            blocking_reasons = [
+                reason
+                for reason in decision.get("rejection_reasons", []) or []
+                if reason not in guardrail_reasons
+            ]
+            if blocking_reasons:
                 continue
 
             simulation = self.simulator.simulate(plan, candles.iloc[index + 1:index + 1 + forward])
-            minimum_rr = float(self.config.get("scan", {}).get("minimum_rr", 3.0))
-            hard_guardrail = self.strategy_guardrails.evaluate_hard(
-                symbol=symbol,
-                total_confidence=int(plan.get("confidence", 0)),
-                killzone=killzone,
-                smt={
-                    "smt_detected": bool(plan.get("smt_detected", False)),
-                    "confidence": plan.get("raw_score_breakdown", {}).get("smt", 0),
-                    "available": False,
-                },
-                narrative_phase=str(plan.get("narrative_phase", "range")),
-            )
-            adaptive_guardrail = self.strategy_guardrails.evaluate(
-                symbol=symbol,
-                total_confidence=int(plan.get("confidence", 0)),
-                killzone=killzone,
-                smt={
-                    "smt_detected": bool(plan.get("smt_detected", False)),
-                    "confidence": plan.get("raw_score_breakdown", {}).get("smt", 0),
-                    "available": False,
-                },
-                narrative_phase=str(plan.get("narrative_phase", "range")),
-                mss_confirmed=True,
-                rr_to_final=minimum_rr,
-                mode="adaptive",
-            )
+            confidence = int(decision.get("total_confidence", 0) or 0)
+            confidence_band = str(decision.get("confidence_band", "HOT"))
             trade = {
                 "symbol": symbol,
                 "timestamp": current_candle.get("time").isoformat()
                 if hasattr(current_candle.get("time"), "isoformat")
                 else str(current_candle.get("time", "")),
                 "killzone": killzone.get("active_killzone", "none"),
-                "confidence_band": plan.get("confidence_band", "HOT"),
-                "guarded_confidence_band": adaptive_guardrail.get("adjusted_confidence_band", plan.get("confidence_band", "HOT")),
-                "confidence": plan.get("confidence", 0),
-                "guardrail_adjusted_confidence": adaptive_guardrail.get("guardrail_adjusted_confidence", plan.get("confidence", 0)),
+                "confidence_band": confidence_band,
+                "guarded_confidence_band": adaptive_guardrail.get("adjusted_confidence_band", confidence_band),
+                "confidence": confidence,
+                "guardrail_adjusted_confidence": adaptive_guardrail.get("guardrail_adjusted_confidence", confidence),
                 "guardrail_penalty_total": adaptive_guardrail.get("guardrail_penalty_total", 0),
                 "guardrail_warnings": adaptive_guardrail.get("guardrail_warnings", []),
                 "direction": plan.get("direction"),
@@ -213,13 +228,16 @@ class BacktestEngine:
                 "smt_detected": plan.get("smt_detected", False),
                 "smt_available": False,
                 "planner_quality": plan.get("planner_quality", "historical_valid"),
-                "score_breakdown": plan.get("score_breakdown", {}),
-                "raw_score_breakdown": plan.get("raw_score_breakdown", {}),
+                "score_breakdown": decision.get("score_breakdown", plan.get("score_breakdown", {})),
+                "raw_score_breakdown": decision.get("scores", plan.get("raw_score_breakdown", {})),
                 "guardrail": adaptive_guardrail,
                 "hard_guardrail": hard_guardrail,
                 "adaptive_guardrail": adaptive_guardrail,
-                "mss_mode": MSS_MODE_SYNTHETIC_ASSUMED_TRUE,
+                "mss_mode": MSS_MODE_HISTORICAL_STRUCTURE_BREAK,
                 "mss_confirmed": True,
+                "decision_source": decision.get("decision_source", "ConfidenceAnalyzer"),
+                "sda_compliant": bool(decision.get("sda_compliant", False)),
+                "rejection_reasons": decision.get("rejection_reasons", []),
                 "guarded_execution_allowed": adaptive_guardrail.get("status") != "BLOCKED",
                 "plan": plan,
                 "simulation": simulation,
@@ -229,12 +247,18 @@ class BacktestEngine:
         return trades, setups_scanned
 
     def build_historical_plan(self, symbol: str, history: pd.DataFrame, killzone: dict[str, Any]) -> dict[str, Any]:
-        """Build a historical Advisor Mode plan from candle structure."""
+        """Build a structural candidate plan from candle structure.
+
+        This method only detects the candidate (structure break with
+        displacement) and builds price levels. Scoring, admission, and
+        guardrails belong to HistoricalBacktestDecisionBrain so that replay
+        decisions match the live confidence path.
+        """
         lookback = history.tail(20)
         current = history.iloc[-1]
         previous = history.iloc[-21:-1]
         if len(previous) < 20:
-            return {"execution_allowed": False, "confidence": 0}
+            return {"candidate_detected": False, "execution_allowed": False}
 
         prior_high = float(previous["high"].max())
         prior_low = float(previous["low"].min())
@@ -254,16 +278,14 @@ class BacktestEngine:
             entry = close
             stop = float(previous["high"].tail(10).max())
         else:
-            return {"execution_allowed": False, "confidence": 0}
+            return {"candidate_detected": False, "execution_allowed": False}
 
         stop_distance = abs(entry - stop)
         if stop_distance <= 0:
-            return {"execution_allowed": False, "confidence": 0}
+            return {"candidate_detected": False, "execution_allowed": False}
 
         minimum_rr = float(self.config.get("scan", {}).get("minimum_rr", 3.0))
         multiplier = 1 if direction == "bullish" else -1
-        confidence = min(100, 70 + int(killzone.get("quality_score", 0)) * 2 + (10 if candle_range >= average_range * 1.5 else 0))
-        confidence_band = production_band(confidence).band
         narrative_phase = self.classify_narrative_phase(
             direction=direction,
             killzone_name=str(killzone.get("active_killzone", "none")),
@@ -281,10 +303,10 @@ class BacktestEngine:
         return {
             "symbol": symbol,
             "direction": direction,
-            "confidence": confidence,
-            "confidence_band": confidence_band,
+            "candidate_detected": True,
             "narrative_phase": narrative_phase,
             "smt_detected": False,
+            "smt_available": False,
             "planner_quality": "historical_valid",
             "score_breakdown": score_breakdown,
             "raw_score_breakdown": raw_score_breakdown,
@@ -295,18 +317,18 @@ class BacktestEngine:
                 "tp2": round(entry + multiplier * stop_distance * 2, 5),
                 "tp3": round(entry + multiplier * stop_distance * minimum_rr, 5),
             },
-            "execution_allowed": confidence >= int(self.config["minimum_confidence"]),
+            "execution_allowed": True,
             "engine_stack": {
                 "trend": "historical_candle_structure",
                 "liquidity": "breakout_level",
-                "ict": "displacement_proxy",
+                "ict": "structure_break_with_displacement",
                 "narrative": "historical_state_proxy",
                 "killzone": killzone,
-                "smt": "confirmation_only_not_required",
-                "confidence": confidence,
+                "smt": "historical_smt_not_computed",
                 "score_breakdown": score_breakdown,
                 "raw_score_breakdown": raw_score_breakdown,
                 "planner": "historical_plan",
+                "decision_authority": "HistoricalBacktestDecisionBrain",
             },
         }
 

@@ -6,18 +6,50 @@ from typing import Any
 
 import pandas as pd
 
+from backend.shared.cost_engine import CostInput, estimate_execution_cost
+
 
 class TradeSimulator:
-    """Walk forward through candles to determine simulated trade outcome."""
+    """Walk forward through candles to determine simulated trade outcome.
+
+    Execution costs (spread + slippage, optional commission) are applied to
+    every fill through the shared cost engine. A simulated result without a
+    cost model is flagged ``NO_COST_MODEL`` so missing costs are visible
+    instead of silently zero.
+    """
 
     DEFAULT_CONFIG = {
         "use_tp1_as_win": True,
         "use_tp3_as_full_win": True,
         "stop_at_sl": True,
+        "apply_costs": True,
+        "cost_mode": "normal",
     }
 
-    def __init__(self, simulation_config: dict[str, Any] | None = None) -> None:
+    # Round-trip execution costs in raw price units per symbol.
+    # Overridable via config/backtesting.yaml simulation.costs.
+    DEFAULT_SYMBOL_COSTS = {
+        "XAUUSD": {"spread": 0.35, "slippage": 0.10},
+        "US30": {"spread": 3.5, "slippage": 1.5},
+        "NAS100": {"spread": 2.5, "slippage": 1.0},
+        "EURUSD": {"spread": 0.00012, "slippage": 0.00004},
+        "GBPUSD": {"spread": 0.00015, "slippage": 0.00005},
+        "BTCUSD": {"spread": 30.0, "slippage": 10.0},
+    }
+
+    NO_COST = {"cost_price": 0.0, "cost_rr": 0.0, "cost_status": "NOT_OPENED"}
+
+    def __init__(
+        self,
+        simulation_config: dict[str, Any] | None = None,
+        symbol_costs: dict[str, dict[str, float]] | None = None,
+    ) -> None:
         self.config = {**self.DEFAULT_CONFIG, **(simulation_config or {})}
+        configured_costs = symbol_costs or self.config.get("costs") or {}
+        self.symbol_costs = {
+            str(symbol).upper().strip(): dict(model)
+            for symbol, model in {**self.DEFAULT_SYMBOL_COSTS, **configured_costs}.items()
+        }
 
     def simulate(self, trade_plan: dict[str, Any], forward_candles: pd.DataFrame) -> dict[str, Any]:
         """Simulate a trade from entry, stop, and TP levels over future candles."""
@@ -30,11 +62,14 @@ class TradeSimulator:
         tp3 = float(take_profit.get("tp3", 0.0) or 0.0)
 
         if direction not in {"bullish", "bearish"} or not entry or not stop_loss or forward_candles.empty:
-            return self.result("BREAKEVEN", 0.0, "invalid_or_no_data", None)
+            return self.result("BREAKEVEN", 0.0, "invalid_or_no_data", None, dict(self.NO_COST))
 
         stop_distance = abs(entry - stop_loss)
         if stop_distance <= 0:
-            return self.result("BREAKEVEN", 0.0, "invalid_stop", None)
+            return self.result("BREAKEVEN", 0.0, "invalid_stop", None, dict(self.NO_COST))
+
+        cost = self.execution_cost(trade_plan.get("symbol"), stop_distance)
+        cost_rr = float(cost.get("cost_rr", 0.0))
 
         for position, candle in forward_candles.reset_index(drop=True).iterrows():
             high = float(candle["high"])
@@ -44,11 +79,35 @@ class TradeSimulator:
                 continue
             outcome, target_price, target_name = hit
             if outcome == "LOSS":
-                return self.result("LOSS", -1.0, "SL", int(position))
+                return self.result("LOSS", round(-1.0 - cost_rr, 4), "SL", int(position), cost)
             rr = self.calculate_rr(entry, target_price, stop_distance)
-            return self.result("WIN", rr, target_name, int(position))
+            return self.result("WIN", round(rr - cost_rr, 4), target_name, int(position), cost)
 
-        return self.result("BREAKEVEN", 0.0, "no_target_hit", None)
+        # Timeout exits are market closes: they still pay execution costs.
+        return self.result("BREAKEVEN", round(-cost_rr, 4), "no_target_hit", None, cost)
+
+    def execution_cost(self, symbol: Any, stop_distance: float) -> dict[str, Any]:
+        """Return round-trip execution cost for a symbol, in price units and R."""
+        if not self.config.get("apply_costs", True):
+            return {"cost_price": 0.0, "cost_rr": 0.0, "cost_status": "DISABLED"}
+        model = self.symbol_costs.get(str(symbol or "").upper().strip())
+        if not model:
+            return {"cost_price": 0.0, "cost_rr": 0.0, "cost_status": "NO_COST_MODEL"}
+        estimate = estimate_execution_cost(
+            CostInput(
+                spread_points=float(model.get("spread", 0.0)),
+                slippage_points=float(model.get("slippage", 0.0)),
+                mode=str(self.config.get("cost_mode", "normal")),
+            )
+        )
+        cost_price = float(estimate["total_cost_points"]) + float(model.get("commission", 0.0))
+        cost_rr = round(cost_price / stop_distance, 4) if stop_distance > 0 else 0.0
+        return {
+            "cost_price": round(cost_price, 5),
+            "cost_rr": cost_rr,
+            "cost_status": "APPLIED",
+            "cost_mode": estimate["mode"],
+        }
 
     def evaluate_candle_hit(
         self,
@@ -99,12 +158,18 @@ class TradeSimulator:
         return round(abs(target - entry) / stop_distance, 2)
 
     @staticmethod
-    def result(outcome: str, rr: float, hit_level: str, exit_candle_index: int | None) -> dict[str, Any]:
+    def result(
+        outcome: str,
+        rr: float,
+        hit_level: str,
+        exit_candle_index: int | None,
+        cost: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Return standard simulation result."""
         return {
             "outcome": outcome,
             "rr": rr,
             "hit_level": hit_level,
             "exit_candle_index": exit_candle_index,
+            "cost": cost or dict(TradeSimulator.NO_COST),
         }
-

@@ -36,6 +36,7 @@ from backend.execution_engine.position_manager import PositionManager
 from backend.observer.nas100_observer import NAS100Observer
 from backend.observer.btc_observer import BTCObserver
 from backend.risk_manager.risk_governor import RiskGovernor
+from backend.risk_manager.risk_state_store import RiskStateStore
 from backend.shared.confidence_band_registry import observer_display_state, observer_state
 from backend.smt_engine.smt_analyzer import SMTAnalyzer
 from backend.symbols.symbol_registry import SymbolRegistry
@@ -351,8 +352,16 @@ class TelegramCommandBot:
             if broker_symbol == NAS100Observer.SYMBOL:
                 symbols[label] = self.build_nas100_symbol_snapshot(stack["nas100_observer"].observe())
                 continue
-            confidence = stack["confidence_analyzer"].analyze(broker_symbol, context={"risk_reward": 3.0, "news_status": news})
-            trade_plan = stack["trade_planner"].analyze(broker_symbol, confidence_context={"news_status": news}, risk_state=risk)
+            risk_flags = RiskGovernor.decision_context_from_result(risk)
+            confidence = stack["confidence_analyzer"].analyze(
+                broker_symbol,
+                context={"risk_reward": 3.0, "news_status": news, **risk_flags},
+            )
+            trade_plan = stack["trade_planner"].analyze(
+                broker_symbol,
+                confidence_context={"news_status": news, **risk_flags},
+                risk_state=RiskGovernor.runtime_state_from_result(risk),
+            )
             symbols[label] = self.build_symbol_snapshot(
                 symbol=broker_symbol,
                 confidence=confidence,
@@ -405,7 +414,7 @@ class TelegramCommandBot:
             killzone_analyzer=killzone_analyzer,
             smt_analyzer=smt_analyzer,
         )
-        risk_governor = RiskGovernor(connector=connector)
+        risk_governor = RiskGovernor(connector=connector, state_store=RiskStateStore())
         trade_planner = TradePlanner(
             connector=connector,
             confidence_analyzer=confidence_analyzer,

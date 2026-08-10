@@ -21,6 +21,7 @@ from backend.news_filter.news_filter import NewsFilter
 from backend.observer.btc_observer import BTCObserver
 from backend.observer.nas100_observer import NAS100Observer
 from backend.risk_manager.risk_governor import RiskGovernor, RiskGovernorError
+from backend.risk_manager.risk_state_store import RiskStateStore
 from backend.shared.shared_candidate_scanner import SharedCandidateScanner
 from backend.shared.shared_decision_adapter import DecisionRequest, SharedDecisionAdapter
 from backend.trade_planner.trade_planner import TradePlanner, TradePlannerError
@@ -79,13 +80,21 @@ class LiveMonitor:
         config_dir: str | Path | None = None,
         sleep_fn: Callable[[float], None] | None = None,
         output_fn: Callable[[str], None] | None = None,
+        risk_state_store: RiskStateStore | None = None,
     ) -> None:
         project_root = Path(__file__).resolve().parents[2]
         self.project_root = project_root
         self.config_dir = Path(config_dir) if config_dir else project_root / "config"
         self.config = self._load_config()
         self.connector = connector
-        self.risk_governor = risk_governor or RiskGovernor(connector=self.connector, config_dir=self.config_dir)
+        self.risk_state_store = risk_state_store or RiskStateStore(
+            project_root / ".sentinel_runtime" / "risk_state.json"
+        )
+        self.risk_governor = risk_governor or RiskGovernor(
+            connector=self.connector,
+            config_dir=self.config_dir,
+            state_store=self.risk_state_store,
+        )
         self.news_filter = news_filter or NewsFilter(config_dir=self.config_dir)
         self.journal_engine = journal_engine or JournalEngine(config_dir=self.config_dir)
         self.alert_engine = alert_engine or AlertEngine(config_dir=self.config_dir)
@@ -156,7 +165,7 @@ class LiveMonitor:
             risk = self.blocked_risk_result(str(exc))
 
         news_status = self.news_filter.check()
-        results = [self.analyze_symbol(symbol) for symbol in self.symbols]
+        results = [self.analyze_symbol(symbol, risk=risk) for symbol in self.symbols]
         alerts = self.detect_alerts(
             results,
             risk_status=risk.get("permission", {}).get("status", "UNKNOWN"),
@@ -177,13 +186,14 @@ class LiveMonitor:
         logger.info("Completed Sentinel live monitor scan {}.", scan_number)
         return scan
 
-    def analyze_symbol(self, symbol: str) -> dict[str, Any]:
+    def analyze_symbol(self, symbol: str, risk: dict[str, Any] | None = None) -> dict[str, Any]:
         """Return one symbol's confidence state and trade-plan snapshot."""
         normalized_symbol = symbol.upper().strip()
         if normalized_symbol == BTCObserver.SYMBOL:
             return self.btc_observer.observe()
         if normalized_symbol == NAS100Observer.SYMBOL:
             return self.nas100_observer.observe()
+        risk_flags = RiskGovernor.decision_context_from_result(risk) if risk else {}
         try:
             killzone = self.killzone_analyzer.analyze(normalized_symbol)
             candidate_scan = self.candidate_scanner.scan_live_candidate(
@@ -199,11 +209,15 @@ class LiveMonitor:
                         "killzone": killzone,
                         "candidate_scan": candidate_scan,
                         "plan": candidate_scan.get("plan", {}),
+                        **risk_flags,
                     },
                 )
             )
             confidence = shared_decision.get("decision", {})
-            trade_plan = self.trade_planner.analyze(normalized_symbol)
+            trade_plan = self.trade_planner.analyze(
+                normalized_symbol,
+                confidence_context=risk_flags or None,
+            )
         except (ConfidenceAnalyzerError, TradePlannerError, MT5ConnectorError, ValueError) as exc:
             return self.unavailable_symbol_result(normalized_symbol, str(exc))
 

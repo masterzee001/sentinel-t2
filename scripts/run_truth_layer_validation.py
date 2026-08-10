@@ -15,8 +15,8 @@ if str(PROJECT_ROOT) not in sys.path:
 from backend.shared.confidence_band_registry import (
     ALLOWED_REJECTION_REASONS,
     GUARDRAIL_ADJUSTED_THRESHOLDS,
+    MSS_MODE_HISTORICAL_STRUCTURE_BREAK,
     MSS_MODE_LIVE_EVALUATED,
-    MSS_MODE_SYNTHETIC_ASSUMED_TRUE,
     OBSERVER_STATES,
     PRODUCTION_RAW_THRESHOLDS,
     cumulative_funnel,
@@ -86,9 +86,15 @@ def build_truth_layer_report(
     rejection_distribution = normalize_rejection_distribution(diagnostics.get("rejection_distribution", {}))
     baseline = validation.get("approved_robustness_baseline", {})
     gates = validation.get("gates", [])
-    baseline_preserved = bool(
-        validation.get("matches_approved_baseline", False)
-        or any(gate.get("name") == "production_trade_count_locked" and gate.get("pass") for gate in gates)
+
+    def gate_passed(name: str) -> bool:
+        return any(gate.get("name") == name and gate.get("pass") for gate in gates)
+
+    # Phase 0: "baseline preserved" no longer means matching a stored constant.
+    # It means production metrics were recomputed from the current scan and
+    # reconcile against their own breakdowns.
+    baseline_preserved = gate_passed("production_metrics_recomputed_from_scan") and gate_passed(
+        "production_reconciles_internally"
     )
 
     return {
@@ -115,9 +121,9 @@ def build_truth_layer_report(
         },
         "mss_labeling": {
             "status": "PASS",
-            "backtest_mss_mode": MSS_MODE_SYNTHETIC_ASSUMED_TRUE,
+            "backtest_mss_mode": MSS_MODE_HISTORICAL_STRUCTURE_BREAK,
             "live_mss_mode": MSS_MODE_LIVE_EVALUATED,
-            "note": "Historical backtest scan records synthetic MSS as assumed true; live confidence analysis evaluates MSS directly.",
+            "note": "Historical MSS is grounded on a detected structure break with displacement and scored by the live confidence brain; live confidence analysis evaluates ICT MSS directly.",
         },
         "observer_labeling": {
             "status": "PASS",
@@ -127,6 +133,7 @@ def build_truth_layer_report(
         "production_baseline": {
             "status": "PASS" if baseline_preserved else "FAIL",
             "preserved": baseline_preserved,
+            "meaning": "recomputed_from_current_scan_and_internally_reconciled",
             "metrics": baseline,
         },
         "decision": "PASS" if baseline_preserved else "FAIL",

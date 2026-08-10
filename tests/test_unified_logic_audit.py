@@ -135,22 +135,31 @@ def test_trade_lifecycle_registry_validates_required_transitions():
     assert validate_transition("CLOSED", "ACTIVE")["status"] == "FAIL"
 
 
-def test_unified_logic_audit_reports_unizim_achieved():
+def test_unified_logic_audit_verifies_claims_and_reports_honest_gaps():
     audit = build_unified_logic_audit()
 
-    assert audit["shared_candidate_scanner"]["status"] == "PASS"
+    # Verified-true claims: live scanner wiring, SDA parity in live and backtest.
     assert audit["shared_candidate_scanner"]["scanner_enforced_by_live"] is True
-    assert audit["shared_candidate_scanner"]["scanner_enforced_by_backtest"] is True
     assert audit["shared_decision_adapter"]["adapter_available"] is True
     assert audit["shared_decision_adapter"]["status"] == "PASS"
+    assert audit["shared_decision_adapter"]["adapter_enforced_by_live"] is True
     assert audit["shared_decision_adapter"]["adapter_enforced_by_backtest"] is True
     assert audit["shared_decision_adapter"]["adapter_enforced_by_replay"] is True
     assert audit["unified_state_registry"]["status"] == "PASS"
-    assert audit["single_cost_engine"]["status"] == "PASS"
     assert audit["trade_lifecycle_parity"]["status"] == "PASS"
-    assert audit["remaining_truth_gaps"]["count"] == 0
-    assert audit["unizim_achieved"] is True
-    assert audit["decision"] == "PASS"
+
+    # Cost engine is genuinely enforced in backtest/replay simulation now.
+    assert audit["single_cost_engine"]["coverage"]["backtest"] == "ENFORCED_IN_TRADE_SIMULATOR"
+    assert audit["single_cost_engine"]["coverage"]["replay"] == "ENFORCED_IN_TRADE_SIMULATOR"
+
+    # Honest gaps the audit must keep reporting until the paths converge:
+    # backtest candidate detection bypasses the shared scanner, and demo/paper/live
+    # surfaces do not run the cost engine.
+    assert audit["shared_candidate_scanner"]["scanner_enforced_by_backtest"] is False
+    assert audit["single_cost_engine"]["coverage"]["paper"] == "NOT_ENFORCED"
+    assert audit["remaining_truth_gaps"]["count"] > 0
+    assert audit["unizim_achieved"] is False
+    assert audit["decision"] == "FAIL"
 
 
 def test_dead_logic_and_legacy_purge_classifications():

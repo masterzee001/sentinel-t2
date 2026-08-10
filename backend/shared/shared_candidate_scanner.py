@@ -243,12 +243,49 @@ class SharedCandidateScanner:
 
 
 def shared_candidate_scanner_audit() -> dict[str, Any]:
-    """Return scanner convergence status."""
+    """Verify where the shared candidate scanner is actually enforced.
+
+    Claims are recomputed from source inspection. Known honest gap: the
+    backtest engine detects candidates with its own build_historical_plan
+    instead of scan_replay_candidate, so backtest/replay enforcement is
+    reported as False until that path converges.
+    """
+    from backend.shared.shared_decision_adapter import _source_contains
+
+    violations: list[dict[str, str]] = []
+
+    scanner_enforced_by_live = _source_contains(
+        "backend.monitor.live_monitor", "LiveMonitor", "scan_live_candidate"
+    )
+    if not scanner_enforced_by_live:
+        violations.append(
+            {
+                "severity": "HIGH",
+                "file": "backend/monitor/live_monitor.py",
+                "function": "LiveMonitor.analyze_symbol",
+                "violation": "Live monitor does not call SharedCandidateScanner.scan_live_candidate.",
+            }
+        )
+
+    scanner_enforced_by_backtest = _source_contains(
+        "backend.backtesting.backtest_engine", "BacktestEngine", "scan_replay_candidate"
+    )
+    if not scanner_enforced_by_backtest:
+        violations.append(
+            {
+                "severity": "MEDIUM",
+                "file": "backend/backtesting/backtest_engine.py",
+                "function": "BacktestEngine.build_historical_plan",
+                "violation": "Backtest candidate detection uses build_historical_plan, not SharedCandidateScanner.scan_replay_candidate.",
+            }
+        )
+
+    status = "PASS" if not violations else ("PARTIAL" if scanner_enforced_by_live else "FAIL")
     return {
-        "status": "PASS",
+        "status": status,
         "scanner_available": True,
-        "scanner_enforced_by_live": True,
-        "scanner_enforced_by_backtest": True,
-        "scanner_enforced_by_replay": True,
-        "remaining_violations": [],
+        "scanner_enforced_by_live": scanner_enforced_by_live,
+        "scanner_enforced_by_backtest": scanner_enforced_by_backtest,
+        "scanner_enforced_by_replay": scanner_enforced_by_backtest,
+        "remaining_violations": violations,
     }

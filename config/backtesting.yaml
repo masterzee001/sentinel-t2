@@ -24,3 +24,13 @@ simulation:
   use_tp1_as_win: true
   use_tp3_as_full_win: true
   stop_at_sl: true
+  apply_costs: true
+  cost_mode: normal
+  # Round-trip execution costs in raw price units (spread + slippage per fill).
+  costs:
+    XAUUSD: {spread: 0.35, slippage: 0.10}
+    US30: {spread: 3.5, slippage: 1.5}
+    NAS100: {spread: 2.5, slippage: 1.0}
+    EURUSD: {spread: 0.00012, slippage: 0.00004}
+    GBPUSD: {spread: 0.00015, slippage: 0.00005}
+    BTCUSD: {spread: 30.0, slippage: 10.0}

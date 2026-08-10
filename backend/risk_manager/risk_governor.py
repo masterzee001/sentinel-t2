@@ -12,6 +12,7 @@ import yaml
 from loguru import logger
 
 from backend.market_data.mt5_connector import MT5Connector, MT5ConnectorError
+from backend.risk_manager.risk_state_store import RiskStateStore
 
 
 class RiskGovernorError(RuntimeError):
@@ -56,6 +57,7 @@ class RiskGovernor:
         mode: str = "balanced",
         environment_mode: str | None = None,
         account_mode: str | None = None,
+        state_store: RiskStateStore | None = None,
     ) -> None:
         project_root = Path(__file__).resolve().parents[2]
         self.config_dir = Path(config_dir) if config_dir else project_root / "config"
@@ -74,10 +76,11 @@ class RiskGovernor:
         )
         self.starting_balance: float | None = None
         self.peak_equity: float | None = None
+        self.state_store = state_store
 
     def evaluate(self, runtime_state: dict[str, Any] | None = None) -> dict[str, Any]:
         """Return risk permission status using live MT5 account information."""
-        state = runtime_state or {}
+        state = dict(runtime_state or {})
         logger.info("Starting Risk Governor evaluation.")
 
         try:
@@ -90,9 +93,16 @@ class RiskGovernor:
         equity = account["equity"]
         profit = account["profit"]
 
-        if self.starting_balance is None:
-            self.starting_balance = balance
-        self.peak_equity = max(self.peak_equity or equity, equity)
+        if self.state_store is not None:
+            # Persisted counters fill the runtime state; explicit caller keys win.
+            persisted = self.state_store.observe_account(balance=balance, equity=equity)
+            state = {**self.state_store.runtime_state(), **state}
+            self.starting_balance = float(persisted["starting_balance"])
+            self.peak_equity = float(persisted["peak_equity"])
+        else:
+            if self.starting_balance is None:
+                self.starting_balance = balance
+            self.peak_equity = max(self.peak_equity or equity, equity)
 
         risk_percent = self.select_risk_percent(
             balance=balance,
@@ -201,6 +211,44 @@ class RiskGovernor:
         if not daily_loss_verified and self.environment_mode == "development":
             warnings.append("Daily loss history unavailable")
         return warnings
+
+    @staticmethod
+    def runtime_state_from_result(result: dict[str, Any]) -> dict[str, Any]:
+        """Translate an evaluate() result back into runtime-state input keys.
+
+        Callers that hold a governor result and need to re-evaluate must use
+        this instead of passing the result dict itself: the result and the
+        runtime-state input have disjoint shapes, so passing the result
+        silently zeroes every limit.
+        """
+        limits = result.get("limits", {}) or {}
+        risk_info = result.get("risk", {}) or {}
+        permission = result.get("permission", {}) or {}
+        unavailable = "Daily loss history unavailable"
+        state: dict[str, Any] = {
+            "trades_taken_today": int(limits.get("trades_taken_today", 0) or 0),
+            "consecutive_losses": int(limits.get("consecutive_losses", 0) or 0),
+            "total_open_planned_risk_percent": float(
+                risk_info.get("total_open_planned_risk_percent", 0.0) or 0.0
+            ),
+        }
+        daily_loss_unverified = unavailable in (permission.get("warnings") or []) or unavailable in (
+            permission.get("block_reasons") or []
+        )
+        if not daily_loss_unverified:
+            state["daily_loss_percent"] = float(risk_info.get("daily_loss_percent", 0.0) or 0.0)
+        return state
+
+    @staticmethod
+    def decision_context_from_result(result: dict[str, Any]) -> dict[str, Any]:
+        """Return confidence-context risk flags derived from an evaluate() result."""
+        permission = result.get("permission", {}) or {}
+        reasons = permission.get("block_reasons", []) or []
+        return {
+            "daily_loss_limit_hit": "Daily loss limit hit" in reasons,
+            "max_trades_per_day_hit": "Max trades per day hit" in reasons,
+            "risk_blocked": not bool(permission.get("trade_allowed", True)),
+        }
 
     def get_daily_loss_percent(self, state: dict[str, Any]) -> tuple[float, bool]:
         """Return daily loss percent and whether it was verified from state/history.

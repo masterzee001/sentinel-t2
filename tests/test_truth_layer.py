@@ -7,8 +7,8 @@ from backend.display.confidence_display import confidence_state_for_score, obser
 from backend.guardrails.strategy_guardrails import StrategyGuardrails
 from backend.shared.confidence_band_registry import (
     ALLOWED_REJECTION_REASONS,
+    MSS_MODE_HISTORICAL_STRUCTURE_BREAK,
     MSS_MODE_LIVE_EVALUATED,
-    MSS_MODE_SYNTHETIC_ASSUMED_TRUE,
     cumulative_funnel,
     exclusive_band_distribution,
     guardrail_adjusted_band,
@@ -104,31 +104,36 @@ def test_truth_report_distinguishes_backtest_and_live_mss_modes():
         },
     )
 
-    assert report["mss_labeling"]["backtest_mss_mode"] == MSS_MODE_SYNTHETIC_ASSUMED_TRUE
+    assert report["mss_labeling"]["backtest_mss_mode"] == MSS_MODE_HISTORICAL_STRUCTURE_BREAK
     assert report["mss_labeling"]["live_mss_mode"] == MSS_MODE_LIVE_EVALUATED
     assert report["funnel_truth"]["exclusive_band_distribution"]["HOT_ONLY"] == 20
     assert report["funnel_truth"]["cumulative_funnel"]["HOT_OR_BETTER"] == 72
     assert report["rejection_attribution"]["distribution"]["BELOW_MIN_CONFIDENCE"] == 20
 
 
-def test_truth_report_preserves_production_baseline():
-    report = build_truth_layer_report(
-        diagnostics={
-            "confidence_distribution": {"HOT": 1, "EXECUTION_READY": 1},
-            "signal_funnel": {"qualifying_setups": 2, "approved_trades": 1, "wins": 1, "losses": 0},
-            "rejection_distribution": {},
-        },
-        validation={
-            "matches_approved_baseline": True,
-            "approved_robustness_baseline": {
-                "pf": 1.58,
-                "win_rate": 58.7,
-                "trades": 56,
-                "max_drawdown": 2.97,
-            },
-        },
-    )
+def test_truth_report_requires_recomputed_and_reconciled_production_metrics():
+    diagnostics = {
+        "confidence_distribution": {"HOT": 1, "EXECUTION_READY": 1},
+        "signal_funnel": {"qualifying_setups": 2, "approved_trades": 1, "wins": 1, "losses": 0},
+        "rejection_distribution": {},
+    }
+    honest_validation = {
+        "approved_robustness_baseline": {"pf": 1.58, "win_rate": 58.7, "trades": 56, "max_drawdown": 2.97},
+        "gates": [
+            {"name": "production_metrics_recomputed_from_scan", "pass": True},
+            {"name": "production_reconciles_internally", "pass": True},
+        ],
+    }
+    # A constant-matching claim without recomputation gates must no longer pass.
+    legacy_validation = {
+        "matches_approved_baseline": True,
+        "approved_robustness_baseline": {"pf": 1.58, "win_rate": 58.7, "trades": 56, "max_drawdown": 2.97},
+    }
 
-    assert report["production_baseline"]["preserved"] is True
-    assert report["production_baseline"]["metrics"]["trades"] == 56
-    assert report["decision"] == "PASS"
+    honest = build_truth_layer_report(diagnostics=diagnostics, validation=honest_validation)
+    legacy = build_truth_layer_report(diagnostics=diagnostics, validation=legacy_validation)
+
+    assert honest["production_baseline"]["preserved"] is True
+    assert honest["decision"] == "PASS"
+    assert legacy["production_baseline"]["preserved"] is False
+    assert legacy["decision"] == "FAIL"

@@ -42,7 +42,7 @@ class FakeConfidenceAnalyzer:
 
 
 class FakeTradePlanner:
-    def analyze(self, symbol: str):
+    def analyze(self, symbol: str, confidence_context=None, risk_state=None):
         return {
             "symbol": symbol,
             "execution_allowed": False,

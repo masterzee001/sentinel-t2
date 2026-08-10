@@ -24,11 +24,13 @@ def passing_report() -> dict:
             "symbol_expansion_observer_only": {"pf": 1.58, "win_rate": 58.7, "trades": 56, "max_drawdown": 2.97},
         },
         "production_portfolio": {
+            "source": "current_backtest_scan",
             "symbol_breakdown": {
                 "US30": {"profit_factor": 1.69, "win_rate": 60.0, "trades": 47, "max_drawdown": 2.0},
                 "XAUUSD": {"profit_factor": 1.0, "win_rate": 50.0, "trades": 9, "max_drawdown": 0.99},
-            }
+            },
         },
+        "reconciliation": {"status": "PASS"},
         "symbol_breakdown": {
             "US30": {"profit_factor": 1.69, "win_rate": 60.0, "trades": 47, "max_drawdown": 2.0},
             "XAUUSD": {"profit_factor": 1.0, "win_rate": 50.0, "trades": 9, "max_drawdown": 0.99},
@@ -70,24 +72,34 @@ def test_validation_checkpoint_passes_when_baseline_matches():
     assert all(gate["pass"] for gate in result["gates"])
 
 
-def test_validation_checkpoint_fails_when_production_pf_changes():
+def test_honest_metric_drift_from_legacy_baseline_does_not_fail_gates():
     report = passing_report()
-    report["comparison"]["symbol_expansion_observer_only"]["pf"] = 1.56
+    report["comparison"]["symbol_expansion_observer_only"].update({"pf": 1.21, "win_rate": 52.94, "trades": 73})
+
+    result = checkpoint(report)
+
+    assert result["decision"] == "PASS"
+    assert result["matches_approved_baseline"] is False
+
+
+def test_validation_checkpoint_fails_when_metrics_come_from_stored_constants():
+    report = passing_report()
+    report["production_portfolio"]["source"] = "approved_robustness_baseline"
 
     result = checkpoint(report)
 
     assert result["decision"] == "FAIL"
-    assert not gate_passed(result, "production_pf_within_0_01")
+    assert not gate_passed(result, "production_metrics_recomputed_from_scan")
 
 
-def test_validation_checkpoint_fails_when_trade_count_changes():
+def test_validation_checkpoint_fails_when_report_does_not_reconcile():
     report = passing_report()
-    report["comparison"]["symbol_expansion_observer_only"]["trades"] = 55
+    report["reconciliation"] = {"status": "FAIL"}
 
     result = checkpoint(report)
 
     assert result["decision"] == "FAIL"
-    assert not gate_passed(result, "production_trade_count_locked")
+    assert not gate_passed(result, "production_reconciles_internally")
 
 
 def test_observer_trades_cannot_affect_production_metrics():

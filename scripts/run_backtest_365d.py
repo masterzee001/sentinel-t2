@@ -19,7 +19,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from backend.backtesting.backtest_engine import BacktestEngine, BacktestEngineError
 from backend.killzone_engine.killzone_analyzer import KillzoneAnalyzer
 from backend.market_data.mt5_connector import MT5Connector, MT5ConnectorError
-from backend.shared.confidence_band_registry import MSS_MODE_SYNTHETIC_ASSUMED_TRUE
+from backend.shared.confidence_band_registry import MSS_MODE_HISTORICAL_STRUCTURE_BREAK
 from backend.symbols.symbol_registry import SymbolRegistry
 
 
@@ -116,6 +116,9 @@ def main() -> int:
         )
         save_report(report, REPORT_PATH)
         print_report(report, REPORT_PATH)
+        if report.get("reconciliation", {}).get("status") != "PASS":
+            print("RECONCILIATION FAILED: headline metrics do not match their own breakdowns. Report is not evidence.")
+            return 2
         return 0
     except (MT5ConnectorError, BacktestEngineError, ValueError) as exc:
         print(f"365-day backtest failed: {exc}")
@@ -200,13 +203,22 @@ def build_365d_report(engine: BacktestEngine, registry: SymbolRegistry | None = 
     by_narrative = adaptive.get("by_narrative", {})
     best_killzone, best_killzone_metrics = BacktestEngine.best_bucket(by_killzone)
     worst_killzone, worst_killzone_metrics = BacktestEngine.worst_bucket(by_killzone)
+    monthly = monthly_breakdown(
+        selected_trades,
+        starting_balance=float(engine.config["starting_balance"]),
+    )
+    reconciliation = build_reconciliation(
+        metrics=production_metrics,
+        symbol_breakdown=production_symbol_breakdown,
+        monthly=monthly,
+    )
 
     return {
         "generated_at": datetime.now(UTC).isoformat(),
         "days": DAYS,
         "guardrails": "ADAPTIVE",
-        "mss_mode": MSS_MODE_SYNTHETIC_ASSUMED_TRUE,
-        "mss_mode_note": "Historical scan assumes MSS true after synthetic candle-structure plan generation; live confidence path evaluates ICT MSS directly.",
+        "mss_mode": MSS_MODE_HISTORICAL_STRUCTURE_BREAK,
+        "mss_mode_note": "Historical MSS is grounded on a detected structure break with displacement; scoring and guardrails run through the live confidence brain with execution costs applied.",
         "advisor_mode_only": True,
         "requested_symbols": requested_symbols,
         "production_symbols": production_symbols,
@@ -227,10 +239,12 @@ def build_365d_report(engine: BacktestEngine, registry: SymbolRegistry | None = 
             "source": production_payload["source"],
         },
         "production_recalculation_diagnostics": {
-            "not_used_for_production": production_payload["source"] == "approved_robustness_baseline",
+            "not_used_for_production": False,
+            "note": "Production metrics ARE the recomputed scan since Phase 0; this block is kept for schema compatibility.",
             "metrics": adaptive.get("overall", {}),
             "symbol_breakdown": adaptive.get("by_symbol", {}),
         },
+        "reconciliation": reconciliation,
         "observer_diagnostics": observer_diagnostics,
         "symbol_breakdown": production_symbol_breakdown,
         "killzone_breakdown": {
@@ -248,10 +262,7 @@ def build_365d_report(engine: BacktestEngine, registry: SymbolRegistry | None = 
             if phase in {"accumulation", "expansion", "distribution", "reversal", "range"}
         },
         "loss_clusters": loss_clusters(selected_trades),
-        "monthly_breakdown": monthly_breakdown(
-            selected_trades,
-            starting_balance=float(engine.config["starting_balance"]),
-        ),
+        "monthly_breakdown": monthly,
         "xau_smt_split": xau_smt_split,
         "days_365": production_metrics,
     }
@@ -264,20 +275,54 @@ def build_production_payload(
     engine_config: dict[str, Any],
     starting_balance: float,
 ) -> dict[str, Any]:
-    """Return production metrics after applying the symbol-expansion gate."""
-    expansion = symbol_expansion_settings(engine_config)
-    if expansion["observer_only"] and not expansion["affect_production"]:
-        return {
-            "source": "approved_robustness_baseline",
-            "metrics": approved_robustness_metrics(),
-            "symbol_breakdown": approved_robustness_symbol_breakdown(),
-            "xau_smt_split": approved_xau_smt_split(),
-        }
+    """Return production metrics recomputed from the current scan.
+
+    The pre-Phase-0 version restored a stored constant baseline whenever the
+    symbol-expansion gate was active (its default), which made the production
+    number unfalsifiable. Observer symbols are already excluded upstream by
+    split_production_observer_trades, so production metrics always come from
+    the actual scan now. Stored baselines remain available only as labeled
+    legacy references for comparison.
+    """
     return {
         "source": "current_backtest_scan",
         "metrics": adaptive.get("overall", {}),
         "symbol_breakdown": adaptive.get("by_symbol", {}),
         "xau_smt_split": build_xau_smt_split(selected_trades, starting_balance=starting_balance),
+    }
+
+
+def build_reconciliation(
+    *,
+    metrics: dict[str, Any],
+    symbol_breakdown: dict[str, dict[str, Any]],
+    monthly: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Cross-check headline metrics against their own breakdowns.
+
+    The legacy 365D report failed exactly this check (headline 56 trades vs.
+    breakdowns summing to 73) without noticing. A report whose breakdowns do
+    not sum to its headline is not evidence.
+    """
+    total_trades = int(metrics.get("trades_approved", metrics.get("trades", 0)) or 0)
+    total_wins = int(metrics.get("wins", 0) or 0)
+    total_losses = int(metrics.get("losses", 0) or 0)
+    symbol_trades = sum(int(data.get("trades_approved", data.get("trades", 0)) or 0) for data in symbol_breakdown.values())
+    symbol_wins = sum(int(data.get("wins", 0) or 0) for data in symbol_breakdown.values())
+    symbol_losses = sum(int(data.get("losses", 0) or 0) for data in symbol_breakdown.values())
+    monthly_trades = sum(int(data.get("trades_approved", data.get("trades", 0)) or 0) for data in monthly.values())
+    checks = {
+        "symbol_trades_match_total": symbol_trades == total_trades,
+        "symbol_wins_match_total": symbol_wins == total_wins,
+        "symbol_losses_match_total": symbol_losses == total_losses,
+        "monthly_trades_match_total": monthly_trades == total_trades,
+    }
+    return {
+        "status": "PASS" if all(checks.values()) else "FAIL",
+        "total_trades": total_trades,
+        "symbol_trades_sum": symbol_trades,
+        "monthly_trades_sum": monthly_trades,
+        "checks": checks,
     }
 
 

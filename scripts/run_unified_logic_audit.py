@@ -139,13 +139,21 @@ def build_legacy_report_purge() -> dict[str, Any]:
 
 
 def build_unified_logic_audit() -> dict[str, Any]:
-    """Return O0.5 unified logic audit."""
+    """Return O0.5 unified logic audit.
+
+    Component audits verify their claims from source inspection and report
+    real violations; unification status is computed, never asserted.
+    """
     sda = shared_decision_adapter_audit()
     scanner = shared_candidate_scanner_audit()
     state_ambiguities = ambiguity_report()
     cost = cost_coverage_audit()
     lifecycle = lifecycle_parity_audit()
-    remaining_violations = []
+    remaining_violations = [
+        *sda.get("remaining_violations", []),
+        *scanner.get("remaining_violations", []),
+        *cost.get("remaining_violations", []),
+    ]
     unizim_achieved = (
         scanner["status"] == "PASS"
         and sda["status"] == "PASS"

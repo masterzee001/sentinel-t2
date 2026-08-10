@@ -466,12 +466,17 @@ class ConfidenceAnalyzer:
     ) -> dict[str, Any]:
         """Evaluate strategy guardrails from current confidence context."""
         narrative = context.get("narrative") or {}
+        news_status = context.get("news_status") or {}
         return self.strategy_guardrails.evaluate(
             symbol=symbol,
             total_confidence=total_confidence,
             killzone=context.get("killzone", {}),
             smt=context.get("smt", {}),
             narrative_phase=context.get("narrative_phase") or narrative.get("phase"),
+            risk_blocked=bool(context.get("risk_blocked", False)),
+            news_lock_active=bool(
+                context.get("high_impact_news_lock_active", False) or news_status.get("lock_active", False)
+            ),
         )
 
     @staticmethod

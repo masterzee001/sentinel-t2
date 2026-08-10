@@ -11,6 +11,7 @@ from scripts.run_backtest_365d import (
     build_observer_diagnostics,
     build_observer_only_comparison,
     build_production_payload,
+    build_reconciliation,
     build_xau_smt_split,
     loss_clusters,
     monthly_breakdown,
@@ -57,6 +58,7 @@ def test_trade_simulation_tp_hit():
     assert result["outcome"] == "WIN"
     assert result["hit_level"] == "TP1"
     assert result["rr"] == 1.0
+    assert result["cost"]["cost_status"] == "NO_COST_MODEL"
 
 
 def test_trade_simulation_sl_hit():
@@ -67,6 +69,73 @@ def test_trade_simulation_sl_hit():
     assert result["outcome"] == "LOSS"
     assert result["hit_level"] == "SL"
     assert result["rr"] == -1.0
+
+
+def test_trade_simulation_applies_symbol_costs():
+    simulator = TradeSimulator({"use_tp3_as_full_win": False, "use_tp1_as_win": True})
+    plan = {**bullish_plan(), "symbol": "XAUUSD"}
+
+    win = simulator.simulate(plan, candles(highs=[111.0], lows=[99.0]))
+    loss = simulator.simulate(plan, candles(highs=[105.0], lows=[89.0]))
+    timeout = simulator.simulate(plan, candles(highs=[105.0], lows=[95.0]))
+
+    # XAUUSD round-trip cost 0.45 on a 10.0 stop distance = 0.045R.
+    assert win["outcome"] == "WIN"
+    assert win["rr"] == 0.955
+    assert win["cost"]["cost_status"] == "APPLIED"
+    assert loss["outcome"] == "LOSS"
+    assert loss["rr"] == -1.045
+    assert timeout["outcome"] == "BREAKEVEN"
+    assert timeout["hit_level"] == "no_target_hit"
+    assert timeout["rr"] == -0.045
+
+
+def test_trade_simulation_costs_can_be_disabled():
+    simulator = TradeSimulator({"use_tp3_as_full_win": False, "apply_costs": False})
+    plan = {**bullish_plan(), "symbol": "XAUUSD"}
+
+    result = simulator.simulate(plan, candles(highs=[111.0], lows=[99.0]))
+
+    assert result["rr"] == 1.0
+    assert result["cost"]["cost_status"] == "DISABLED"
+
+
+class FakeKillzoneAnalyzer:
+    def analyze(self, symbol: str, current_time=None):
+        return {"is_valid": True, "active_killzone": "london_open", "quality_score": 12}
+
+
+def test_scan_symbol_routes_decisions_through_live_confidence_brain():
+    engine = BacktestEngine(connector=object())
+    engine.killzone_analyzer = FakeKillzoneAnalyzer()
+
+    times = pd.date_range("2026-06-01", periods=90, freq="15min", tz="UTC")
+    highs = [101.0] * 90
+    lows = [99.5] * 90
+    closes = [100.0] * 90
+    opens = [100.0] * 90
+    highs[64] = 106.0
+    lows[64] = 100.0
+    closes[64] = 105.5
+    for i in range(65, 90):
+        highs[i] = 103.0
+        lows[i] = 100.5
+        closes[i] = 101.5
+    frame = pd.DataFrame({"time": times, "open": opens, "high": highs, "low": lows, "close": closes})
+
+    trades, setups = engine.scan_symbol("XAUUSD", frame)
+
+    assert setups >= 1
+    assert len(trades) == 1
+    trade = trades[0]
+    assert trade["decision_source"] == "ConfidenceAnalyzer"
+    assert trade["sda_compliant"] is True
+    assert trade["mss_mode"] == "HISTORICAL_STRUCTURE_BREAK"
+    assert trade["confidence"] >= 90
+    assert trade["simulation"]["cost"]["cost_status"] == "APPLIED"
+    # Timeout exit pays execution costs instead of exiting free at 0.0R.
+    assert trade["simulation"]["outcome"] == "BREAKEVEN"
+    assert trade["simulation"]["rr"] < 0.0
 
 
 def test_metric_aggregation():
@@ -219,7 +288,9 @@ def test_observer_evaluation_reports_raw_metrics_when_guardrails_block_all():
     assert nas100["observer_only_metrics"]["losses"] == 1
 
 
-def test_symbol_expansion_gate_restores_approved_production_baseline():
+def test_production_payload_always_recomputes_from_current_scan():
+    # Ugly current numbers must survive into the production payload; the
+    # pre-Phase-0 gate silently replaced them with a stored PF-1.58 constant.
     payload = build_production_payload(
         adaptive={"overall": {"profit_factor": 0.78, "win_rate": 43.9, "trades_approved": 46, "max_drawdown": 3.0}, "by_symbol": {}},
         selected_trades=[metric_trade("US30", "LOSS", -1.0, -25.0)],
@@ -232,12 +303,33 @@ def test_symbol_expansion_gate_restores_approved_production_baseline():
         observer_only=payload["metrics"],
     )
 
-    assert payload["source"] == "approved_robustness_baseline"
-    assert payload["metrics"]["profit_factor"] == 1.58
-    assert payload["metrics"]["win_rate"] == 58.7
-    assert payload["metrics"]["trades_approved"] == 56
-    assert payload["metrics"]["max_drawdown"] == 2.97
-    assert comparison["within_tolerance"] is True
+    assert payload["source"] == "current_backtest_scan"
+    assert payload["metrics"]["profit_factor"] == 0.78
+    assert payload["metrics"]["trades_approved"] == 46
+    assert comparison["within_tolerance"] is False
+
+
+def test_reconciliation_flags_breakdown_mismatch():
+    clean = build_reconciliation(
+        metrics={"trades_approved": 2, "wins": 1, "losses": 1},
+        symbol_breakdown={"US30": {"trades_approved": 2, "wins": 1, "losses": 1}},
+        monthly={"2026-01": {"trades_approved": 2}},
+    )
+    # The exact mismatch shipped in the legacy report: headline 56 trades,
+    # breakdowns summing to 73.
+    legacy_bug = build_reconciliation(
+        metrics={"trades_approved": 56, "wins": 27, "losses": 19},
+        symbol_breakdown={
+            "US30": {"trades_approved": 26, "wins": 10, "losses": 12},
+            "XAUUSD": {"trades_approved": 47, "wins": 17, "losses": 12},
+        },
+        monthly={"2026-01": {"trades_approved": 73}},
+    )
+
+    assert clean["status"] == "PASS"
+    assert legacy_bug["status"] == "FAIL"
+    assert legacy_bug["checks"]["symbol_trades_match_total"] is False
+    assert legacy_bug["checks"]["monthly_trades_match_total"] is False
 
 
 def test_xau_smt_split_is_explicit_not_unknown():
