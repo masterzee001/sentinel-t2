@@ -1,0 +1,102 @@
+{
+  "days": 1095,
+  "generated_at": "2026-08-11T03:53:12.012868+00:00",
+  "variants": {
+    "last30": {
+      "active_positions": 1383,
+      "by_symbol": {
+        "NAS100": {
+          "active_positions": 690,
+          "gross_loss_rr": 89.41,
+          "gross_win_rr": 67.9,
+          "net_rr": -21.52,
+          "risk_weighted_pf": 0.76
+        },
+        "US30": {
+          "active_positions": 693,
+          "gross_loss_rr": 94.93,
+          "gross_win_rr": 79.93,
+          "net_rr": -15.01,
+          "risk_weighted_pf": 0.84
+        }
+      },
+      "gross_loss_rr": 184.35,
+      "gross_win_rr": 147.82,
+      "net_rr": -36.53,
+      "per_quarter_net_rr": {
+        "2023-Q3": -2.68,
+        "2023-Q4": -7.1,
+        "2024-Q1": 1.56,
+        "2024-Q2": -6.49,
+        "2024-Q3": 0.71,
+        "2024-Q4": -10.46,
+        "2025-Q1": -2.57,
+        "2025-Q2": 8.13,
+        "2025-Q3": -4.61,
+        "2025-Q4": -5.91,
+        "2026-Q1": -0.47,
+        "2026-Q2": -6.72,
+        "2026-Q3": 0.19
+      },
+      "positive_quarter_share": 0.31,
+      "promote": false,
+      "promotion_rule": {
+        "min_net_rr": 0.0,
+        "min_positive_quarter_share": 0.5,
+        "min_rwpf": 1.1
+      },
+      "risk_weighted_pf": 0.8,
+      "trades": 1388,
+      "win_rate": 43.37,
+      "wins": 602
+    },
+    "session": {
+      "active_positions": 1388,
+      "by_symbol": {
+        "NAS100": {
+          "active_positions": 692,
+          "gross_loss_rr": 407.62,
+          "gross_win_rr": 328.26,
+          "net_rr": -79.37,
+          "risk_weighted_pf": 0.81
+        },
+        "US30": {
+          "active_positions": 696,
+          "gross_loss_rr": 369.41,
+          "gross_win_rr": 357.69,
+          "net_rr": -11.72,
+          "risk_weighted_pf": 0.97
+        }
+      },
+      "gross_loss_rr": 777.04,
+      "gross_win_rr": 685.95,
+      "net_rr": -91.09,
+      "per_quarter_net_rr": {
+        "2023-Q3": 0.86,
+        "2023-Q4": -8.15,
+        "2024-Q1": 14.8,
+        "2024-Q2": -7.5,
+        "2024-Q3": 1.41,
+        "2024-Q4": -30.85,
+        "2025-Q1": -12.19,
+        "2025-Q2": -12.25,
+        "2025-Q3": -8.59,
+        "2025-Q4": -20.03,
+        "2026-Q1": -11.09,
+        "2026-Q2": -7.19,
+        "2026-Q3": 9.6
+      },
+      "positive_quarter_share": 0.31,
+      "promote": false,
+      "promotion_rule": {
+        "min_net_rr": 0.0,
+        "min_positive_quarter_share": 0.5,
+        "min_rwpf": 1.1
+      },
+      "risk_weighted_pf": 0.88,
+      "trades": 1388,
+      "win_rate": 46.76,
+      "wins": 649
+    }
+  }
+}
