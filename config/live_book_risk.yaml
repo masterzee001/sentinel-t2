@@ -1,0 +1,64 @@
+# LIVE BOOK risk profile — used ONLY by the autonomous demo engines
+# (run_champion_paper.py / run_mean_reversion_live.py via risk_profile_file).
+# The advisor stack keeps the prop-firm profile in risk_profile.yaml.
+#
+# Design rule (user mandate 2026-08-11): the engines were promoted by
+# walk-forward backtests that took EVERY signal with no operational limits.
+# Prop-firm rules (2 trades/day, 1% daily loss, 4%/6% drawdown blocks,
+# consecutive-loss stop, cooldown) would strangle the audited edge — the
+# champion's own backtest drew down past the old 4% internal block.
+# Every limit below is a MALFUNCTION TRIPWIRE sized OUTSIDE audited
+# behavior (adversarially verified 2026-08-11). If one fires, something is
+# broken — stop and investigate; do not "wait it out".
+#
+# Audited reference points:
+#   meanrev peak-to-trough at live sizing (0.5%/risk-unit, 3 symbols): ~19-21%
+#   champion 3y max DD: ~8%    combined book: shared account equity
+#   worst legit day if all stops FILL at distance: ~6.5%; overnight gaps
+#   THROUGH stops are inside audited behavior (daily-close exits), so a
+#   crash day can legitimately exceed that — the 12% line is an accepted
+#   stop-and-review level for a crash day, not a strict malfunction proof.
+# Daily loss is measured on SHARED account equity including floating P&L
+# (both engines' positions count together — intentional account-level brake).
+# Drawdown is measured from the persistent all-time peak (one-way ratchet).
+# RESET AFTER A TRIP: investigate first; then edit/delete peak_equity in
+# .sentinel_runtime/champion_risk_state.json AND meanrev_risk_state.json
+# (each engine keeps its own store; both observe the same account equity).
+#
+# DEEP-MERGE LANDMINE: RiskGovernor merges its prop-firm DEFAULT_RISK_PROFILE
+# UNDER this file. NEVER delete a key expecting "no limit" — a missing key
+# silently reinstates the prop-firm default (e.g. 2 trades/day). The loader
+# refuses to start if this file is missing or empty, but per-key gaps are
+# only protected by keeping every key present below.
+
+version: "1.1"
+environment: "development"
+account_mode: "demo"
+
+drawdown:
+  firm_max_drawdown_percent: 40.0        # hard block; audited worst band ~21%
+  internal_max_drawdown_percent: 35.0    # tripwire, outside audited behavior
+  lock_account_at_drawdown_percent: 35.0
+
+daily_limits:
+  max_trades_per_day: 15                 # runaway-order-loop tripwire (champion legit max ~4-8;
+                                         # meanrev overrides to 6 in run_mean_reversion_live.py)
+  daily_loss_limit_percent: 12.0         # crash-day stop-and-review line (see header)
+  stop_after_consecutive_losses: 50      # INOPERATIVE live: no live caller records closes, the
+  cooldown_after_stop_loss_minutes: 0    #   counter stays 0. Values kept high/off deliberately —
+                                         #   deleting the keys would reinstate prop defaults (2, 15m).
+
+risk_per_trade:
+  # Advisory only on the live path — DemoOrderExecutor sizes from its own
+  # risk_percent parameter (champion 0.5, meanrev 1.5).
+  week_1_percent: 0.5
+  week_2_percent_if_profitable: 0.5
+  forex_development_percent: 0.5
+
+portfolio_limits:
+  # INOPERATIVE live: planned risk is recorded as 0.0 on fills (a reservation
+  # would never be released on server-side SL/TP closes and would ratchet
+  # shut). Real concurrency bounds: one-position-per-symbol (2 champion +
+  # 3 meanrev) and max_trades_per_day. Key kept so the prop default (1.0)
+  # can never merge back in.
+  max_total_open_planned_risk_percent: 10.0

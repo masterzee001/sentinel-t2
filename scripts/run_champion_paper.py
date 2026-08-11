@@ -94,9 +94,16 @@ def main() -> int:
     engine = BacktestEngine(connector=connector)
     trader = ChampionPaperTrader(engine, STATE_PATH)
     executor = None
+    store = None
     if args.execute_demo:
         store = RiskStateStore(PROJECT_ROOT / ".sentinel_runtime" / "champion_risk_state.json")
-        governor = RiskGovernor(connector=connector, state_store=store)
+        # Live-book profile: malfunction tripwires only, NOT the prop-firm
+        # limits in risk_profile.yaml (those would strangle the audited edge).
+        governor = RiskGovernor(
+            connector=connector,
+            state_store=store,
+            risk_profile_file=PROJECT_ROOT / "config" / "live_book_risk.yaml",
+        )
         executor = DemoOrderExecutor(
             connector, governor, PROJECT_ROOT / "data" / "live_paper" / "KILL_SWITCH"
         )
@@ -121,8 +128,22 @@ def main() -> int:
     print(f"telegram_startup_message_sent={startup_sent}", flush=True)
 
     completed = 0
+    demo_orders = {"submitted": 0, "refused": {}}
     try:
         while True:
+            if store is not None:
+                # Feed the daily-loss/drawdown tripwires all day, not only at
+                # open attempts — otherwise the daily baseline is set at the
+                # first signal of the day and the tripwire misses everything
+                # before it.
+                try:
+                    snapshot = connector.get_account_info()
+                    store.observe_account(
+                        balance=float(snapshot.get("balance", 0.0)),
+                        equity=float(snapshot.get("equity", 0.0)),
+                    )
+                except Exception as exc:
+                    print(f"account observation failed ({exc})", flush=True)
             candles_by_symbol = {}
             for symbol in SYMBOLS:
                 try:
@@ -136,14 +157,17 @@ def main() -> int:
                 "DEMO_EXECUTION_REAL_ORDERS" if executor else "ADVISOR_PAPER_NO_ORDERS"
             )
             trader.save_state()
-            write_outputs(result)
             for action in result["actions"]:
                 if executor and action.get("event") == "OPEN":
                     order_result = executor.open_position(action)
                     action["demo_order"] = order_result
                     if order_result.get("submitted"):
+                        demo_orders["submitted"] += 1
                         trader.state["open_positions"][action["symbol"]]["demo_order"] = order_result
                         trader.save_state()
+                    else:
+                        reason = str(order_result.get("reason", "unknown"))[:80]
+                        demo_orders["refused"][reason] = demo_orders["refused"].get(reason, 0) + 1
                 if executor and action.get("event") == "CLOSE":
                     # SL/TP closes happen server-side; the timeout exit (and any
                     # residual position from fill drift) is closed actively.
@@ -161,6 +185,13 @@ def main() -> int:
                     elif demo_order:
                         message += f"\nDEMO ORDER NOT SENT: {demo_order.get('reason')}"
                     notify_telegram(message)
+            if executor:
+                # Suppression must be visible next to the parity target: a
+                # healthy paper rwPF with a climbing refused count means the
+                # account is not actually taking the audited signals.
+                result["summary"]["demo_orders_since_start"] = demo_orders
+            # Written after order submission so the journal carries demo fills.
+            write_outputs(result)
             completed += 1
             if args.cycles and completed >= args.cycles:
                 summary = result["summary"]

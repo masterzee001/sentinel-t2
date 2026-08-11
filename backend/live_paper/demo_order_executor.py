@@ -41,6 +41,7 @@ class DemoOrderExecutor:
         risk_percent: float = 0.5,
         magic: int = MAGIC,
         comment: str = COMMENT,
+        max_lots_per_order: float = 5.0,
     ) -> None:
         self.connector = connector
         self.risk_governor = risk_governor
@@ -48,6 +49,8 @@ class DemoOrderExecutor:
         self.risk_percent = float(risk_percent)
         self.magic = int(magic)
         self.comment = str(comment)
+        self.max_lots_per_order = float(max_lots_per_order)
+        self._count_failures = 0
 
     # ------------------------------------------------------------- gates
     def verify_demo_account(self) -> dict[str, Any]:
@@ -67,7 +70,17 @@ class DemoOrderExecutor:
     def open_allowed(self) -> tuple[bool, str]:
         if self.kill_switch_active():
             return False, "kill switch file present"
-        risk = self.risk_governor.evaluate()
+        if self._count_failures >= 3:
+            # Trade counting is part of the runaway-loop tripwire; if the
+            # state file is persistently unwritable, fail closed.
+            return False, "risk state store unwritable (trade counting disabled)"
+        try:
+            risk = self.risk_governor.evaluate()
+        except Exception as exc:
+            # A transient MT5 account-info failure must refuse THIS order,
+            # not kill the engine process (fail closed, engine survives).
+            logger.warning("Risk evaluation failed; refusing order: {}", exc)
+            return False, f"risk evaluation failed: {exc}"
         permission = risk.get("permission", {})
         if not permission.get("trade_allowed", False):
             return False, "; ".join(permission.get("block_reasons", [])) or "risk governor blocked"
@@ -116,9 +129,20 @@ class DemoOrderExecutor:
         bullish = position["direction"] == "bullish"
         price = float(tick.ask if bullish else tick.bid)
         stop_distance = abs(position["entry"] - position["stop_loss"])
+        # Sanity gates: a feed glitch shrinking the stop (or corrupt broker
+        # tick metadata inflating the lot formula) must not produce a
+        # position risking many times the budget. Both engines' real stops
+        # are structural (hundreds of points); 0.05% of entry is far below
+        # any legitimate stop.
+        if stop_distance < float(position["entry"]) * 0.0005:
+            logger.warning("Implausibly small stop for {}: {} — refusing order.", symbol, stop_distance)
+            return {"submitted": False, "reason": f"implausibly small stop distance {stop_distance}"}
         lots = self.lot_size(symbol, stop_distance, float(account.get("equity", 0.0)))
         if lots <= 0:
             return {"submitted": False, "reason": "position below broker minimum for risk budget"}
+        if lots > self.max_lots_per_order:
+            logger.warning("Lot size {} exceeds sanity ceiling {} for {} — refusing order.", lots, self.max_lots_per_order, symbol)
+            return {"submitted": False, "reason": f"lots {lots} exceed sanity ceiling {self.max_lots_per_order}"}
         request = {
             "action": mt5.TRADE_ACTION_DEAL,
             "symbol": symbol,
@@ -139,12 +163,31 @@ class DemoOrderExecutor:
             comment = getattr(result, "comment", "no result") if result is not None else "order_send returned None"
             logger.warning("Demo order rejected for {}: retcode={} {}", symbol, retcode, comment)
             return {"submitted": False, "reason": f"retcode={retcode} {comment}"}
+        self._count_open()
         return {
             "submitted": True,
             "order_ticket": int(getattr(result, "order", 0) or 0),
             "fill_price": float(getattr(result, "price", price) or price),
             "lots": lots,
         }
+
+    def _count_open(self) -> None:
+        """Count a filled open in the risk state so the daily-trade tripwire is real.
+
+        Planned risk is deliberately NOT reserved (0.0): nothing on the live
+        path observes server-side SL/TP closes, so a reservation would never
+        be released and would ratchet the portfolio limit shut over weeks.
+        """
+        store = getattr(self.risk_governor, "state_store", None)
+        if store is None:
+            return
+        try:
+            store.record_trade_opened(planned_risk_percent=0.0)
+            self._count_failures = 0
+        except Exception as exc:  # Counting must never kill a fill we already made —
+            # but 3 straight failures fail the executor closed (see open_allowed).
+            self._count_failures += 1
+            logger.warning("Could not record opened trade in risk state ({} consecutive): {}", self._count_failures, exc)
 
     def close_symbol_positions(self, symbol: str) -> dict[str, Any]:
         """Close any open sentinel-champion position on a symbol (timeout exit)."""

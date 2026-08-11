@@ -58,11 +58,15 @@ class RiskGovernor:
         environment_mode: str | None = None,
         account_mode: str | None = None,
         state_store: RiskStateStore | None = None,
+        risk_profile_file: str | Path | None = None,
+        risk_profile_overrides: dict[str, Any] | None = None,
     ) -> None:
         project_root = Path(__file__).resolve().parents[2]
         self.config_dir = Path(config_dir) if config_dir else project_root / "config"
         self.connector = connector or MT5Connector()
         self.mode = mode
+        self.risk_profile_file = Path(risk_profile_file) if risk_profile_file else None
+        self.risk_profile_overrides = dict(risk_profile_overrides or {})
         self.risk_profile = self._load_risk_profile()
         self.trading_rules = self._load_trading_rules()
         self.environment_mode = self.normalize_environment_mode(
@@ -485,8 +489,24 @@ class RiskGovernor:
         return explanation
 
     def _load_risk_profile(self) -> dict[str, Any]:
-        config = self._load_yaml_file(self.config_dir / "risk_profile.yaml")
-        return self._deep_merge(self.DEFAULT_RISK_PROFILE, config)
+        if self.risk_profile_file is not None:
+            # An explicit profile (the live-book tripwires) must NEVER fall
+            # back to the prop-firm defaults silently: a missing or empty
+            # file would quietly reinstate 2 trades/day and a 4% DD block.
+            if not self.risk_profile_file.exists():
+                raise RiskGovernorError(
+                    f"Explicit risk profile {self.risk_profile_file} does not exist; "
+                    "refusing to fall back to the prop-firm defaults."
+                )
+            config = self._load_yaml_file(self.risk_profile_file)
+            if not config:
+                raise RiskGovernorError(f"Explicit risk profile {self.risk_profile_file} is empty.")
+        else:
+            config = self._load_yaml_file(self.config_dir / "risk_profile.yaml")
+        merged = self._deep_merge(self.DEFAULT_RISK_PROFILE, config)
+        if self.risk_profile_overrides:
+            merged = self._deep_merge(merged, self.risk_profile_overrides)
+        return merged
 
     def _load_trading_rules(self) -> dict[str, Any]:
         config = self._load_yaml_file(self.config_dir / "trading_rules.yaml")

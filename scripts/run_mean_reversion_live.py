@@ -77,6 +77,20 @@ def record(action: dict[str, Any]) -> None:
         handle.write(json.dumps(action, default=str) + "\n")
 
 
+def count_order_result(state: dict[str, Any], demo_order: dict[str, Any]) -> None:
+    """Track submitted vs refused real orders so silent suppression is visible.
+
+    The paper book stays faithful to the audited strategy even when an order
+    is refused; these counters are how paper-vs-account divergence shows up.
+    """
+    counters = state.setdefault("demo_orders", {"submitted": 0, "refused": {}})
+    if demo_order.get("submitted"):
+        counters["submitted"] = int(counters.get("submitted", 0)) + 1
+    else:
+        reason = str(demo_order.get("reason", "unknown"))[:80]
+        counters["refused"][reason] = int(counters["refused"].get(reason, 0)) + 1
+
+
 def write_status(state: dict[str, Any]) -> None:
     rrs = [float(t.get("rr", 0.0)) for t in state["closed_trades"]]
     gross_win = sum(rr for rr in rrs if rr > 0)
@@ -91,6 +105,7 @@ def write_status(state: dict[str, Any]) -> None:
                 "closed_trades": len(rrs),
                 "net_rr": round(sum(rrs), 2),
                 "risk_weighted_pf": round(gross_win / gross_loss, 2) if gross_loss else round(gross_win, 2),
+                "demo_orders": state.get("demo_orders", {"submitted": 0, "refused": {}}),
                 "replay_expectation": {"risk_weighted_pf": 1.85, "note": "rollover-stressed audited figure"},
             },
             indent=2,
@@ -99,6 +114,34 @@ def write_status(state: dict[str, Any]) -> None:
         + "\n",
         encoding="utf-8",
     )
+
+
+def preflight_min_lots(connector: Any, executor: DemoOrderExecutor, equity: float) -> None:
+    """Warn loudly if any symbol's disaster-stop lot lands below broker minimum.
+
+    A below-minimum size makes open_position skip the order silently order by
+    order; the paper book then looks healthy while the account takes no
+    trades — the audit called this silent signal deletion. Non-fatal: sizes
+    change with equity and volatility.
+    """
+    blocked = []
+    for symbol in SYMBOLS:
+        try:
+            candles = connector.get_historical_candles(symbol, "D1", count=VOL_WINDOW + 5)
+            _, risk_unit = ibs_and_risk_unit(candles)
+            if risk_unit <= 0:
+                continue
+            if executor.lot_size(symbol, DISASTER_STOP_UNITS * risk_unit, equity) <= 0:
+                blocked.append(symbol)
+        except Exception as exc:
+            print(f"preflight: {symbol} check failed ({exc})", flush=True)
+    if blocked:
+        message = (
+            f"MEANREV PREFLIGHT WARNING: {', '.join(blocked)} would be SKIPPED at current equity — "
+            "risk-budget lot is below the broker minimum. Signals on these symbols will not reach the account."
+        )
+        print(message, flush=True)
+        notify_telegram(message)
 
 
 def main() -> int:
@@ -120,7 +163,16 @@ def main() -> int:
     executor = None
     if args.execute_demo:
         store = RiskStateStore(PROJECT_ROOT / ".sentinel_runtime" / "meanrev_risk_state.json")
-        governor = RiskGovernor(connector=connector, state_store=store)
+        # Live-book profile: malfunction tripwires only, NOT the prop-firm
+        # limits in risk_profile.yaml (those would strangle the audited edge).
+        # Trade-cap override: legit max is 3 opens/day (one per symbol), so a
+        # re-entry loop bug trips at 6 instead of the champion-sized 15.
+        governor = RiskGovernor(
+            connector=connector,
+            state_store=store,
+            risk_profile_file=PROJECT_ROOT / "config" / "live_book_risk.yaml",
+            risk_profile_overrides={"daily_limits": {"max_trades_per_day": 6}},
+        )
         executor = DemoOrderExecutor(
             connector,
             governor,
@@ -136,6 +188,7 @@ def main() -> int:
             connector.shutdown()
             return 1
         print(f"MEANREV DEMO EXECUTION ENABLED on {account.get('server')}", flush=True)
+        preflight_min_lots(connector, executor, float(account.get("equity", 0.0)))
     state = load_state()
     mode = "DEMO EXECUTION" if executor else "paper only"
     notify_telegram(
@@ -147,6 +200,18 @@ def main() -> int:
     completed = 0
     try:
         while True:
+            if executor:
+                # Feed the daily-loss/drawdown tripwires all day, not only at
+                # open attempts: without this the baseline equity is set
+                # seconds before the nightly window and the tripwire is blind.
+                try:
+                    snapshot = connector.get_account_info()
+                    store.observe_account(
+                        balance=float(snapshot.get("balance", 0.0)),
+                        equity=float(snapshot.get("equity", 0.0)),
+                    )
+                except Exception as exc:
+                    print(f"account observation failed ({exc})", flush=True)
             server_now = datetime.now(UTC)
             server_hm = ((server_now.hour + 3) % 24, server_now.minute)  # Server = UTC+3.
             in_window = args.force_window or (server_hm[0] == 23 and server_hm[1] >= 30)
@@ -201,6 +266,7 @@ def main() -> int:
                         if executor:
                             action["demo_order"] = executor.open_position(position)
                             position["demo_order"] = action["demo_order"]
+                            count_order_result(state, action["demo_order"])
                         state["open_positions"][symbol] = position
                         record(action)
                         fill = action.get("demo_order", {})
