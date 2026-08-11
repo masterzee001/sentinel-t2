@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-08-11T09:57:43.319884+00:00",
+  "status": "RESEARCH_ONLY_NOT_PROMOTED",
+  "mode": "NO tripwires",
+  "window": {
+    "start": "2023-08-08",
+    "end": "2026-08-07"
+  },
+  "ending_equity": 17692.65,
+  "total_return_percent": 489.8,
+  "cagr_percent": 80.7,
+  "max_drawdown_percent": 62.8,
+  "worst_day": {
+    "day": "2025-04-04",
+    "loss_percent": 34.93
+  },
+  "account_blown": false,
+  "blown_on": null,
+  "stage_transitions": [
+    {
+      "day": "2023-08-08",
+      "gear": 1.0,
+      "target": 0.4,
+      "equity": 3000.0
+    },
+    {
+      "day": "2024-10-08",
+      "gear": 2.0,
+      "target": 0.25,
+      "equity": 4215.81
+    },
+    {
+      "day": "2025-07-09",
+      "gear": 1.25,
+      "target": 0.45,
+      "equity": 5328.11
+    },
+    {
+      "day": "2025-10-15",
+      "gear": 3.0,
+      "target": 0.175,
+      "equity": 7769.98
+    },
+    {
+      "day": "2025-12-19",
+      "gear": 1.0,
+      "target": 0.4,
+      "equity": 9338.11
+    },
+    {
+      "day": "2026-02-20",
+      "gear": 4.0,
+      "target": 0.085,
+      "equity": 13136.55
+    },
+    {
+      "day": "2026-02-25",
+      "gear": 1.0,
+      "target": 0.4,
+      "equity": 14256.06
+    }
+  ],
+  "tripwire_demotions": [],
+  "days_per_gear": {
+    "1.0": 463,
+    "1.25": 32,
+    "2.0": 194,
+    "3.0": 47,
+    "4.0": 3
+  },
+  "highest_gear_reached": 4.0
+}
