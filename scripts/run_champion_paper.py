@@ -1,9 +1,10 @@
-"""Run the champion-config live paper trader (advisor mode, no orders ever).
+"""Run the champion-config live trader (paper, or real orders on a DEMO account).
 
 Evaluates the promoted configuration on each newly CLOSED M15 candle for
 US30+NAS100, journals every open/close/reject, and maintains a rolling parity
-summary against the replay expectation (rwPF 1.18). Leave it running in a
-terminal; stop with Ctrl+C. State survives restarts.
+summary against the replay expectation (rwPF 1.18). With --execute-demo it
+also submits real orders to a demo account. Normally started by the
+supervisor, which is the single owner of engine processes.
 """
 
 from __future__ import annotations
@@ -13,6 +14,7 @@ import json
 import os
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
 import requests
@@ -139,6 +141,7 @@ def main() -> int:
 
     completed = 0
     demo_orders = {"submitted": 0, "refused": {}}
+    mt5_health: dict = {"last_success_utc": None, "consecutive_failures": 0}
     try:
         while True:
             if store is not None:
@@ -162,10 +165,19 @@ def main() -> int:
                     candles_by_symbol[symbol] = candles.iloc[:-1].reset_index(drop=True)
                 except Exception as exc:
                     print(f"{symbol}: candle fetch failed ({exc})")
+            # MT5 liveness: without this the status file keeps refreshing while
+            # the terminal is dead, so a broken feed looks exactly like a quiet
+            # market and the watchdog never fires (audit 2026-08-11).
+            if candles_by_symbol:
+                mt5_health["last_success_utc"] = datetime.now(UTC).isoformat()
+                mt5_health["consecutive_failures"] = 0
+            else:
+                mt5_health["consecutive_failures"] = int(mt5_health["consecutive_failures"]) + 1
             result = trader.process_cycle(candles_by_symbol)
             result["summary"]["mode"] = (
                 "DEMO_EXECUTION_REAL_ORDERS" if executor else "ADVISOR_PAPER_NO_ORDERS"
             )
+            result["summary"]["mt5_health"] = dict(mt5_health)
             trader.save_state()
             for action in result["actions"]:
                 if executor and action.get("event") == "OPEN":

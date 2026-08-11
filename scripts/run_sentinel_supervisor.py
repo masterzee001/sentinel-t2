@@ -39,12 +39,14 @@ ENGINES = {
         "status": PROJECT_ROOT / "data" / "reports" / "champion_paper_status.json",
         "log": PROJECT_ROOT / "data" / "live_paper" / "champion_paper.log",
         "stale_seconds": 300,
+        "data_stale_seconds": 1800,
     },
     "meanrev": {
         "args": [PYTHON, "-u", "scripts/run_mean_reversion_live.py", "--interval-seconds", "300", "--execute-demo"],
         "status": PROJECT_ROOT / "data" / "reports" / "meanrev_live_status.json",
         "log": PROJECT_ROOT / "data" / "live_paper" / "meanrev.log",
         "stale_seconds": 1200,
+        "data_stale_seconds": 3600,
     },
 }
 DIGEST_HOUR_UTC = 6  # 07:00 WAT.
@@ -93,6 +95,27 @@ def read_status(engine: dict) -> dict:
         return json.loads(engine["status"].read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return {}
+
+
+def data_age_seconds(engine: dict) -> float:
+    """Seconds since the engine last got a real answer out of MT5.
+
+    File mtime only proves the Python process is alive; a dead or hung
+    terminal keeps the heartbeat fresh while the book silently stops
+    trading. This reads the engine-reported MT5 health instead.
+    """
+    status = read_status(engine)
+    health = status.get("mt5_health") or {}
+    last = health.get("last_success_utc")
+    if not last:
+        return 0.0  # engine has not reported health yet — do not act on silence
+    try:
+        stamp = datetime.fromisoformat(str(last))
+    except ValueError:
+        return 0.0
+    if stamp.tzinfo is None:
+        stamp = stamp.replace(tzinfo=UTC)
+    return (datetime.now(UTC) - stamp).total_seconds()
 
 
 def build_digest() -> str:
@@ -161,6 +184,18 @@ def main() -> int:
                 age = status_age_seconds(engine)
                 child = children.get(name)
                 child_dead = child is None or child.poll() is not None
+                # A live process with a dead MT5 feed is the silent failure
+                # mode the heartbeat cannot see: force a restart on it.
+                feed_age = data_age_seconds(engine)
+                if feed_age > engine["data_stale_seconds"] and not child_dead:
+                    notify_telegram(
+                        f"SUPERVISOR: {name} process is alive but MT5 returned nothing for "
+                        f"{int(feed_age / 60)} min - restarting it. Check the terminal is logged in."
+                    )
+                    print(f"{name}: MT5 feed dead {int(feed_age)}s - restarting", flush=True)
+                    child.kill()
+                    start_engine(name, engine, children)
+                    continue
                 if age > engine["stale_seconds"]:
                     if child_dead:
                         start_engine(name, engine, children)

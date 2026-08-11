@@ -54,6 +54,46 @@ ACTIONS_PATH = PROJECT_ROOT / "data" / "live_paper" / "meanrev_actions.jsonl"
 STATUS_PATH = PROJECT_ROOT / "data" / "reports" / "meanrev_live_status.json"
 
 
+SERVER_OFFSET_FALLBACK_HOURS = 3.0
+OFFSET_CONFIRMATIONS_REQUIRED = 3
+
+
+def refresh_server_offset(connector: Any, state: dict[str, Any]) -> float:
+    """Return the broker's measured UTC offset, remembering the last good value.
+
+    Hardcoding +3 breaks silently at the late-October EET change: every entry
+    window would fire an hour off (audit finding 2026-08-11). A single
+    measurement can be fooled by a frozen tick, so a CHANGE must be confirmed
+    by several consecutive agreeing readings — a frozen tick's implied offset
+    drifts, so it cannot survive that test.
+    """
+    current = state.get("server_offset_hours")
+    measured = connector.server_utc_offset_hours()
+    if measured is None:
+        return float(current if current is not None else SERVER_OFFSET_FALLBACK_HOURS)
+    if current is None:
+        state["server_offset_hours"] = measured
+        return measured
+    if measured == float(current):
+        state.pop("pending_offset", None)
+        state.pop("pending_offset_count", None)
+        return measured
+    pending = state.get("pending_offset")
+    count = int(state.get("pending_offset_count", 0)) + 1 if pending == measured else 1
+    state["pending_offset"] = measured
+    state["pending_offset_count"] = count
+    if count < OFFSET_CONFIRMATIONS_REQUIRED:
+        return float(current)
+    notify_telegram(
+        f"MEANREV: broker server clock moved UTC+{current} -> UTC+{measured} "
+        f"(confirmed {count}x, DST change). Entry windows re-anchored automatically."
+    )
+    state["server_offset_hours"] = measured
+    state.pop("pending_offset", None)
+    state.pop("pending_offset_count", None)
+    return measured
+
+
 def symbol_in_window(symbol: str, server_hour: int, server_minute: int) -> bool:
     """Return whether the symbol's own entry window is open (server time)."""
     hour, minute_from, minute_to = ENTRY_WINDOWS[symbol]
@@ -124,7 +164,7 @@ def count_order_result(state: dict[str, Any], demo_order: dict[str, Any]) -> Non
         counters["refused"][reason] = int(counters["refused"].get(reason, 0)) + 1
 
 
-def write_status(state: dict[str, Any]) -> None:
+def write_status(state: dict[str, Any], health: dict[str, Any] | None = None) -> None:
     rrs = [float(t.get("rr", 0.0)) for t in state["closed_trades"]]
     gross_win = sum(rr for rr in rrs if rr > 0)
     gross_loss = abs(sum(rr for rr in rrs if rr < 0))
@@ -139,6 +179,8 @@ def write_status(state: dict[str, Any]) -> None:
                 "net_rr": round(sum(rrs), 2),
                 "risk_weighted_pf": round(gross_win / gross_loss, 2) if gross_loss else round(gross_win, 2),
                 "demo_orders": state.get("demo_orders", {"submitted": 0, "refused": {}}),
+                "mt5_health": health or {},
+                "server_offset_hours": state.get("server_offset_hours"),
                 "replay_expectation": {
                     "risk_weighted_pf": 1.85,
                     "note": "rollover-stressed audited figure (US book); DE40 audited rwPF 1.30",
@@ -255,6 +297,7 @@ def main() -> int:
     print(f"MEAN-REVERSION LIVE ({mode}) | server windows: {windows}", flush=True)
 
     completed = 0
+    health: dict[str, Any] = {"last_success_utc": None, "consecutive_failures": 0}
     try:
         while True:
             if executor:
@@ -267,12 +310,20 @@ def main() -> int:
                         balance=float(snapshot.get("balance", 0.0)),
                         equity=float(snapshot.get("equity", 0.0)),
                     )
+                    # A live account read is the engine's proof that MT5 is
+                    # actually answering — the heartbeat file alone only
+                    # proves this Python process is alive (audit 2026-08-11).
+                    health["last_success_utc"] = datetime.now(UTC).isoformat()
+                    health["consecutive_failures"] = 0
                 except Exception as exc:
+                    health["consecutive_failures"] = int(health.get("consecutive_failures", 0)) + 1
                     print(f"account observation failed ({exc})", flush=True)
             server_now = datetime.now(UTC)
-            server_hm = ((server_now.hour + 3) % 24, server_now.minute)  # Server = UTC+3.
-            server_date = str((server_now.timestamp() + 3 * 3600) // 86400)
-            server_now_date = datetime.fromtimestamp(server_now.timestamp() + 3 * 3600, UTC).date()
+            offset_seconds = refresh_server_offset(connector, state) * 3600.0
+            server_clock = datetime.fromtimestamp(server_now.timestamp() + offset_seconds, UTC)
+            server_hm = (server_clock.hour, server_clock.minute)
+            server_date = str((server_now.timestamp() + offset_seconds) // 86400)
+            server_now_date = server_clock.date()
             eligible = [
                 symbol for symbol in SYMBOLS
                 if args.force_window or symbol_in_window(symbol, server_hm[0], server_hm[1])
@@ -346,7 +397,7 @@ def main() -> int:
                             f"no server SL (audited no-stop book) | exit IBS>{IBS_EXIT} or {MAX_HOLD_DAYS}d{suffix}"
                         )
                 save_state(state)
-            write_status(state)
+            write_status(state, health)
             completed += 1
             if args.cycles and completed >= args.cycles:
                 print(f"cycles={completed} open={len(state['open_positions'])} closed={len(state['closed_trades'])}")

@@ -39,6 +39,7 @@ class MT5Connector:
         self.symbol_aliases = self._load_symbol_aliases()
         self._broker_symbol_cache: dict[str, str] = {}
         self._initialized = False
+        self._server_offset_hours: float | None = None
 
         if self.mt5 is None:
             logger.warning("MetaTrader5 package is not installed or could not be imported.")
@@ -63,6 +64,51 @@ class MT5Connector:
         self._initialized = True
         logger.info("MetaTrader 5 initialized successfully.")
         return True
+
+    def server_utc_offset_hours(self, symbols: tuple[str, ...] = ("US500", "US30", "EURUSD")) -> float | None:
+        """Measure the broker's clock offset from UTC using a FRESH tick.
+
+        MT5 reports every timestamp in SERVER time while encoding it like a
+        UTC epoch, so comparing a just-arrived tick against real UTC yields
+        the offset. Measuring beats hardcoding: MetaQuotes-Demo runs EET, so
+        a fixed +3 silently becomes wrong by an hour at the late-October DST
+        change and shifts every trading window (audit finding 2026-08-11).
+
+        Returns None when no tick is fresh enough to trust (closed market);
+        callers should fall back to the last known good value.
+
+        LIMITATION: a frozen tick that happens to be stale by a whole number
+        of hours is indistinguishable from a fresh tick at a different
+        offset. Because a frozen tick's implied offset drifts continuously,
+        callers must require several consecutive agreeing measurements before
+        acting on a CHANGE (see refresh_server_offset in the live engines).
+        """
+        import time as _time
+
+        if self.mt5 is None:
+            return None
+        now = _time.time()
+        freshest = 0.0
+        for symbol in symbols:
+            try:
+                broker_name = self.broker_symbol(symbol)
+                self.mt5.symbol_select(broker_name, True)
+                tick = self.mt5.symbol_info_tick(broker_name)
+            except Exception:  # noqa: BLE001 - probing must never break a caller
+                continue
+            tick_time = float(getattr(tick, "time", 0) or 0) if tick is not None else 0.0
+            freshest = max(freshest, tick_time)
+        if freshest <= 0:
+            return None
+        delta_hours = (freshest - now) / 3600.0
+        offset = round(delta_hours)
+        staleness_minutes = abs(delta_hours - offset) * 60.0
+        # A fresh tick sits within a few minutes of a whole-hour offset; a
+        # stale one (closed market) drifts away from it and is rejected.
+        if staleness_minutes <= 5.0 and -12 <= offset <= 14:
+            self._server_offset_hours = float(offset)
+            return float(offset)
+        return None
 
     def shutdown(self) -> None:
         """Shutdown MetaTrader 5 cleanly."""
