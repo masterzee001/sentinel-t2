@@ -41,6 +41,10 @@ from scripts.run_sizing_walkforward import book_metrics
 DAYS = 1095
 SYMBOLS = ("US30", "NAS100")
 NY = ZoneInfo("America/New_York")
+# MT5 timestamps are BROKER SERVER TIME, not UTC. Measured empirically on
+# 2026-08-11 against wall-clock UTC: MetaQuotes-Demo runs UTC+3 (EET summer).
+# Without this correction the session map is shifted three hours (audit F1).
+SERVER_UTC_OFFSET_HOURS = 3
 ROUND_TRIP_COSTS = {"US30": 5.0, "NAS100": 3.5}  # Points, spread+slippage (validated model).
 RISK_UNIT_WINDOW = 20
 REPORT_PATH = PROJECT_ROOT / "data" / "reports" / "intraday_momentum_report.json"
@@ -53,11 +57,22 @@ def main() -> int:
     try:
         connector.connect()
         engine = BacktestEngine(connector=connector)
-        report: dict[str, Any] = {"generated_at": datetime.now(UTC).isoformat(), "days": DAYS, "variants": {}}
+        report: dict[str, Any] = {
+            "generated_at": datetime.now(UTC).isoformat(),
+            "requested_days": DAYS,
+            "server_utc_offset_hours": SERVER_UTC_OFFSET_HOURS,
+            "session_spans": {},
+            "variants": {},
+        }
         all_trades: dict[str, list[dict[str, Any]]] = {"last30": [], "session": []}
         for symbol in SYMBOLS:
             candles = trim_to_lookback_days(engine.fetch_backtest_candles(symbol, DAYS), DAYS)
             sessions = build_sessions(candles)
+            report["session_spans"][symbol] = {
+                "sessions": len(sessions),
+                "first": sessions[0]["date"] if sessions else None,
+                "last": sessions[-1]["date"] if sessions else None,
+            }
             for variant in ("last30", "session"):
                 all_trades[variant].extend(evaluate_variant(symbol, sessions, variant))
         for variant, trades in all_trades.items():
@@ -81,7 +96,8 @@ def build_sessions(candles: pd.DataFrame) -> list[dict[str, Any]]:
     plus the prior session's 16:00 close for the overnight-inclusive signal.
     """
     frame = candles.copy()
-    frame["et"] = frame["time"].dt.tz_convert(NY)
+    true_utc = frame["time"] - pd.Timedelta(hours=SERVER_UTC_OFFSET_HOURS)
+    frame["et"] = true_utc.dt.tz_convert(NY)
     frame["et_date"] = frame["et"].dt.date
     frame["et_hm"] = frame["et"].dt.strftime("%H:%M")
     sessions: list[dict[str, Any]] = []
@@ -92,8 +108,14 @@ def build_sessions(candles: pd.DataFrame) -> list[dict[str, Any]]:
         close_1530 = bars.get("15:15")
         close_1600 = bars.get("15:45")
         if open_1000 is None or close_1600 is None:
+            # Half-day early closes must still roll prior_close forward so the
+            # next overnight signal is measured from the true last price
+            # (audit F3); fall back to the day's final available bar.
+            day_last_close = float(day.iloc[-1]["close"]) if len(day) else None
             if close_1600 is not None:
                 prior_close = close_1600
+            elif open_1000 is not None and day_last_close is not None:
+                prior_close = day_last_close
             continue
         if prior_close is not None:
             sessions.append(

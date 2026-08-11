@@ -19,7 +19,9 @@ def session_frame(days: int, drift: float) -> pd.DataFrame:
         while bar_time.strftime("%H:%M") != "16:00":
             rows.append(
                 {
-                    "time": bar_time.tz_convert("UTC"),
+                    # Fabricate SERVER-labeled stamps (UTC+3) as the broker
+                    # delivers them; build_sessions subtracts the offset.
+                    "time": bar_time.tz_convert("UTC") + pd.Timedelta(hours=3),
                     "open": price,
                     "high": price + 2,
                     "low": price - 2,
