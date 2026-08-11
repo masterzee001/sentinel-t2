@@ -1,0 +1,224 @@
+{
+  "generated_at": "2026-08-11T09:18:01.195871+00:00",
+  "status": "RESEARCH_ONLY_NOT_PROMOTED",
+  "variants": {
+    "V0 baseline long .2/.8/10d": {
+      "trades": 364,
+      "trades_per_year": 88.9,
+      "win_rate": 70.3,
+      "net_rr": 211.57,
+      "rw_pf": 2.0,
+      "expectancy_rr": 0.581,
+      "worst_trade_rr": -8.79,
+      "params": {}
+    },
+    "V1 looser entry .25": {
+      "trades": 407,
+      "trades_per_year": 99.4,
+      "win_rate": 68.6,
+      "net_rr": 192.21,
+      "rw_pf": 1.78,
+      "expectancy_rr": 0.472,
+      "worst_trade_rr": -8.79,
+      "params": {
+        "entry_threshold": 0.25
+      }
+    },
+    "V2 looser entry .30": {
+      "trades": 450,
+      "trades_per_year": 109.9,
+      "win_rate": 67.3,
+      "net_rr": 194.8,
+      "rw_pf": 1.71,
+      "expectancy_rr": 0.433,
+      "worst_trade_rr": -8.79,
+      "params": {
+        "entry_threshold": 0.3
+      }
+    },
+    "V3 entry .25 exit .75": {
+      "trades": 435,
+      "trades_per_year": 106.2,
+      "win_rate": 69.4,
+      "net_rr": 177.95,
+      "rw_pf": 1.73,
+      "expectancy_rr": 0.409,
+      "worst_trade_rr": -8.79,
+      "params": {
+        "entry_threshold": 0.25,
+        "exit_threshold": 0.75
+      }
+    },
+    "V4 faster recycle hold 5d": {
+      "trades": 372,
+      "trades_per_year": 90.8,
+      "win_rate": 67.5,
+      "net_rr": 160.88,
+      "rw_pf": 1.64,
+      "expectancy_rr": 0.432,
+      "worst_trade_rr": -8.65,
+      "params": {
+        "max_hold": 5
+      }
+    },
+    "V5 longer hold 15d": {
+      "trades": 359,
+      "trades_per_year": 87.7,
+      "win_rate": 69.9,
+      "net_rr": 193.89,
+      "rw_pf": 1.91,
+      "expectancy_rr": 0.54,
+      "worst_trade_rr": -8.79,
+      "params": {
+        "max_hold": 15
+      }
+    },
+    "V6 SHORT side .8/.2/10d": {
+      "trades": 384,
+      "trades_per_year": 93.8,
+      "win_rate": 53.4,
+      "net_rr": -111.74,
+      "rw_pf": 0.78,
+      "expectancy_rr": -0.291,
+      "worst_trade_rr": -11.48,
+      "params": {
+        "side": "short"
+      }
+    },
+    "V7 SHORT extreme .9/.3/5d": {
+      "trades": 339,
+      "trades_per_year": 82.8,
+      "win_rate": 49.9,
+      "net_rr": -79.35,
+      "rw_pf": 0.77,
+      "expectancy_rr": -0.234,
+      "worst_trade_rr": -7.26,
+      "params": {
+        "side": "short",
+        "exit_threshold": 0.9,
+        "entry_threshold": 0.3,
+        "max_hold": 5
+      }
+    },
+    "V8 RSI2 long <10/>90": {
+      "trades": 306,
+      "trades_per_year": 74.7,
+      "win_rate": 68.0,
+      "net_rr": 140.73,
+      "rw_pf": 1.68,
+      "expectancy_rr": 0.46,
+      "worst_trade_rr": -12.94,
+      "params": {
+        "signal": "rsi2",
+        "entry_threshold": 0.1,
+        "exit_threshold": 0.9
+      }
+    }
+  },
+  "new_symbols": {
+    "DE40": {
+      "trades": 170,
+      "trades_per_year": 30.2,
+      "win_rate": 63.5,
+      "net_rr": 43.78,
+      "rw_pf": 1.37,
+      "expectancy_rr": 0.258,
+      "worst_trade_rr": -8.48,
+      "est_round_trip_cost": 1.75,
+      "bars": 1399,
+      "years": 5.6
+    },
+    "UK100": {
+      "trades": 68,
+      "trades_per_year": 12.1,
+      "win_rate": 70.6,
+      "net_rr": 55.48,
+      "rw_pf": 2.24,
+      "expectancy_rr": 0.816,
+      "worst_trade_rr": -9.4,
+      "est_round_trip_cost": 0.0,
+      "bars": 615,
+      "years": 5.6
+    },
+    "AUS200": {
+      "trades": 164,
+      "trades_per_year": 30.1,
+      "win_rate": 66.5,
+      "net_rr": 50.6,
+      "rw_pf": 1.46,
+      "expectancy_rr": 0.309,
+      "worst_trade_rr": -10.46,
+      "est_round_trip_cost": 0.0,
+      "bars": 1399,
+      "years": 5.5
+    },
+    "HK50": {
+      "trades": 159,
+      "trades_per_year": 27.9,
+      "win_rate": 55.3,
+      "net_rr": -41.83,
+      "rw_pf": 0.77,
+      "expectancy_rr": -0.263,
+      "worst_trade_rr": -9.65,
+      "est_round_trip_cost": 0.0,
+      "bars": 1399,
+      "years": 5.7
+    },
+    "US2000": {
+      "trades": 172,
+      "trades_per_year": 31.0,
+      "win_rate": 42.4,
+      "net_rr": -114.04,
+      "rw_pf": 0.44,
+      "expectancy_rr": -0.663,
+      "worst_trade_rr": -9.95,
+      "est_round_trip_cost": 18.9,
+      "bars": 1399,
+      "years": 5.5
+    },
+    "XAUUSD": {
+      "trades": 129,
+      "trades_per_year": 23.8,
+      "win_rate": 61.2,
+      "net_rr": -25.47,
+      "rw_pf": 0.85,
+      "expectancy_rr": -0.197,
+      "worst_trade_rr": -18.6,
+      "est_round_trip_cost": 1.4,
+      "bars": 1399,
+      "years": 5.4
+    },
+    "XAGUSD": {
+      "trades": 136,
+      "trades_per_year": 25.1,
+      "win_rate": 60.3,
+      "net_rr": -22.62,
+      "rw_pf": 0.85,
+      "expectancy_rr": -0.166,
+      "worst_trade_rr": -9.16,
+      "est_round_trip_cost": 0.0,
+      "bars": 1399,
+      "years": 5.4
+    }
+  },
+  "notes": [
+    "new-symbol costs = 3.5 x current spread (median calibration on audited universe)"
+  ],
+  "rsi2_union": {
+    "ibs_entries": 364,
+    "rsi2_entries": 306,
+    "rsi2_only_new": 230
+  },
+  "verification_corrections": {
+    "verified_by": "2-agent adversarial audit 2026-08-11 (independent pipeline reruns)",
+    "shorts_V6_V7": "financing was charged long-side; honest short book ~ -36R (financing-neutral) to +40R rwPF 1.10 (full credit) - still fails the >1.10 gate under every assumption; verdict NO stands, magnitude was 3x overstated",
+    "UK100": "INVALID - D1 history has a 1183-day hole (2022-12 to 2026-03); ignore this row entirely",
+    "AUS200": "zero-cost artifact; with estimated in-session costs ~ +29R rwPF ~1.25 - possibly positive, unproven pending real spread measurement",
+    "HK50_XAUUSD_XAGUSD": "rejections robust to any cost assumption",
+    "US2000": "verdict is cost-model-determined: gross exp ~ +0.07R vs realistic cost drag >= 0.08R - no edge net of this server's spread, not catastrophic",
+    "DE40": "SURVIVES honest cost uncertainty (even 4x cost error leaves rwPF ~1.32) - only new-symbol positive standing; needs out-of-sample gate before any promotion",
+    "rsi2_union": "230 new entry days confirmed, but incremental subset is rwPF 1.60 / +90.6R (not 1.68), and 64% of RSI2 hold-days overlap same-symbol open IBS exposure (separate book = ~2x exposure much of the time); shared-slot version adds only +113 trades / +41.3R",
+    "looser_entries_mechanism": "verified slot-crowding: extra entries are ~breakeven standalone; net R falls because they displace deeper entries worth 0.69-0.81R each",
+    "risk_scaling": "single historical path dominated by 2025-04-04 (-40% day at 2%/unit); UNDER LIVE TRIPWIRES: 1.5%/unit breaches internal 50% DD (51.2%, true DD slightly worse); 2%/unit is HALTED 2025-04-04 (daily 18% + both DD blocks) - CAGR 99% includes counterfactual post-halt trading; realistic ceiling under current tripwires ~1.25%/unit; 5-lot ceiling refused 29/254 entries late-window at 2%"
+  }
+}

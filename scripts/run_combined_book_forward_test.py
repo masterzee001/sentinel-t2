@@ -98,6 +98,8 @@ def day_of(timestamp: str) -> str:
 def main() -> int:
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument("--mr-risk-per-unit", type=float, default=1.0,
+                        help="RESEARCH: meanrev risk percent per risk-unit (live = 1.0).")
     parser.add_argument("--stop-units", type=float, default=0.0,
                         help="Disaster stop in risk units; 0 (the live default since 2026-08-11) = "
                              "audited no-stop book, sizing still on 3 risk-units.")
@@ -107,7 +109,8 @@ def main() -> int:
     champion_raw = json.loads(CHAMPION_TRADES.read_text(encoding="utf-8"))["trades"]
     meanrev_raw = json.loads(MEANREV_TRADES.read_text(encoding="utf-8"))["trades"]
     champion_sizer = make_sizer(risk_percent=0.5, min_lot_cap=1.5)
-    meanrev_sizer = make_sizer(risk_percent=3.0, min_lot_cap=6.0)
+    mr_risk_percent = 3.0 * float(args.mr_risk_per_unit)
+    meanrev_sizer = make_sizer(risk_percent=mr_risk_percent, min_lot_cap=6.0)
 
     # Daily OHLC for stop checks and mark-to-market.
     connector = MT5Connector()
@@ -262,7 +265,7 @@ def main() -> int:
                 stats["meanrev"]["skipped_over_ceiling"] += 1
                 trade["_consumed"] = True
                 continue
-            if marked_equity * 0.03 / stop < 0.1:
+            if marked_equity * (mr_risk_percent / 100.0) / stop < 0.1:
                 stats["meanrev"]["at_min_lot"] += 1
             entry = float(trade["entry_price"])
             open_mr[trade["symbol"]] = {
