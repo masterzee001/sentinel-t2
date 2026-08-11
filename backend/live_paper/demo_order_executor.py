@@ -90,7 +90,13 @@ class DemoOrderExecutor:
         allowed, reason = self.open_allowed()
         if not allowed:
             return {"submitted": False, "reason": reason}
-        account = self.verify_demo_account()
+        try:
+            account = self.verify_demo_account()
+        except DemoExecutionError as exc:
+            # Refuse quietly rather than crashing the trade loop: the account
+            # is re-verified on every open, not just at startup.
+            logger.warning(str(exc))
+            return {"submitted": False, "reason": str(exc)}
         symbol = position["symbol"]
         mt5 = self.connector.mt5
         mt5.symbol_select(symbol, True)

@@ -25,7 +25,10 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from backend.backtesting.backtest_engine import BacktestEngine
 from backend.live_paper.champion_paper_trader import SYMBOLS, ChampionPaperTrader
+from backend.live_paper.demo_order_executor import DemoExecutionError, DemoOrderExecutor
 from backend.market_data.mt5_connector import MT5Connector, MT5ConnectorError
+from backend.risk_manager.risk_governor import RiskGovernor
+from backend.risk_manager.risk_state_store import RiskStateStore
 
 STATE_PATH = PROJECT_ROOT / "data" / "live_paper" / "champion_paper_state.json"
 ACTIONS_PATH = PROJECT_ROOT / "data" / "live_paper" / "champion_paper_actions.jsonl"
@@ -74,6 +77,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cycles", type=int, default=0, help="0 = run until interrupted.")
     parser.add_argument("--interval-seconds", type=int, default=60)
+    parser.add_argument(
+        "--execute-demo",
+        action="store_true",
+        help="Submit REAL orders to the connected DEMO account (refuses non-demo servers).",
+    )
     args = parser.parse_args()
 
     logger.remove()
@@ -85,11 +93,30 @@ def main() -> int:
         return 1
     engine = BacktestEngine(connector=connector)
     trader = ChampionPaperTrader(engine, STATE_PATH)
-    print("CHAMPION PAPER TRADER (advisor mode, no orders)")
+    executor = None
+    if args.execute_demo:
+        store = RiskStateStore(PROJECT_ROOT / ".sentinel_runtime" / "champion_risk_state.json")
+        governor = RiskGovernor(connector=connector, state_store=store)
+        executor = DemoOrderExecutor(
+            connector, governor, PROJECT_ROOT / "data" / "live_paper" / "KILL_SWITCH"
+        )
+        try:
+            account = executor.verify_demo_account()
+        except DemoExecutionError as exc:
+            print(str(exc))
+            connector.shutdown()
+            return 1
+        print(f"DEMO EXECUTION ENABLED on {account.get('server')} login {account.get('login')}", flush=True)
+    mode_label = (
+        "DEMO EXECUTION mode: REAL orders on the demo account, visible in MT5"
+        if executor
+        else "advisor mode, no real orders"
+    )
+    print(f"CHAMPION TRADER ({mode_label})")
     print(f"Symbols: {', '.join(SYMBOLS)} | state: {STATE_PATH.relative_to(PROJECT_ROOT)}")
     startup_sent = notify_telegram(
-        "Sentinel champion paper trader ONLINE (advisor mode, no real orders).\n"
-        f"Watching {', '.join(SYMBOLS)} on closed M15 candles. You will get a message on every paper open/close."
+        f"Sentinel champion trader ONLINE ({mode_label}).\n"
+        f"Watching {', '.join(SYMBOLS)} on closed M15 candles. You will get a message on every open/close."
     )
     print(f"telegram_startup_message_sent={startup_sent}", flush=True)
 
@@ -108,9 +135,29 @@ def main() -> int:
             trader.save_state()
             write_outputs(result)
             for action in result["actions"]:
+                if executor and action.get("event") == "OPEN":
+                    order_result = executor.open_position(action)
+                    action["demo_order"] = order_result
+                    if order_result.get("submitted"):
+                        trader.state["open_positions"][action["symbol"]]["demo_order"] = order_result
+                        trader.save_state()
+                if executor and action.get("event") == "CLOSE":
+                    # SL/TP closes happen server-side; the timeout exit (and any
+                    # residual position from fill drift) is closed actively.
+                    if action.get("outcome") == "BREAKEVEN" or executor.position_still_open(action["symbol"]):
+                        action["demo_close"] = executor.close_symbol_positions(action["symbol"])
                 print(json.dumps(action, default=str), flush=True)
                 if action.get("event") in {"OPEN", "CLOSE"}:
-                    notify_telegram(format_action(action, result["summary"]))
+                    message = format_action(action, result["summary"])
+                    demo_order = action.get("demo_order")
+                    if demo_order and demo_order.get("submitted"):
+                        message += (
+                            f"\nDEMO ORDER FILLED: ticket {demo_order['order_ticket']} | "
+                            f"{demo_order['lots']} lots @ {demo_order['fill_price']}"
+                        )
+                    elif demo_order:
+                        message += f"\nDEMO ORDER NOT SENT: {demo_order.get('reason')}"
+                    notify_telegram(message)
             completed += 1
             if args.cycles and completed >= args.cycles:
                 summary = result["summary"]
