@@ -56,9 +56,21 @@ def main() -> int:
         frames: dict[str, pd.DataFrame] = {}
         for symbol in SYMBOLS:
             try:
-                frames[symbol] = connector.get_historical_candles(symbol, "D1", count=DAILY_BARS)
+                candles = connector.get_historical_candles(symbol, "D1", count=DAILY_BARS)
+                # Audit fix: MT5 position 0 is the still-forming bar - drop it.
+                frames[symbol] = candles.iloc[:-1].reset_index(drop=True)
             except Exception as exc:
                 print(f"{symbol}: daily candles unavailable ({exc})")
+        if set(frames) != set(SYMBOLS):
+            print("Universe incomplete; refusing a partial-universe verdict.")
+            return 1
+        # Audit fix: equalize spans - NAS100's broker history starts 2022-07,
+        # skipping the 2022 H1 bear; all symbols must face the same regimes.
+        common_start = max(frame["time"].min() for frame in frames.values())
+        common_frames = {
+            symbol: frame[frame["time"] >= common_start].reset_index(drop=True)
+            for symbol, frame in frames.items()
+        }
         report: dict[str, Any] = {
             "generated_at": datetime.now(UTC).isoformat(),
             "primary": "ibs",
@@ -73,16 +85,17 @@ def main() -> int:
             },
             "variants": {},
         }
+        report["common_window_start"] = str(common_start)
         for variant in ("ibs", "rsi2"):
             trades: list[dict[str, Any]] = []
-            for symbol, frame in frames.items():
+            for symbol, frame in common_frames.items():
                 trades.extend(evaluate_symbol(symbol, frame, variant))
             summary = summarize(trades)
             summary["is_primary"] = variant == "ibs"
             if not summary["is_primary"]:
                 summary["promote"] = None  # Robustness context only.
             report["variants"][variant] = summary
-            label = "PRIMARY" if variant == "ibs" else "robustness"
+            label = "PRIMARY, common window" if variant == "ibs" else "robustness"
             print(
                 f"{variant} ({label}): {summary['trades']} trades | WR {summary['win_rate']}% | "
                 f"avg hold {summary['avg_hold_days']}d | net {summary['net_rr']}R | "
@@ -91,6 +104,29 @@ def main() -> int:
             )
             for symbol, row in summary["by_symbol"].items():
                 print(f"  {symbol}: {row['active_positions']} trades | net {row['net_rr']}R | rwPF {row['risk_weighted_pf']}")
+
+        # Audit sensitivity 1: full spans (NAS100 bear-free bias visible here).
+        full_span = summarize(
+            [t for symbol, frame in frames.items() for t in evaluate_symbol(symbol, frame, "ibs")]
+        )
+        # Audit sensitivity 2: rollover fills - the daily close sits at the
+        # 5pm-ET rollover where CFD spreads widen; charge 4x round-trip costs.
+        rollover = summarize(
+            [
+                t
+                for symbol, frame in common_frames.items()
+                for t in evaluate_symbol(symbol, frame, "ibs", cost_multiplier=4.0)
+            ]
+        )
+        report["sensitivities"] = {"full_span_ibs": full_span, "rollover_x4_ibs": rollover}
+        final_promote = bool(report["variants"]["ibs"]["promote"]) and bool(rollover["promote"])
+        report["promotion_final"] = final_promote
+        print(
+            f"sensitivity full-span: net {full_span['net_rr']}R rwPF {full_span['risk_weighted_pf']} | "
+            f"rollover x4 costs: net {rollover['net_rr']}R rwPF {rollover['risk_weighted_pf']} "
+            f"({rollover['positive_quarter_share'] * 100:.0f}% q+)"
+        )
+        print(f"FINAL PROMOTION (primary AND rollover-stress both clear the gate): {final_promote}")
         REPORT_PATH.write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
         print(f"Report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
         return 0
@@ -117,13 +153,15 @@ def rsi(closes: list[float], index: int, period: int = RSI_PERIOD) -> float | No
     return 100.0 * gains / (gains + losses)
 
 
-def evaluate_symbol(symbol: str, frame: pd.DataFrame, variant: str) -> list[dict[str, Any]]:
+def evaluate_symbol(
+    symbol: str, frame: pd.DataFrame, variant: str, cost_multiplier: float = 1.0
+) -> list[dict[str, Any]]:
     """Long-only mean reversion with causal signals at the daily close."""
     highs = [float(v) for v in frame["high"]]
     lows = [float(v) for v in frame["low"]]
     closes = [float(v) for v in frame["close"]]
     times = [pd.Timestamp(v) for v in frame["time"]]
-    cost = ROUND_TRIP_COSTS.get(symbol, 0.0)
+    cost = ROUND_TRIP_COSTS.get(symbol, 0.0) * cost_multiplier
     trades: list[dict[str, Any]] = []
     entry_index: int | None = None
     for index in range(VOL_WINDOW + RSI_PERIOD + 1, len(closes)):
