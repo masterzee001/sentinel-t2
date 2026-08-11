@@ -132,6 +132,9 @@ def main() -> int:
                 except Exception as exc:
                     print(f"{symbol}: candle fetch failed ({exc})")
             result = trader.process_cycle(candles_by_symbol)
+            result["summary"]["mode"] = (
+                "DEMO_EXECUTION_REAL_ORDERS" if executor else "ADVISOR_PAPER_NO_ORDERS"
+            )
             trader.save_state()
             write_outputs(result)
             for action in result["actions"]:
