@@ -35,7 +35,13 @@ from scripts.run_champion_paper import notify_telegram
 PYTHON = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
 ENGINES = {
     "champion": {
-        "args": [PYTHON, "-u", "scripts/run_champion_paper.py", "--interval-seconds", "60", "--execute-demo"],
+        # PAPER ONLY on Pepperstone (2026-08-12). The champion's killzone
+        # windows are fixed wall-clock strings compared against BROKER time,
+        # so the 1h clock difference vs MetaQuotes means it would trade a
+        # different hour than the one its edge was measured in. It keeps
+        # scoring parity on paper until its windows are anchored properly
+        # and it is re-validated on this broker's data.
+        "args": [PYTHON, "-u", "scripts/run_champion_paper.py", "--interval-seconds", "60"],
         "status": PROJECT_ROOT / "data" / "reports" / "champion_paper_status.json",
         "log": PROJECT_ROOT / "data" / "live_paper" / "champion_paper.log",
         "stale_seconds": 300,

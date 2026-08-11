@@ -65,6 +65,30 @@ class DemoOrderExecutor:
         self.max_tick_age_seconds = float(max_tick_age_seconds)
         self._count_failures = 0
 
+    def _tick_age_seconds(self, tick: Any) -> float | None:
+        """Age of a quote in real seconds, or None when it cannot be judged.
+
+        MT5 encodes tick.time in BROKER SERVER time, so subtracting it from
+        real UTC yields the broker's clock offset rather than an age — the
+        first version of this guard did exactly that and could never fire
+        (found 2026-08-11 during the Pepperstone migration). The broker's
+        clock is measured, never assumed; if it is unknown the quote's age
+        is genuinely unknowable and the check is skipped rather than
+        guessed at.
+        """
+        tick_time = float(getattr(tick, "time", 0) or 0)
+        if tick_time <= 0:
+            return None
+        offset_hours = getattr(self.connector, "_server_offset_hours", None)
+        if offset_hours is None:
+            measure = getattr(self.connector, "server_utc_offset_hours", None)
+            offset_hours = measure() if measure else None
+        if offset_hours is None:
+            logger.debug("Broker clock offset unknown; skipping the stale-quote check.")
+            return None
+        broker_now = time.time() + float(offset_hours) * 3600.0
+        return broker_now - tick_time
+
     def _broker_symbol(self, symbol: str) -> str:
         """Resolve the broker's tradable name (e.g. NAS100 -> USTEC)."""
         resolver = getattr(self.connector, "broker_symbol", None)
@@ -160,8 +184,8 @@ class DemoOrderExecutor:
         if tick is None:
             return {"submitted": False, "reason": "no tick data"}
         if self.max_tick_age_seconds > 0:
-            tick_age = time.time() - float(getattr(tick, "time", 0) or 0)
-            if tick_age > self.max_tick_age_seconds:
+            tick_age = self._tick_age_seconds(tick)
+            if tick_age is not None and tick_age > self.max_tick_age_seconds:
                 logger.warning("Stale quote for {} ({}s old) — market likely closed; refusing order.", trade_symbol, int(tick_age))
                 return {"submitted": False, "reason": f"stale quote ({int(tick_age)}s old) - market likely closed"}
         bullish = position["direction"] == "bullish"

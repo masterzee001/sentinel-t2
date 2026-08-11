@@ -375,20 +375,44 @@ def test_de40_has_its_own_entry_window():
 
 def test_stale_quote_is_refused(tmp_path: Path):
     """MT5 serves the last tick after a market closes; an old tick must
-    refuse the order instead of filling at the next day's gapped reopen."""
+    refuse the order instead of filling at the next day's gapped reopen.
+
+    tick.time is BROKER time, so the age calculation must subtract it from
+    the BROKER clock. The first implementation compared it against real UTC
+    and could never fire on any broker whose clock is ahead of UTC — hence
+    the non-zero offset in this fixture.
+    """
     import time as time_module
 
+    OFFSET_HOURS = 2.0  # Pepperstone-Demo; MetaQuotes ran +3
+    broker_now = time_module.time() + OFFSET_HOURS * 3600
     connector = _ExecutorConnector()
-    stale = SimpleNamespace(ask=44120.5, bid=44119.5, time=time_module.time() - 3600)
-    connector.mt5.symbol_info_tick = lambda symbol: stale
+    connector._server_offset_hours = OFFSET_HOURS
+    connector.mt5.symbol_info_tick = lambda symbol: SimpleNamespace(ask=44120.5, bid=44119.5, time=broker_now - 3600)
     executor = DemoOrderExecutor(
         connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL", max_tick_age_seconds=120.0
     )
     result = executor.open_position(dict(POSITION))
-    assert result["submitted"] is False
+    assert result["submitted"] is False, "an hour-old quote on a UTC+2 broker must be refused"
     assert "stale quote" in result["reason"]
-    fresh = SimpleNamespace(ask=44120.5, bid=44119.5, time=time_module.time() - 5)
-    connector.mt5.symbol_info_tick = lambda symbol: fresh
+    connector.mt5.symbol_info_tick = lambda symbol: SimpleNamespace(ask=44120.5, bid=44119.5, time=broker_now - 5)
+    assert executor.open_position(dict(POSITION))["submitted"] is True
+
+
+def test_stale_quote_check_skipped_when_broker_clock_unknown(tmp_path: Path):
+    """A quote's age is unknowable without the broker clock; guessing would
+    refuse every order on a broker ahead of UTC."""
+    import time as time_module
+
+    connector = _ExecutorConnector()
+    connector._server_offset_hours = None
+    connector.server_utc_offset_hours = lambda: None
+    connector.mt5.symbol_info_tick = lambda symbol: SimpleNamespace(
+        ask=44120.5, bid=44119.5, time=time_module.time() + 2 * 3600
+    )
+    executor = DemoOrderExecutor(
+        connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL", max_tick_age_seconds=120.0
+    )
     assert executor.open_position(dict(POSITION))["submitted"] is True
 
 
