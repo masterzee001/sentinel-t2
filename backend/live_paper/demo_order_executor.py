@@ -33,11 +33,21 @@ class DemoExecutionError(RuntimeError):
 class DemoOrderExecutor:
     """Submit champion trades to a DEMO MT5 account with hard gates."""
 
-    def __init__(self, connector: Any, risk_governor: Any, kill_switch_path: str | Path, risk_percent: float = 0.5) -> None:
+    def __init__(
+        self,
+        connector: Any,
+        risk_governor: Any,
+        kill_switch_path: str | Path,
+        risk_percent: float = 0.5,
+        magic: int = MAGIC,
+        comment: str = COMMENT,
+    ) -> None:
         self.connector = connector
         self.risk_governor = risk_governor
         self.kill_switch_path = Path(kill_switch_path)
         self.risk_percent = float(risk_percent)
+        self.magic = int(magic)
+        self.comment = str(comment)
 
     # ------------------------------------------------------------- gates
     def verify_demo_account(self) -> dict[str, Any]:
@@ -118,8 +128,8 @@ class DemoOrderExecutor:
             "sl": float(position["stop_loss"]),
             "tp": float(position["take_profit"]),
             "deviation": DEVIATION_POINTS,
-            "magic": MAGIC,
-            "comment": COMMENT,
+            "magic": self.magic,
+            "comment": self.comment,
             "type_time": mt5.ORDER_TIME_GTC,
             "type_filling": mt5.ORDER_FILLING_IOC,
         }
@@ -142,7 +152,7 @@ class DemoOrderExecutor:
         positions = mt5.positions_get(symbol=symbol) or []
         closed = []
         for open_position in positions:
-            if int(getattr(open_position, "magic", 0)) != MAGIC:
+            if int(getattr(open_position, "magic", 0)) != self.magic:
                 continue
             tick = mt5.symbol_info_tick(symbol)
             if tick is None:
@@ -156,8 +166,8 @@ class DemoOrderExecutor:
                 "position": int(open_position.ticket),
                 "price": float(tick.bid if is_long else tick.ask),
                 "deviation": DEVIATION_POINTS,
-                "magic": MAGIC,
-                "comment": f"{COMMENT}-timeout",
+                "magic": self.magic,
+                "comment": f"{self.comment}-timeout",
                 "type_time": mt5.ORDER_TIME_GTC,
                 "type_filling": mt5.ORDER_FILLING_IOC,
             }
@@ -169,4 +179,4 @@ class DemoOrderExecutor:
     def position_still_open(self, symbol: str) -> bool:
         """Return whether a sentinel-champion position remains open on the symbol."""
         positions = self.connector.mt5.positions_get(symbol=symbol) or []
-        return any(int(getattr(item, "magic", 0)) == MAGIC for item in positions)
+        return any(int(getattr(item, "magic", 0)) == self.magic for item in positions)

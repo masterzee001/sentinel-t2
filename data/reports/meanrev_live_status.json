@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-08-11T04:44:27.638595+00:00",
+  "mode": "DEMO_EXECUTION_REAL_ORDERS",
+  "engine": "ibs_mean_reversion",
+  "open_positions": {},
+  "closed_trades": 0,
+  "net_rr": 0,
+  "risk_weighted_pf": 0,
+  "replay_expectation": {
+    "risk_weighted_pf": 1.85,
+    "note": "rollover-stressed audited figure"
+  }
+}
