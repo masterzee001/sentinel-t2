@@ -1,7 +1,30 @@
 {
-  "generated_at": "2026-08-11T10:37:30.694483+00:00",
+  "generated_at": "2026-08-11T11:19:28.501036+00:00",
   "mode": "DEMO_EXECUTION_REAL_ORDERS",
-  "open_positions": [],
+  "open_positions": [
+    {
+      "symbol": "US30",
+      "direction": "bullish",
+      "opened_at": "2026-08-11 14:00:00+00:00",
+      "entry": 54012.2,
+      "stop_loss": 53871.2,
+      "take_profit": 54435.2,
+      "cost_rr": 0.0355,
+      "confidence": 99,
+      "bars_open": 0
+    },
+    {
+      "symbol": "NAS100",
+      "direction": "bullish",
+      "opened_at": "2026-08-11 14:00:00+00:00",
+      "entry": 29762.4,
+      "stop_loss": 29609.0,
+      "take_profit": 30222.6,
+      "cost_rr": 0.0228,
+      "confidence": 99,
+      "bars_open": 0
+    }
+  ],
   "closed_trades": 0,
   "wins": 0,
   "losses": 0,
@@ -14,6 +37,8 @@
   "parity_note": "Compare risk_weighted_pf and avg rr/trade to replay_expectation once 50+ trades close.",
   "demo_orders_since_start": {
     "submitted": 0,
-    "refused": {}
+    "refused": {
+      "retcode=10017 Trade disabled": 2
+    }
   }
 }

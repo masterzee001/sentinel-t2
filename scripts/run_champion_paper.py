@@ -56,17 +56,21 @@ def notify_telegram(text: str) -> bool:
         return False
 
 
-def format_action(action: dict, summary: dict) -> str:
+def format_action(action: dict, summary: dict, live: bool = False) -> str:
+    # "PAPER" only when there is genuinely no executor — in demo-execution
+    # mode the DEMO ORDER line carries the fill/refusal truth and a "PAPER"
+    # prefix just misleads (user confusion 2026-08-11).
+    prefix = "CHAMPION" if live else "CHAMPION PAPER"
     event = action.get("event")
     if event == "OPEN":
         return (
-            f"PAPER OPEN {action['symbol']} {action['direction']} @ {action['entry']}\n"
+            f"{prefix} OPEN {action['symbol']} {action['direction']} @ {action['entry']}\n"
             f"SL {action['stop_loss']} | TP3 {action['take_profit']} | conf {action['confidence']}"
         )
     if event == "CLOSE":
         icon = {"WIN": "WIN +", "LOSS": "LOSS ", "BREAKEVEN": "FLAT "}.get(action.get("outcome", ""), "")
         return (
-            f"PAPER CLOSE {action['symbol']} {icon}{action['rr']}R ({action['outcome']})\n"
+            f"{prefix} CLOSE {action['symbol']} {icon}{action['rr']}R ({action['outcome']})\n"
             f"Book: {summary['closed_trades']} closed | net {summary['net_rr']}R | rwPF {summary['risk_weighted_pf']} (target 1.18)"
         )
     return ""
@@ -181,7 +185,7 @@ def main() -> int:
                         action["demo_close"] = executor.close_symbol_positions(action["symbol"])
                 print(json.dumps(action, default=str), flush=True)
                 if action.get("event") in {"OPEN", "CLOSE"}:
-                    message = format_action(action, result["summary"])
+                    message = format_action(action, result["summary"], live=bool(executor))
                     demo_order = action.get("demo_order")
                     if demo_order and demo_order.get("submitted"):
                         message += (
