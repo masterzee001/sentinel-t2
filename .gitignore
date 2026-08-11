@@ -231,3 +231,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Supervisor singleton lock (ephemeral)
+data/live_paper/supervisor.lock
