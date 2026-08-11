@@ -100,6 +100,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mr-risk-per-unit", type=float, default=1.0,
                         help="RESEARCH: meanrev risk percent per risk-unit (live = 1.0).")
+    parser.add_argument("--max-lots", type=float, default=MAX_LOTS_PER_ORDER,
+                        help="RESEARCH: per-order lot ceiling (live executor refuses above 5.0).")
     parser.add_argument("--stop-units", type=float, default=0.0,
                         help="Disaster stop in risk units; 0 (the live default since 2026-08-11) = "
                              "audited no-stop book, sizing still on 3 risk-units.")
@@ -228,7 +230,7 @@ def main() -> int:
             if lots <= 0:
                 stats["champion"]["skipped_min"] += 1
                 continue
-            if lots > MAX_LOTS_PER_ORDER:
+            if lots > float(args.max_lots):
                 stats["champion"]["skipped_over_ceiling"] += 1  # live refuses, not clips
                 continue
             if marked_equity * 0.005 / stop < 0.1:
@@ -261,7 +263,7 @@ def main() -> int:
                 stats["meanrev"]["skipped_min"] += 1
                 trade["_consumed"] = True  # no position -> its exit must not fire
                 continue
-            if lots > MAX_LOTS_PER_ORDER:
+            if lots > float(args.max_lots):
                 stats["meanrev"]["skipped_over_ceiling"] += 1
                 trade["_consumed"] = True
                 continue
