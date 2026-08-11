@@ -66,7 +66,9 @@ def ibs_and_risk_unit(candles: Any) -> tuple[float, float]:
     bar_range = float(bar["high"]) - float(bar["low"])
     ibs = (float(bar["close"]) - float(bar["low"])) / bar_range if bar_range > 0 else 0.5
     closes = [float(v) for v in candles["close"]]
-    moves = [abs(closes[j] - closes[j - 1]) for j in range(len(closes) - VOL_WINDOW, len(closes) - 1)]
+    # 20 trailing moves ending BEFORE the current bar — exactly the audited
+    # backtest's window (audit 2026-08-11 found this was averaging 19).
+    moves = [abs(closes[j] - closes[j - 1]) for j in range(len(closes) - VOL_WINDOW - 1, len(closes) - 1)]
     risk_unit = sum(moves) / len(moves) if moves else 0.0
     return ibs, risk_unit
 

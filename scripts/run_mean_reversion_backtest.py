@@ -90,6 +90,18 @@ def main() -> int:
             trades: list[dict[str, Any]] = []
             for symbol, frame in common_frames.items():
                 trades.extend(evaluate_symbol(symbol, frame, variant))
+            if variant == "ibs":
+                # Per-trade export for the combined-book forward test.
+                export_path = PROJECT_ROOT / "data" / "reports" / "meanrev_trades_export.json"
+                export_path.write_text(
+                    json.dumps(
+                        {"generated_at": report["generated_at"], "variant": "ibs", "trades": trades},
+                        indent=2,
+                        default=str,
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
             summary = summarize(trades)
             summary["is_primary"] = variant == "ibs"
             if not summary["is_primary"]:
@@ -194,6 +206,10 @@ def evaluate_symbol(
                     {
                         "symbol": symbol,
                         "timestamp": str(times[index]),
+                        "entry_time": str(times[entry_index]),
+                        "entry_price": round(closes[entry_index], 5),
+                        "exit_price": round(closes[index], 5),
+                        "risk_unit": round(risk_unit, 5),
                         "hold_days": held_bars,
                         "pnl_points": round(pnl_points, 5),
                         "rr": round(pnl_points / risk_unit, 4),

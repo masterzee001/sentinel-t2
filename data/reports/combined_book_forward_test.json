@@ -1,0 +1,248 @@
+{
+  "generated_at": "2026-08-11T08:07:18.621365+00:00",
+  "window": {
+    "start": "2023-08-08",
+    "end": "2026-08-07",
+    "years": 3.0
+  },
+  "stop_units": 3.0,
+  "starting_equity": 3000.0,
+  "ending_equity": 7647.86,
+  "total_return_percent": 154.9,
+  "cagr_percent": 36.6,
+  "max_drawdown_percent": 16.97,
+  "worst_day": {
+    "day": "2025-03-28",
+    "loss_percent": 6.97
+  },
+  "account_blown": false,
+  "engine_stats": {
+    "champion": {
+      "filled": 619,
+      "at_min_lot": 53,
+      "skipped_min": 7,
+      "skipped_small_stop": 1,
+      "skipped_over_ceiling": 0,
+      "pnl": 476.89
+    },
+    "meanrev": {
+      "filled": 252,
+      "at_min_lot": 5,
+      "skipped_min": 2,
+      "skipped_over_ceiling": 0,
+      "stopped_out": 56,
+      "pnl": 4170.97
+    }
+  },
+  "tripwire_hits": [],
+  "tripwire_hit_count": 0,
+  "yearly": {
+    "2023": {
+      "end_equity": 3328.32,
+      "return_percent": 10.9,
+      "max_dd": 13.23
+    },
+    "2024": {
+      "end_equity": 3403.28,
+      "return_percent": 2.3,
+      "max_dd": 14.38
+    },
+    "2025": {
+      "end_equity": 5097.52,
+      "return_percent": 49.8,
+      "max_dd": 16.97
+    },
+    "2026": {
+      "end_equity": 7647.86,
+      "return_percent": 50.0,
+      "max_dd": 12.91
+    }
+  },
+  "model_notes": [
+    "MR disaster stop (3 units) modeled on daily opens/lows with gap fills; stopped trades pay costs+financing to the stop day",
+    "sizing on MARKED equity via the real DemoOrderExecutor.lot_size; live refusal gates (small stop, 5-lot ceiling) mirrored",
+    "volume_min 0.1 / step 0.1 / $1 per point (measured live 2026-08-11), assumed constant over window"
+  ],
+  "curve_last_30": [
+    {
+      "day": "2026-06-29",
+      "equity_closed": 6865.25,
+      "equity_marked": 6865.25,
+      "dd": 4.53
+    },
+    {
+      "day": "2026-06-30",
+      "equity_closed": 6841.15,
+      "equity_marked": 6841.15,
+      "dd": 4.87
+    },
+    {
+      "day": "2026-07-01",
+      "equity_closed": 6841.15,
+      "equity_marked": 6841.15,
+      "dd": 4.87
+    },
+    {
+      "day": "2026-07-02",
+      "equity_closed": 6863.35,
+      "equity_marked": 6812.64,
+      "dd": 5.26
+    },
+    {
+      "day": "2026-07-03",
+      "equity_closed": 6820.04,
+      "equity_marked": 6820.04,
+      "dd": 5.16
+    },
+    {
+      "day": "2026-07-06",
+      "equity_closed": 6796.14,
+      "equity_marked": 6796.14,
+      "dd": 5.49
+    },
+    {
+      "day": "2026-07-07",
+      "equity_closed": 6768.18,
+      "equity_marked": 6768.18,
+      "dd": 5.88
+    },
+    {
+      "day": "2026-07-08",
+      "equity_closed": 6768.18,
+      "equity_marked": 6768.18,
+      "dd": 5.88
+    },
+    {
+      "day": "2026-07-09",
+      "equity_closed": 6736.88,
+      "equity_marked": 6736.88,
+      "dd": 6.32
+    },
+    {
+      "day": "2026-07-10",
+      "equity_closed": 6736.88,
+      "equity_marked": 6736.88,
+      "dd": 6.32
+    },
+    {
+      "day": "2026-07-13",
+      "equity_closed": 6736.88,
+      "equity_marked": 6736.88,
+      "dd": 6.32
+    },
+    {
+      "day": "2026-07-14",
+      "equity_closed": 6729.0,
+      "equity_marked": 6779.96,
+      "dd": 5.72
+    },
+    {
+      "day": "2026-07-15",
+      "equity_closed": 6806.67,
+      "equity_marked": 6806.67,
+      "dd": 5.35
+    },
+    {
+      "day": "2026-07-16",
+      "equity_closed": 6806.17,
+      "equity_marked": 6806.17,
+      "dd": 5.35
+    },
+    {
+      "day": "2026-07-17",
+      "equity_closed": 6806.17,
+      "equity_marked": 6765.57,
+      "dd": 5.92
+    },
+    {
+      "day": "2026-07-20",
+      "equity_closed": 6805.38,
+      "equity_marked": 6767.37,
+      "dd": 5.89
+    },
+    {
+      "day": "2026-07-21",
+      "equity_closed": 6894.87,
+      "equity_marked": 6987.09,
+      "dd": 2.84
+    },
+    {
+      "day": "2026-07-22",
+      "equity_closed": 6914.27,
+      "equity_marked": 7029.5,
+      "dd": 2.25
+    },
+    {
+      "day": "2026-07-23",
+      "equity_closed": 6935.37,
+      "equity_marked": 6886.92,
+      "dd": 4.23
+    },
+    {
+      "day": "2026-07-24",
+      "equity_closed": 6935.37,
+      "equity_marked": 6950.4,
+      "dd": 3.35
+    },
+    {
+      "day": "2026-07-27",
+      "equity_closed": 6967.77,
+      "equity_marked": 7065.72,
+      "dd": 1.75
+    },
+    {
+      "day": "2026-07-28",
+      "equity_closed": 6985.97,
+      "equity_marked": 7206.1,
+      "dd": 0.0
+    },
+    {
+      "day": "2026-07-29",
+      "equity_closed": 7005.17,
+      "equity_marked": 6814.9,
+      "dd": 5.43
+    },
+    {
+      "day": "2026-07-30",
+      "equity_closed": 7393.21,
+      "equity_marked": 7393.21,
+      "dd": 0.0
+    },
+    {
+      "day": "2026-07-31",
+      "equity_closed": 7362.61,
+      "equity_marked": 7362.61,
+      "dd": 0.41
+    },
+    {
+      "day": "2026-08-03",
+      "equity_closed": 7388.21,
+      "equity_marked": 7388.21,
+      "dd": 0.07
+    },
+    {
+      "day": "2026-08-04",
+      "equity_closed": 7430.28,
+      "equity_marked": 7430.28,
+      "dd": 0.0
+    },
+    {
+      "day": "2026-08-05",
+      "equity_closed": 7499.88,
+      "equity_marked": 7499.88,
+      "dd": 0.0
+    },
+    {
+      "day": "2026-08-06",
+      "equity_closed": 7533.21,
+      "equity_marked": 7490.39,
+      "dd": 0.13
+    },
+    {
+      "day": "2026-08-07",
+      "equity_closed": 7647.86,
+      "equity_marked": 7647.86,
+      "dd": 0.0
+    }
+  ]
+}
