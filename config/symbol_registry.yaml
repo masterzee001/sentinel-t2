@@ -29,6 +29,11 @@ aliases:
     - BTCUSD.cash
     - BTCUSD.pro
     - XBTUSD
+  DE40:
+    - DE40
+    - GER40      # Pepperstone's DAX symbol (DE40 does not exist there)
+    - GER30
+    - DAX40
   NAS100:
     - NAS100
     - USTEC
