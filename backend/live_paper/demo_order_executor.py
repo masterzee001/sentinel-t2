@@ -16,6 +16,7 @@ actively by the executor.
 
 from __future__ import annotations
 
+import time
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +45,7 @@ class DemoOrderExecutor:
         max_lots_per_order: float = 5.0,
         min_lot_risk_cap_percent: float = 0.0,
         server_stop_loss: bool = True,
+        max_tick_age_seconds: float = 0.0,
     ) -> None:
         self.connector = connector
         self.risk_governor = risk_governor
@@ -57,6 +59,10 @@ class DemoOrderExecutor:
         # stop server-side (the audited mean-reversion book has no stop; its
         # forward test showed the 3-unit stop halves return — user-directed).
         self.server_stop_loss = bool(server_stop_loss)
+        # >0: refuse orders when the freshest tick is older than this — MT5
+        # keeps serving the LAST tick after a market closes (DE40 audit
+        # finding), so "tick exists" does not mean "market open".
+        self.max_tick_age_seconds = float(max_tick_age_seconds)
         self._count_failures = 0
 
     def _broker_symbol(self, symbol: str) -> str:
@@ -153,6 +159,11 @@ class DemoOrderExecutor:
         tick = mt5.symbol_info_tick(trade_symbol)
         if tick is None:
             return {"submitted": False, "reason": "no tick data"}
+        if self.max_tick_age_seconds > 0:
+            tick_age = time.time() - float(getattr(tick, "time", 0) or 0)
+            if tick_age > self.max_tick_age_seconds:
+                logger.warning("Stale quote for {} ({}s old) — market likely closed; refusing order.", trade_symbol, int(tick_age))
+                return {"submitted": False, "reason": f"stale quote ({int(tick_age)}s old) - market likely closed"}
         bullish = position["direction"] == "bullish"
         price = float(tick.ask if bullish else tick.bid)
         stop_distance = abs(position["entry"] - position["stop_loss"])

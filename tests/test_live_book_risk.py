@@ -359,6 +359,39 @@ def test_meanrev_live_runs_the_no_stop_book():
     assert "server_stop_loss=False" in source, "meanrev live must trade the audited no-stop book"
 
 
+def test_de40_has_its_own_entry_window():
+    """DE40 stops quoting at 22:58 server (audit 2026-08-11): its entries must
+    run in a pre-close window, never the US 23:30 loop."""
+    import importlib
+
+    module = importlib.import_module("scripts.run_mean_reversion_live")
+    assert "DE40" in module.SYMBOLS
+    assert module.ENTRY_WINDOWS["DE40"] == (22, 30, 55)
+    assert module.symbol_in_window("DE40", 22, 40) is True
+    assert module.symbol_in_window("DE40", 23, 40) is False  # market closed
+    assert module.symbol_in_window("US30", 23, 40) is True
+    assert module.symbol_in_window("US30", 22, 40) is False
+
+
+def test_stale_quote_is_refused(tmp_path: Path):
+    """MT5 serves the last tick after a market closes; an old tick must
+    refuse the order instead of filling at the next day's gapped reopen."""
+    import time as time_module
+
+    connector = _ExecutorConnector()
+    stale = SimpleNamespace(ask=44120.5, bid=44119.5, time=time_module.time() - 3600)
+    connector.mt5.symbol_info_tick = lambda symbol: stale
+    executor = DemoOrderExecutor(
+        connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL", max_tick_age_seconds=120.0
+    )
+    result = executor.open_position(dict(POSITION))
+    assert result["submitted"] is False
+    assert "stale quote" in result["reason"]
+    fresh = SimpleNamespace(ask=44120.5, bid=44119.5, time=time_module.time() - 5)
+    connector.mt5.symbol_info_tick = lambda symbol: fresh
+    assert executor.open_position(dict(POSITION))["submitted"] is True
+
+
 def test_live_engines_observe_account_every_cycle():
     """Regression pin: both engine loops must feed equity observations all
     day so the daily-loss baseline is not set at the first open attempt."""

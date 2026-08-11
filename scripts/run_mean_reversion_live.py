@@ -32,7 +32,17 @@ from backend.risk_manager.risk_governor import RiskGovernor
 from backend.risk_manager.risk_state_store import RiskStateStore
 from scripts.run_champion_paper import notify_telegram
 
-SYMBOLS = ("US30", "NAS100", "US500")
+SYMBOLS = ("US30", "NAS100", "US500", "DE40")
+# Per-symbol entry windows in SERVER time (UTC+3): (hour, minute_from, minute_to).
+# US indices quote to 23:59; DE40 STOPS QUOTING at 22:58 (verified 2026-08-11)
+# so it gets its own window just before its close — orders at 23:30 would hit
+# a closed market and fill at the gapped 01:02 reopen instead.
+ENTRY_WINDOWS = {
+    "US30": (23, 30, 59),
+    "NAS100": (23, 30, 59),
+    "US500": (23, 30, 59),
+    "DE40": (22, 30, 55),
+}
 IBS_ENTRY = 0.2
 IBS_EXIT = 0.8
 MAX_HOLD_DAYS = 10
@@ -42,6 +52,27 @@ MAGIC = 22078
 STATE_PATH = PROJECT_ROOT / "data" / "live_paper" / "meanrev_state.json"
 ACTIONS_PATH = PROJECT_ROOT / "data" / "live_paper" / "meanrev_actions.jsonl"
 STATUS_PATH = PROJECT_ROOT / "data" / "reports" / "meanrev_live_status.json"
+
+
+def symbol_in_window(symbol: str, server_hour: int, server_minute: int) -> bool:
+    """Return whether the symbol's own entry window is open (server time)."""
+    hour, minute_from, minute_to = ENTRY_WINDOWS[symbol]
+    return server_hour == hour and minute_from <= server_minute <= minute_to
+
+
+def candles_are_fresh(candles: Any, server_now_date: Any) -> bool:
+    """The last bar must be TODAY's (still-forming) bar — a stale last bar
+    means a frozen/broken feed (DE40 audit finding) and garbage IBS."""
+    try:
+        return pd_timestamp_date(candles.iloc[-1]["time"]) == server_now_date
+    except Exception:
+        return False
+
+
+def pd_timestamp_date(value: Any):
+    import pandas as pd
+
+    return pd.Timestamp(value).date()
 
 
 def load_state() -> dict[str, Any]:
@@ -108,7 +139,10 @@ def write_status(state: dict[str, Any]) -> None:
                 "net_rr": round(sum(rrs), 2),
                 "risk_weighted_pf": round(gross_win / gross_loss, 2) if gross_loss else round(gross_win, 2),
                 "demo_orders": state.get("demo_orders", {"submitted": 0, "refused": {}}),
-                "replay_expectation": {"risk_weighted_pf": 1.85, "note": "rollover-stressed audited figure"},
+                "replay_expectation": {
+                    "risk_weighted_pf": 1.85,
+                    "note": "rollover-stressed audited figure (US book); DE40 audited rwPF 1.30",
+                },
             },
             indent=2,
             default=str,
@@ -199,6 +233,9 @@ def main() -> int:
             # out 22% of trades that mostly recover. Exits are IBS>0.8 / 10d
             # only; the supervisor watchdog is the process-death safety net.
             server_stop_loss=False,
+            # DE40 audit finding: MT5 serves the last tick after a market
+            # closes — refuse anything quoted >2 minutes ago.
+            max_tick_age_seconds=120.0,
         )
         try:
             account = executor.verify_demo_account()
@@ -214,7 +251,8 @@ def main() -> int:
         f"Sentinel MEAN-REVERSION engine ONLINE ({mode}, magic {MAGIC}).\n"
         f"IBS<{IBS_ENTRY} buys near the daily close on {', '.join(SYMBOLS)}; exits IBS>{IBS_EXIT} or {MAX_HOLD_DAYS}d."
     )
-    print(f"MEAN-REVERSION LIVE ({mode}) | window: server 23:30-23:59 (UTC+3)", flush=True)
+    windows = ", ".join(f"{s} {h:02d}:{m1:02d}-{h:02d}:{m2:02d}" for s, (h, m1, m2) in ENTRY_WINDOWS.items())
+    print(f"MEAN-REVERSION LIVE ({mode}) | server windows: {windows}", flush=True)
 
     completed = 0
     try:
@@ -233,16 +271,25 @@ def main() -> int:
                     print(f"account observation failed ({exc})", flush=True)
             server_now = datetime.now(UTC)
             server_hm = ((server_now.hour + 3) % 24, server_now.minute)  # Server = UTC+3.
-            in_window = args.force_window or (server_hm[0] == 23 and server_hm[1] >= 30)
             server_date = str((server_now.timestamp() + 3 * 3600) // 86400)
-            if in_window:
-                for symbol in SYMBOLS:
+            server_now_date = datetime.fromtimestamp(server_now.timestamp() + 3 * 3600, UTC).date()
+            eligible = [
+                symbol for symbol in SYMBOLS
+                if args.force_window or symbol_in_window(symbol, server_hm[0], server_hm[1])
+            ]
+            if eligible:
+                for symbol in eligible:
                     if state["last_processed"].get(symbol) == server_date:
                         continue
                     try:
                         candles = connector.get_historical_candles(symbol, "D1", count=VOL_WINDOW + 5)
                     except Exception as exc:
                         print(f"{symbol}: candle fetch failed ({exc})", flush=True)
+                        continue
+                    if not args.force_window and not candles_are_fresh(candles, server_now_date):
+                        print(f"{symbol}: feed stale (last bar not today) - skipping evaluation", flush=True)
+                        notify_telegram(f"MEANREV WARNING: {symbol} feed stale at its entry window - evaluation skipped.")
+                        state["last_processed"][symbol] = server_date  # do not retry a broken feed all window
                         continue
                     state["last_processed"][symbol] = server_date
                     ibs, risk_unit = ibs_and_risk_unit(candles)
