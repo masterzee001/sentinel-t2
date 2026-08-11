@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-08-11T02:31:25.037573+00:00",
+  "mode": "ADVISOR_PAPER_NO_ORDERS",
+  "open_positions": [],
+  "closed_trades": 0,
+  "wins": 0,
+  "losses": 0,
+  "net_rr": 0,
+  "risk_weighted_pf": 0,
+  "replay_expectation": {
+    "risk_weighted_pf": 1.18,
+    "avg_rr_per_trade": 0.077
+  },
+  "parity_note": "Compare risk_weighted_pf and avg rr/trade to replay_expectation once 50+ trades close."
+}
