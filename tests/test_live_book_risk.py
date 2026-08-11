@@ -335,6 +335,30 @@ def test_min_lot_acceptance_takes_minimum_within_cap(tmp_path: Path):
     assert strict_default.lot_size("US30", 1200.0, 3000.0) == 0.0
 
 
+def test_no_server_stop_sizes_normally_but_sends_sl_zero(tmp_path: Path):
+    """Audited no-stop book (user-directed 2026-08-11): sizing still uses the
+    3-unit distance, but the order carries no server-side stop."""
+    connector = _ExecutorConnector()
+    sent = []
+    original_send = connector.mt5.order_send
+    connector.mt5.order_send = lambda request: (sent.append(request), original_send(request))[1]
+    governor = _StoreGovernor(RiskStateStore(tmp_path / "s.json"))
+    no_stop = DemoOrderExecutor(connector, governor, tmp_path / "KILL", server_stop_loss=False)
+    result = no_stop.open_position(dict(POSITION))
+    assert result["submitted"] is True
+    assert sent[-1]["sl"] == 0.0
+    with_stop = DemoOrderExecutor(connector, governor, tmp_path / "KILL")  # default unchanged
+    with_stop.open_position(dict(POSITION))
+    assert sent[-1]["sl"] == float(POSITION["stop_loss"])
+    # Same lots either way: the stop distance still drives sizing.
+    assert sent[-1]["volume"] == sent[-2]["volume"]
+
+
+def test_meanrev_live_runs_the_no_stop_book():
+    source = (PROJECT_ROOT / "scripts" / "run_mean_reversion_live.py").read_text(encoding="utf-8")
+    assert "server_stop_loss=False" in source, "meanrev live must trade the audited no-stop book"
+
+
 def test_live_engines_observe_account_every_cycle():
     """Regression pin: both engine loops must feed equity observations all
     day so the daily-loss baseline is not set at the first open attempt."""

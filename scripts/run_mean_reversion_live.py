@@ -193,6 +193,12 @@ def main() -> int:
             # Broker minimum on US30/USTEC implies ~3.4-3.8% at current equity;
             # take the trade at minimum rather than skip, refuse only past 6%.
             min_lot_risk_cap_percent=6.0,
+            # AUDITED NO-STOP BOOK (user-directed 2026-08-11): sizing stays on
+            # the 3-unit distance (1%/risk-unit) but no server-side SL is sent.
+            # 3y forward test: stop halves return (+155% vs +282%) by stopping
+            # out 22% of trades that mostly recover. Exits are IBS>0.8 / 10d
+            # only; the supervisor watchdog is the process-death safety net.
+            server_stop_loss=False,
         )
         try:
             account = executor.verify_demo_account()
@@ -290,7 +296,7 @@ def main() -> int:
                         )
                         notify_telegram(
                             f"MEANREV OPEN {symbol} long @ {price} (IBS {round(ibs, 2)})\n"
-                            f"disaster SL {position['stop_loss']} | exit IBS>{IBS_EXIT} or {MAX_HOLD_DAYS}d{suffix}"
+                            f"no server SL (audited no-stop book) | exit IBS>{IBS_EXIT} or {MAX_HOLD_DAYS}d{suffix}"
                         )
                 save_state(state)
             write_status(state)

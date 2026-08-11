@@ -23,6 +23,10 @@
 #   Min-lot acceptance: at current small equity, US30/USTEC meanrev
 #   positions ride at broker minimum (~3.4-3.8% each, cap 6%); champion
 #   accepts minimum up to 1.5%. Overshoot shrinks as equity grows.
+#   NO-STOP BOOK (2026-08-11): meanrev sends no server-side SL (audited
+#   config; 3y forward test max DD 31.6%, worst day -12.2% at 1%/unit).
+#   The DD/daily tripwires below are the only account-level floors left —
+#   they block NEW opens only; exits always run.
 # Daily loss is measured on SHARED account equity including floating P&L
 # (both engines' positions count together — intentional account-level brake).
 # Drawdown is measured from the persistent all-time peak (one-way ratchet).

@@ -5,10 +5,11 @@ Replays both engines' audited trade streams chronologically on ONE account:
   champion  (US30+NAS100 M15 breakout, same-day resolution) sized at 0.5%
             flat with min-lot acceptance cap 1.5% — as run_champion_paper
   meanrev   (IBS daily, US30+NAS100+US500, multi-day holds) sized at 3.0%
-            per disaster stop (1%/risk-unit) with min-lot acceptance cap 6%
-            — as run_mean_reversion_live, INCLUDING the 3-unit disaster stop
-            checked against daily opens/lows with gap fills (the audited
-            export rides to IBS-exit/timeout; live cannot outlive the stop).
+            over 3 risk-units (1%/risk-unit) with min-lot acceptance cap 6%
+            — as run_mean_reversion_live. Since 2026-08-11 live sends NO
+            server-side stop (audited no-stop book); --stop-units N models
+            a disaster stop against daily opens/lows with gap fills for
+            sensitivity comparisons.
 
 Sizing uses the REAL DemoOrderExecutor.lot_size (broker minimum 0.1, step
 0.1, $1/point — measured live on MetaQuotes-Demo 2026-08-11) against MARKED
@@ -97,8 +98,9 @@ def day_of(timestamp: str) -> str:
 def main() -> int:
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stop-units", type=float, default=DISASTER_STOP_UNITS,
-                        help="Disaster stop in risk units; 0 disables the stop (audited no-stop book).")
+    parser.add_argument("--stop-units", type=float, default=0.0,
+                        help="Disaster stop in risk units; 0 (the live default since 2026-08-11) = "
+                             "audited no-stop book, sizing still on 3 risk-units.")
     args = parser.parse_args()
     stop_units = float(args.stop_units)
     logger.remove()

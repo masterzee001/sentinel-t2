@@ -43,6 +43,7 @@ class DemoOrderExecutor:
         comment: str = COMMENT,
         max_lots_per_order: float = 5.0,
         min_lot_risk_cap_percent: float = 0.0,
+        server_stop_loss: bool = True,
     ) -> None:
         self.connector = connector
         self.risk_governor = risk_governor
@@ -52,6 +53,10 @@ class DemoOrderExecutor:
         self.comment = str(comment)
         self.max_lots_per_order = float(max_lots_per_order)
         self.min_lot_risk_cap_percent = float(min_lot_risk_cap_percent)
+        # False = size on the position's stop distance but do NOT place the
+        # stop server-side (the audited mean-reversion book has no stop; its
+        # forward test showed the 3-unit stop halves return — user-directed).
+        self.server_stop_loss = bool(server_stop_loss)
         self._count_failures = 0
 
     def _broker_symbol(self, symbol: str) -> str:
@@ -171,7 +176,7 @@ class DemoOrderExecutor:
             "volume": lots,
             "type": mt5.ORDER_TYPE_BUY if bullish else mt5.ORDER_TYPE_SELL,
             "price": price,
-            "sl": float(position["stop_loss"]),
+            "sl": float(position["stop_loss"]) if self.server_stop_loss else 0.0,
             "tp": float(position["take_profit"]),
             "deviation": DEVIATION_POINTS,
             "magic": self.magic,
