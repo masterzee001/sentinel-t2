@@ -73,9 +73,11 @@ def make_analyzer(tmp_path: Path) -> KillzoneAnalyzer:
 
 
 def test_london_open_detection(tmp_path: Path):
+    # Candle times arrive as broker server time stamped as UTC; the analyzer
+    # reads that wall clock as session time (see test_killzone_session_anchor).
     status = make_analyzer(tmp_path).analyze(
         "XAUUSD",
-        datetime(2026, 6, 28, 8, 30, tzinfo=ZoneInfo("Africa/Lagos")),
+        datetime(2026, 6, 28, 8, 30, tzinfo=ZoneInfo("UTC")),
     )
 
     assert status["active_killzone"] == "london_open"

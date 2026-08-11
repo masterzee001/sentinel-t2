@@ -357,7 +357,9 @@ def test_session_quality_partial_for_continuation_killzone(tmp_path: Path):
     trend, liquidity, ict, context = aligned_inputs()
     context = {
         **context,
-        "analysis_time": datetime(2026, 6, 26, 10, 0, tzinfo=ZoneInfo("Africa/Lagos")),
+        # Broker server time stamped as UTC — the analyzer reads this wall
+        # clock as session time (see test_killzone_session_anchor).
+        "analysis_time": datetime(2026, 6, 26, 10, 0, tzinfo=ZoneInfo("UTC")),
     }
 
     scores = analyzer.calculate_scores(trend, liquidity, ict, context, direction="bullish")

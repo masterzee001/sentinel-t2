@@ -78,6 +78,11 @@ class BacktestEngine:
         self.connector = connector or MT5Connector()
         self.config = self._deep_merge(self.DEFAULT_CONFIG, self._load_yaml_file(self.config_dir / "backtesting.yaml"))
         self.killzone_analyzer = KillzoneAnalyzer(config_dir=self.config_dir)
+        # Killzone windows are session-anchored, so the analyzer needs the
+        # broker's true clock offset — MT5 stamps server time as if it were
+        # UTC. Measured, never assumed (a wrong offset silently trades the
+        # wrong hour of the day).
+        self.sync_broker_clock()
         self.strategy_guardrails = StrategyGuardrails(config_dir=self.config_dir)
         self.simulator = simulator or TradeSimulator(self.config.get("simulation", {}))
         self.decision_brain = decision_brain or HistoricalBacktestDecisionBrain(
@@ -154,6 +159,24 @@ class BacktestEngine:
     # MT5 rejects candle requests above its max-bars-in-chart setting
     # (default 100k) with (-2, 'Invalid params'); stay safely below it.
     MAX_CANDLE_REQUEST = 99_000
+
+    def sync_broker_clock(self) -> float | None:
+        """Measure the broker's UTC offset and hand it to the killzone analyzer.
+
+        Returns the offset, or None when it cannot be measured (closed
+        market). On None the analyzer keeps its previous value and falls back
+        to legacy behaviour rather than guessing at an hour.
+        """
+        measure = getattr(self.connector, "server_utc_offset_hours", None)
+        offset = None
+        if measure is not None:
+            try:
+                offset = measure()
+            except Exception as exc:  # noqa: BLE001 - probing must never break a scan
+                logger.warning("Broker clock probe failed: {}", exc)
+        if offset is not None:
+            self.killzone_analyzer.server_utc_offset_hours = offset
+        return offset
 
     def fetch_backtest_candles(self, symbol: str, lookback_days: int) -> pd.DataFrame:
         """Fetch enough M15 candles for the configured lookback and forward walk."""

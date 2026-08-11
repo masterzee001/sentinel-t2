@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -20,21 +20,69 @@ class KillzoneAnalyzer:
 
     DEFAULT_ALLOWED_SYMBOLS = frozenset({"XAUUSD", "US30", "EURUSD", "GBPUSD", "BTCUSD", "NAS100"})
     WAT_TIMEZONE = ZoneInfo("Africa/Lagos")
+    # Windows are anchored to European market time. The validated champion
+    # book was pinned to the MetaQuotes broker clock, which runs EET/EEST —
+    # so evaluating in a zone with the SAME DST rule reproduces the exact
+    # same real-world hours on ANY broker, in either season. Anchoring to a
+    # fixed UTC window could not: MetaQuotes shifts an hour twice a year, so
+    # the validated book contains both variants (audit 2026-08-12).
+    SESSION_TIMEZONE = ZoneInfo("Europe/Kyiv")
     DEFAULT_CONFIG = {
-        "timezone": "WAT",
+        "timezone": "Europe/Kyiv",
         "killzones": {},
     }
 
-    def __init__(self, config_dir: str | Path | None = None) -> None:
+    def __init__(
+        self,
+        config_dir: str | Path | None = None,
+        server_utc_offset_hours: float | None = None,
+    ) -> None:
         project_root = Path(__file__).resolve().parents[2]
         self.config_dir = Path(config_dir) if config_dir else project_root / "config"
         self.config = self._load_config()
         self.killzones = self.config.get("killzones", {})
+        # MT5 stamps BROKER server time as if it were UTC. Without the
+        # broker's true offset the session clock cannot be recovered.
+        self.server_utc_offset_hours = server_utc_offset_hours
+
+    def session_time(self, current_time: datetime | str | None) -> datetime:
+        """Read a broker-stamped candle time as session (European) local time.
+
+        MT5 stamps BROKER server time as if it were UTC. The broker's clock
+        IS European (EET/EEST), so the correct reading is simply "this wall
+        clock, in the session zone" — which stays right through daylight
+        saving automatically.
+
+        Subtracting a measured offset instead would be WRONG for history: the
+        offset measured today (+3 in summer) does not apply to bars recorded
+        last winter (+2), so every winter bar would be mis-timed by an hour.
+        The measured offset is used only to VERIFY the broker really is on
+        European time; a mismatch falls back to offset arithmetic and warns.
+        """
+        if current_time is None or isinstance(current_time, str):
+            return self.normalize_time(current_time)
+        stamp = current_time
+        if stamp.tzinfo is None:
+            stamp = stamp.replace(tzinfo=UTC)
+        stamp = stamp.astimezone(UTC)
+        naive = stamp.replace(tzinfo=None)
+        session = naive.replace(tzinfo=self.SESSION_TIMEZONE)
+        if self.server_utc_offset_hours is not None:
+            # Compare offsets AS OF NOW — the offset was measured now, so
+            # checking it against a historical bar's season would falsely
+            # flag every winter bar during a summer run.
+            expected = datetime.now(self.SESSION_TIMEZONE).utcoffset().total_seconds() / 3600.0
+            if abs(expected - float(self.server_utc_offset_hours)) > 0.01:
+                # Broker is not on European time — fall back to explicit
+                # arithmetic so the session hours are still real hours.
+                true_utc = stamp - timedelta(hours=float(self.server_utc_offset_hours))
+                return true_utc.astimezone(self.SESSION_TIMEZONE)
+        return session
 
     def analyze(self, symbol: str, current_time: datetime | str | None = None) -> dict[str, Any]:
         """Return active killzone status for a symbol at the supplied or current WAT time."""
         normalized_symbol = self._validate_symbol(symbol)
-        wat_time = self.normalize_time(current_time)
+        wat_time = self.session_time(current_time)
         current_minute = wat_time.hour * 60 + wat_time.minute
         active_name, active_config = self.find_active_killzone(normalized_symbol, current_minute)
         quality_score = int(active_config.get("quality_score", 0)) if active_config else 0
