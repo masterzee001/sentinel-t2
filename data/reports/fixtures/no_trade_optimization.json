@@ -1,9 +1,0 @@
-{
-  "bad_blocks": 6,
-  "high_confidence_a_plus_leaks": 6,
-  "institutional_continuation_leaks": 6,
-  "pass": true,
-  "recommendation": "Review strict no-trade blocks on trend-following institutional continuation only; keep noisy_chop blocked.",
-  "strong_continuation_or_displacement_leaks": 6,
-  "total_no_trade_blocks": 6
-}
