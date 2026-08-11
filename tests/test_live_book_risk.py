@@ -49,13 +49,14 @@ def live_governor(connector=None) -> RiskGovernor:
 def test_live_profile_loads_tripwire_values():
     governor = live_governor()
     assert governor.max_trades_per_day == 15
-    assert governor.daily_loss_limit == 12.0
+    assert governor.daily_loss_limit == 18.0
     assert governor.max_consecutive_losses == 50
     assert governor.cooldown_after_loss_minutes == 0
-    # Meanrev's audited peak-to-trough at live sizing is ~19-21% account DD;
-    # tripwires must sit OUTSIDE audited behavior (adversarial audit 2026-08-11).
-    assert governor.internal_drawdown_limit == 35.0
-    assert governor.firm_drawdown_limit == 40.0
+    # Meanrev's audited trough at 1%/risk-unit sizing is ~30-42% account DD;
+    # tripwires must sit OUTSIDE audited behavior (user mandate: no risk
+    # limitation on trading — tripwires are bug brakes only).
+    assert governor.internal_drawdown_limit == 50.0
+    assert governor.firm_drawdown_limit == 60.0
     assert governor.max_total_open_planned_risk_percent == 10.0
 
 
@@ -87,7 +88,7 @@ def test_profile_overrides_merge_on_top():
         environment_mode="development",
     )
     assert governor.max_trades_per_day == 6
-    assert governor.daily_loss_limit == 12.0  # everything else untouched
+    assert governor.daily_loss_limit == 18.0  # everything else untouched
 
 
 def test_advisor_governor_still_uses_prop_firm_profile():
@@ -102,15 +103,15 @@ def test_loss_streaks_and_cooldown_do_not_block_live_book():
     """A 3R system strings 8+ losses routinely; live trading must continue."""
     governor = live_governor()
     reasons = governor.evaluate_blocks(
-        daily_loss_percent=6.5,  # worst legit stops-fill-at-distance day
+        daily_loss_percent=13.0,  # worst legit stops-fill-at-distance day
         daily_loss_verified=True,
-        current_drawdown_percent=21.0,  # audited meanrev peak-to-trough band
+        current_drawdown_percent=42.0,  # audited meanrev trough at 1%/unit sizing
         trades_taken_today=7,  # legit busiest day
         consecutive_losses=10,
         cooldown_active=governor.is_cooldown_active(
             last_loss_time=None, now=governor.parse_datetime("2026-08-11T12:00:00+01:00"), cooldown_minutes=0
         ),
-        total_open_planned_risk_percent=5.5,  # meanrev 3x1.5 + champion 2x0.5
+        total_open_planned_risk_percent=9.9,  # meanrev at broker minimums + champion
     )
     assert reasons == []
 
@@ -118,9 +119,9 @@ def test_loss_streaks_and_cooldown_do_not_block_live_book():
 def test_malfunction_tripwires_still_fire():
     governor = live_governor()
     reasons = governor.evaluate_blocks(
-        daily_loss_percent=13.0,
+        daily_loss_percent=19.0,
         daily_loss_verified=True,
-        current_drawdown_percent=40.0,
+        current_drawdown_percent=60.0,
         trades_taken_today=15,
         consecutive_losses=50,
         cooldown_active=False,
@@ -294,6 +295,44 @@ def test_champion_admission_context_stays_pure():
         "RiskGovernor",
     ):
         assert forbidden not in source, f"champion admission contaminated by '{forbidden}'"
+
+
+def test_orders_use_broker_alias_symbol(tmp_path: Path):
+    """NAS100 trades as USTEC on MetaQuotes-Demo: candle fetches already
+    resolve aliases, and order execution must use the same resolution or the
+    orders silently fail to size (found live 2026-08-11)."""
+    connector = _ExecutorConnector()
+    connector.broker_symbol = lambda symbol: "USTEC" if symbol == "NAS100" else symbol
+    sent = []
+    original_send = connector.mt5.order_send
+    connector.mt5.order_send = lambda request: (sent.append(request), original_send(request))[1]
+    executor = DemoOrderExecutor(connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL")
+    result = executor.open_position({**POSITION, "symbol": "NAS100"})
+    assert result["submitted"] is True
+    assert sent[0]["symbol"] == "USTEC"
+
+
+def test_min_lot_acceptance_takes_minimum_within_cap(tmp_path: Path):
+    """User mandate: signals must reach the account. When the risk-budget lot
+    is below the broker minimum, take the minimum if its implied risk is
+    under the cap; refuse only past the cap."""
+    connector = _ExecutorConnector()
+    connector.mt5.symbol_info = lambda symbol: SimpleNamespace(
+        trade_tick_value=1.0, trade_tick_size=1.0, volume_min=0.1, volume_step=0.1, volume_max=50.0
+    )
+    governor = _StoreGovernor(RiskStateStore(tmp_path / "s.json"))
+    # equity 3000, stop 1200 -> raw lot at 3% risk = 0.075 < 0.1 minimum;
+    # minimum implies 1200*0.1/3000 = 4% risk.
+    accepting = DemoOrderExecutor(
+        connector, governor, tmp_path / "KILL", risk_percent=3.0, min_lot_risk_cap_percent=6.0
+    )
+    assert accepting.lot_size("US30", 1200.0, 3000.0) == 0.1
+    tight_cap = DemoOrderExecutor(
+        connector, governor, tmp_path / "KILL", risk_percent=3.0, min_lot_risk_cap_percent=2.0
+    )
+    assert tight_cap.lot_size("US30", 1200.0, 3000.0) == 0.0
+    strict_default = DemoOrderExecutor(connector, governor, tmp_path / "KILL", risk_percent=3.0)
+    assert strict_default.lot_size("US30", 1200.0, 3000.0) == 0.0
 
 
 def test_live_engines_observe_account_every_cycle():

@@ -11,13 +11,18 @@
 # behavior (adversarially verified 2026-08-11). If one fires, something is
 # broken — stop and investigate; do not "wait it out".
 #
-# Audited reference points:
-#   meanrev peak-to-trough at live sizing (0.5%/risk-unit, 3 symbols): ~19-21%
+# Audited reference points (recalibrated 2026-08-11 after the user raised
+# meanrev to 1%/risk-unit and mandated NO risk limitation on trading —
+# "no strategic risk no strategic rewards"):
+#   meanrev audited trough -42R at 1%/risk-unit sizing: ~30-42% account DD
 #   champion 3y max DD: ~8%    combined book: shared account equity
-#   worst legit day if all stops FILL at distance: ~6.5%; overnight gaps
-#   THROUGH stops are inside audited behavior (daily-close exits), so a
-#   crash day can legitimately exceed that — the 12% line is an accepted
-#   stop-and-review level for a crash day, not a strict malfunction proof.
+#   worst legit day (all disaster stops fill + champion min-lot stops):
+#   ~13%; overnight gaps THROUGH stops are inside audited behavior
+#   (daily-close exits), so a crash day can exceed that — the 18% line is
+#   an accepted stop-and-review level for a crash day, not a trading limit.
+#   Min-lot acceptance: at current small equity, US30/USTEC meanrev
+#   positions ride at broker minimum (~3.4-3.8% each, cap 6%); champion
+#   accepts minimum up to 1.5%. Overshoot shrinks as equity grows.
 # Daily loss is measured on SHARED account equity including floating P&L
 # (both engines' positions count together — intentional account-level brake).
 # Drawdown is measured from the persistent all-time peak (one-way ratchet).
@@ -36,14 +41,14 @@ environment: "development"
 account_mode: "demo"
 
 drawdown:
-  firm_max_drawdown_percent: 40.0        # hard block; audited worst band ~21%
-  internal_max_drawdown_percent: 35.0    # tripwire, outside audited behavior
-  lock_account_at_drawdown_percent: 35.0
+  firm_max_drawdown_percent: 60.0        # hard block; audited worst band ~30-42% at current sizing
+  internal_max_drawdown_percent: 50.0    # tripwire, outside audited behavior
+  lock_account_at_drawdown_percent: 50.0
 
 daily_limits:
   max_trades_per_day: 15                 # runaway-order-loop tripwire (champion legit max ~4-8;
                                          # meanrev overrides to 6 in run_mean_reversion_live.py)
-  daily_loss_limit_percent: 12.0         # crash-day stop-and-review line (see header)
+  daily_loss_limit_percent: 18.0         # crash-day stop-and-review line (see header)
   stop_after_consecutive_losses: 50      # INOPERATIVE live: no live caller records closes, the
   cooldown_after_stop_loss_minutes: 0    #   counter stays 0. Values kept high/off deliberately —
                                          #   deleting the keys would reinstate prop defaults (2, 15m).

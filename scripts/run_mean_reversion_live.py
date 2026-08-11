@@ -117,31 +117,38 @@ def write_status(state: dict[str, Any]) -> None:
 
 
 def preflight_min_lots(connector: Any, executor: DemoOrderExecutor, equity: float) -> None:
-    """Warn loudly if any symbol's disaster-stop lot lands below broker minimum.
+    """Report each symbol's actual startup sizing (and warn on skips).
 
-    A below-minimum size makes open_position skip the order silently order by
-    order; the paper book then looks healthy while the account takes no
-    trades — the audit called this silent signal deletion. Non-fatal: sizes
-    change with equity and volatility.
+    Silent signal deletion — a healthy paper book while the account takes no
+    trades — was the audit's worst live failure mode; this makes the real
+    per-symbol risk visible in Telegram at every engine start. Non-fatal:
+    sizes change with equity and volatility.
     """
-    blocked = []
+    lines = []
+    skipped = []
     for symbol in SYMBOLS:
         try:
             candles = connector.get_historical_candles(symbol, "D1", count=VOL_WINDOW + 5)
             _, risk_unit = ibs_and_risk_unit(candles)
             if risk_unit <= 0:
                 continue
-            if executor.lot_size(symbol, DISASTER_STOP_UNITS * risk_unit, equity) <= 0:
-                blocked.append(symbol)
+            stop = DISASTER_STOP_UNITS * risk_unit
+            lots = executor.lot_size(symbol, stop, equity)
+            if lots <= 0:
+                skipped.append(symbol)
+                lines.append(f"{symbol}: SKIPPED (broker minimum above {executor.min_lot_risk_cap_percent}% risk cap)")
+                continue
+            info = connector.mt5.symbol_info(executor._broker_symbol(symbol))
+            value_per_unit = (info.trade_tick_value / info.trade_tick_size) if info else 0.0
+            implied = lots * stop * value_per_unit / equity * 100 if equity and value_per_unit else 0.0
+            lines.append(f"{symbol}: {lots} lots (~{implied:.1f}% equity at disaster stop)")
         except Exception as exc:
             print(f"preflight: {symbol} check failed ({exc})", flush=True)
-    if blocked:
-        message = (
-            f"MEANREV PREFLIGHT WARNING: {', '.join(blocked)} would be SKIPPED at current equity — "
-            "risk-budget lot is below the broker minimum. Signals on these symbols will not reach the account."
-        )
-        print(message, flush=True)
-        notify_telegram(message)
+    message = "MEANREV SIZING AT START:\n" + "\n".join(lines)
+    if skipped:
+        message += "\nWARNING: skipped symbols will not reach the account."
+    print(message, flush=True)
+    notify_telegram(message)
 
 
 def main() -> int:
@@ -177,9 +184,13 @@ def main() -> int:
             connector,
             governor,
             PROJECT_ROOT / "data" / "live_paper" / "KILL_SWITCH",
-            risk_percent=1.5,  # Disaster stop is 3 units -> 0.5% per risk unit.
+            risk_percent=3.0,  # Disaster stop is 3 units -> 1.0% per risk unit
+            # (user mandate 2026-08-11: raised from 1.5 so signals size properly).
             magic=MAGIC,
             comment="sentinel-meanrev",
+            # Broker minimum on US30/USTEC implies ~3.4-3.8% at current equity;
+            # take the trade at minimum rather than skip, refuse only past 6%.
+            min_lot_risk_cap_percent=6.0,
         )
         try:
             account = executor.verify_demo_account()

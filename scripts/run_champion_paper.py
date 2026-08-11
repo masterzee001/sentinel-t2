@@ -105,7 +105,13 @@ def main() -> int:
             risk_profile_file=PROJECT_ROOT / "config" / "live_book_risk.yaml",
         )
         executor = DemoOrderExecutor(
-            connector, governor, PROJECT_ROOT / "data" / "live_paper" / "KILL_SWITCH"
+            connector,
+            governor,
+            PROJECT_ROOT / "data" / "live_paper" / "KILL_SWITCH",
+            # Wide structural stops can push the 0.5% lot below the broker
+            # minimum; take the minimum (implied risk up to 1.5%) rather than
+            # silently delete the signal (user mandate 2026-08-11).
+            min_lot_risk_cap_percent=1.5,
         )
         try:
             account = executor.verify_demo_account()

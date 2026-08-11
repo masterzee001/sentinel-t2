@@ -42,6 +42,7 @@ class DemoOrderExecutor:
         magic: int = MAGIC,
         comment: str = COMMENT,
         max_lots_per_order: float = 5.0,
+        min_lot_risk_cap_percent: float = 0.0,
     ) -> None:
         self.connector = connector
         self.risk_governor = risk_governor
@@ -50,7 +51,18 @@ class DemoOrderExecutor:
         self.magic = int(magic)
         self.comment = str(comment)
         self.max_lots_per_order = float(max_lots_per_order)
+        self.min_lot_risk_cap_percent = float(min_lot_risk_cap_percent)
         self._count_failures = 0
+
+    def _broker_symbol(self, symbol: str) -> str:
+        """Resolve the broker's tradable name (e.g. NAS100 -> USTEC)."""
+        resolver = getattr(self.connector, "broker_symbol", None)
+        if resolver is None:
+            return symbol
+        try:
+            return resolver(symbol)
+        except Exception:
+            return symbol
 
     # ------------------------------------------------------------- gates
     def verify_demo_account(self) -> dict[str, Any]:
@@ -89,7 +101,7 @@ class DemoOrderExecutor:
     # ------------------------------------------------------------- sizing
     def lot_size(self, symbol: str, stop_distance: float, equity: float) -> float:
         """Risk-based lot size floored to broker constraints; 0.0 means skip."""
-        info = self.connector.mt5.symbol_info(symbol)
+        info = self.connector.mt5.symbol_info(self._broker_symbol(symbol))
         if info is None or stop_distance <= 0:
             return 0.0
         tick_value = float(getattr(info, "trade_tick_value", 0.0) or 0.0)
@@ -104,7 +116,16 @@ class DemoOrderExecutor:
         raw_lot = risk_amount / (stop_distance * value_per_unit)
         stepped = int(raw_lot / volume_step) * volume_step
         if stepped < volume_min:
-            return 0.0  # Never round UP past the risk budget (Phase 0 rule).
+            # The broker minimum exceeds the risk budget. User mandate
+            # (2026-08-11): signals must reach the account — accept the
+            # minimum lot when its implied risk stays under the engine's
+            # cap; only refuse when even the minimum would risk more than
+            # the cap. Cap 0.0 keeps the strict floor-down behavior.
+            if self.min_lot_risk_cap_percent > 0 and equity > 0:
+                implied = volume_min * stop_distance * value_per_unit / equity * 100.0
+                if implied <= self.min_lot_risk_cap_percent:
+                    return round(min(volume_min, volume_max), 2)
+            return 0.0
         return round(min(stepped, volume_max), 2)
 
     # ------------------------------------------------------------- orders
@@ -121,9 +142,10 @@ class DemoOrderExecutor:
             logger.warning(str(exc))
             return {"submitted": False, "reason": str(exc)}
         symbol = position["symbol"]
+        trade_symbol = self._broker_symbol(symbol)
         mt5 = self.connector.mt5
-        mt5.symbol_select(symbol, True)
-        tick = mt5.symbol_info_tick(symbol)
+        mt5.symbol_select(trade_symbol, True)
+        tick = mt5.symbol_info_tick(trade_symbol)
         if tick is None:
             return {"submitted": False, "reason": "no tick data"}
         bullish = position["direction"] == "bullish"
@@ -145,7 +167,7 @@ class DemoOrderExecutor:
             return {"submitted": False, "reason": f"lots {lots} exceed sanity ceiling {self.max_lots_per_order}"}
         request = {
             "action": mt5.TRADE_ACTION_DEAL,
-            "symbol": symbol,
+            "symbol": trade_symbol,
             "volume": lots,
             "type": mt5.ORDER_TYPE_BUY if bullish else mt5.ORDER_TYPE_SELL,
             "price": price,
@@ -191,19 +213,20 @@ class DemoOrderExecutor:
 
     def close_symbol_positions(self, symbol: str) -> dict[str, Any]:
         """Close any open sentinel-champion position on a symbol (timeout exit)."""
+        trade_symbol = self._broker_symbol(symbol)
         mt5 = self.connector.mt5
-        positions = mt5.positions_get(symbol=symbol) or []
+        positions = mt5.positions_get(symbol=trade_symbol) or []
         closed = []
         for open_position in positions:
             if int(getattr(open_position, "magic", 0)) != self.magic:
                 continue
-            tick = mt5.symbol_info_tick(symbol)
+            tick = mt5.symbol_info_tick(trade_symbol)
             if tick is None:
                 continue
             is_long = int(open_position.type) == mt5.ORDER_TYPE_BUY
             request = {
                 "action": mt5.TRADE_ACTION_DEAL,
-                "symbol": symbol,
+                "symbol": trade_symbol,
                 "volume": float(open_position.volume),
                 "type": mt5.ORDER_TYPE_SELL if is_long else mt5.ORDER_TYPE_BUY,
                 "position": int(open_position.ticket),
@@ -221,5 +244,5 @@ class DemoOrderExecutor:
 
     def position_still_open(self, symbol: str) -> bool:
         """Return whether a sentinel-champion position remains open on the symbol."""
-        positions = self.connector.mt5.positions_get(symbol=symbol) or []
+        positions = self.connector.mt5.positions_get(symbol=self._broker_symbol(symbol)) or []
         return any(int(getattr(item, "magic", 0)) == self.magic for item in positions)

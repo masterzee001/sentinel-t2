@@ -37,6 +37,7 @@ class MT5Connector:
         self.mt5 = mt5_module if mt5_module is not None else mt5
         self.supported_symbols = supported_symbols or self.SUPPORTED_SYMBOLS
         self.symbol_aliases = self._load_symbol_aliases()
+        self._broker_symbol_cache: dict[str, str] = {}
         self._initialized = False
 
         if self.mt5 is None:
@@ -205,6 +206,24 @@ class MT5Connector:
             raise ValueError(f"Unsupported symbol '{symbol}'. Supported symbols: {supported}.")
 
         return normalized_symbol
+
+    def broker_symbol(self, symbol: str) -> str:
+        """Return the broker's tradable name for a canonical symbol (cached).
+
+        Candle fetches already resolve aliases internally; order execution
+        must use the same resolution or symbols like NAS100 (traded as USTEC
+        on MetaQuotes-Demo) silently fail to size and never reach the account.
+        """
+        normalized = symbol.upper().strip()
+        cached = self._broker_symbol_cache.get(normalized)
+        if cached:
+            return cached
+        try:
+            resolved = self._select_broker_symbol(normalized)
+        except MT5ConnectorError:
+            resolved = normalized
+        self._broker_symbol_cache[normalized] = resolved
+        return resolved
 
     def _select_broker_symbol(self, symbol: str) -> str:
         """Select canonical symbol or first configured broker alias."""

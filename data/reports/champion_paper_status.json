@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T05:53:53.908461+00:00",
+  "generated_at": "2026-08-11T06:32:41.290775+00:00",
   "mode": "DEMO_EXECUTION_REAL_ORDERS",
   "open_positions": [],
   "closed_trades": 0,
@@ -11,5 +11,9 @@
     "risk_weighted_pf": 1.18,
     "avg_rr_per_trade": 0.077
   },
-  "parity_note": "Compare risk_weighted_pf and avg rr/trade to replay_expectation once 50+ trades close."
+  "parity_note": "Compare risk_weighted_pf and avg rr/trade to replay_expectation once 50+ trades close.",
+  "demo_orders_since_start": {
+    "submitted": 0,
+    "refused": {}
+  }
 }
