@@ -241,3 +241,7 @@ data/live_paper/*.jsonl
 data/live_paper/*.log
 data/live_paper/*.err
 data/live_paper/last_digest_date.txt
+
+# Credential files - NEVER commit any variant
+.env
+.env.*
