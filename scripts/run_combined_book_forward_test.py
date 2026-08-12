@@ -100,6 +100,13 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mr-risk-per-unit", type=float, default=1.0,
                         help="RESEARCH: meanrev risk percent per risk-unit (live = 1.0).")
+    parser.add_argument("--meanrev-trades", type=str, default=str(MEANREV_TRADES),
+                        help="RESEARCH: alternate meanrev trade stream (e.g. a relaxed slot rule).")
+    parser.add_argument("--max-open-per-symbol", type=int, default=1,
+                        help="RESEARCH: concurrent meanrev positions allowed per symbol.")
+    parser.add_argument("--max-open-total", type=int, default=0,
+                        help="RESEARCH: cap on concurrent meanrev positions across ALL symbols (0 = no cap). "
+                             "Bounds crash concentration, which per-symbol caps do not.")
     parser.add_argument("--max-lots", type=float, default=MAX_LOTS_PER_ORDER,
                         help="RESEARCH: per-order lot ceiling (live executor refuses above 5.0).")
     parser.add_argument("--stop-units", type=float, default=0.0,
@@ -109,7 +116,7 @@ def main() -> int:
     stop_units = float(args.stop_units)
     logger.remove()
     champion_raw = json.loads(CHAMPION_TRADES.read_text(encoding="utf-8"))["trades"]
-    meanrev_raw = json.loads(MEANREV_TRADES.read_text(encoding="utf-8"))["trades"]
+    meanrev_raw = json.loads(Path(args.meanrev_trades).read_text(encoding="utf-8"))["trades"]
     champion_sizer = make_sizer(risk_percent=0.5, min_lot_cap=1.5)
     mr_risk_percent = 3.0 * float(args.mr_risk_per_unit)
     meanrev_sizer = make_sizer(risk_percent=mr_risk_percent, min_lot_cap=6.0)
@@ -167,7 +174,7 @@ def main() -> int:
 
     equity = STARTING_EQUITY  # realized
     peak = STARTING_EQUITY
-    open_mr: dict[str, dict] = {}  # symbol -> {trade, lots, stop_price, entry}
+    open_mr: dict[str, list[dict]] = defaultdict(list)  # symbol -> [positions]
     last_close: dict[str, float] = {}
     curve: list[dict[str, Any]] = []
     stats = {
@@ -182,9 +189,11 @@ def main() -> int:
 
     def floating_pnl() -> float:
         total = 0.0
-        for symbol, position in open_mr.items():
+        for symbol, positions in open_mr.items():
             close = last_close.get(symbol)
-            if close is not None:
+            if close is None:
+                continue
+            for position in positions:
                 total += position["lots"] * (close - position["entry"])
         return total
 
@@ -195,16 +204,19 @@ def main() -> int:
             if not stop_units:
                 break  # stop disabled: audited no-stop replay
             bar = bars[symbol].get(day)
-            position = open_mr[symbol]
-            if bar is None or day <= day_of(position["trade"]["entry_time"]):
+            if bar is None:
                 continue
-            stop_price = position["stop_price"]
-            fill = None
-            if bar["open"] <= stop_price:
-                fill = bar["open"]  # gap through the stop fills at the open
-            elif bar["low"] <= stop_price:
-                fill = stop_price
-            if fill is not None:
+            for position in list(open_mr[symbol]):
+                if day <= day_of(position["trade"]["entry_time"]):
+                    continue
+                stop_price = position["stop_price"]
+                fill = None
+                if bar["open"] <= stop_price:
+                    fill = bar["open"]  # gap through the stop fills at the open
+                elif bar["low"] <= stop_price:
+                    fill = stop_price
+                if fill is None:
+                    continue
                 trade = position["trade"]
                 held_days = max((pd.Timestamp(day) - pd.Timestamp(trade["entry_time"]).tz_localize(None)).days, 1)
                 pnl_points = (
@@ -217,7 +229,7 @@ def main() -> int:
                 stats["meanrev"]["pnl"] += pnl
                 stats["meanrev"]["stopped_out"] += 1
                 trade["_consumed"] = True  # scheduled exit must not double-count
-                del open_mr[symbol]
+                open_mr[symbol].remove(position)
         # 2) Champion trades (sized on marked equity, live refusal gates mirrored).
         for trade in champion_by_day.get(day, ()):
             stop = float(trade["stop_distance"])
@@ -244,17 +256,20 @@ def main() -> int:
         for trade in mr_exits_by_day.get(day, ()):
             if trade.get("_consumed"):
                 continue
-            position = open_mr.get(trade["symbol"])
-            if position is None or position["trade"] is not trade:
-                continue  # entry was skipped below-minimum, or belongs to another trade
-            pnl = position["lots"] * float(trade["pnl_points"])
+            match = next((p for p in open_mr.get(trade["symbol"], []) if p["trade"] is trade), None)
+            if match is None:
+                continue  # entry was skipped below-minimum
+            pnl = match["lots"] * float(trade["pnl_points"])
             equity += pnl
             stats["meanrev"]["pnl"] += pnl
             trade["_consumed"] = True
-            del open_mr[trade["symbol"]]
+            open_mr[trade["symbol"]].remove(match)
         # 4) MR entries at this day's close.
         for trade in mr_entries_by_day.get(day, ()):
-            if trade["symbol"] in open_mr:
+            if len(open_mr.get(trade["symbol"], [])) >= int(args.max_open_per_symbol):
+                continue
+            total_open = sum(len(v) for v in open_mr.values())
+            if args.max_open_total and total_open >= int(args.max_open_total):
                 continue
             stop = (stop_units or DISASTER_STOP_UNITS) * float(trade["risk_unit"])
             marked_equity = equity + floating_pnl()
@@ -270,12 +285,12 @@ def main() -> int:
             if marked_equity * (mr_risk_percent / 100.0) / stop < 0.1:
                 stats["meanrev"]["at_min_lot"] += 1
             entry = float(trade["entry_price"])
-            open_mr[trade["symbol"]] = {
+            open_mr[trade["symbol"]].append({
                 "trade": trade,
                 "lots": lots,
                 "entry": entry,
                 "stop_price": entry - stop,
-            }
+            })
             stats["meanrev"]["filled"] += 1
             trades_today += 1
         # 5) Mark to market on last known closes (carried through holidays).
@@ -304,6 +319,7 @@ def main() -> int:
             blown = True
             break
 
+    open_mr = {k: v for k, v in open_mr.items() if v}
     if open_mr and not blown:
         raise AssertionError(f"Positions still open at end of window: {sorted(open_mr)} — window trim is broken.")
 

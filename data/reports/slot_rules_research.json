@@ -1,0 +1,186 @@
+{
+  "generated_at": "2026-08-12T03:49:10.907726+00:00",
+  "status": "RESEARCH_ONLY",
+  "common_window_start": "2021-03-16 00:00:00+00:00",
+  "variants": {
+    "A_base_1_per_symbol": {
+      "trades": 664,
+      "win_rate": 69.4,
+      "net_rr": 244.28,
+      "rw_pf": 1.57,
+      "expectancy": 0.368,
+      "avg_concurrent": 1.43,
+      "max_concurrent": 4,
+      "net_rr_per_unit_exposure": 170.38,
+      "positive_quarter_share": 0.77,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 1,
+        "deeper_only": false,
+        "min_age_days": 0
+      }
+    },
+    "B_two_any": {
+      "trades": 897,
+      "win_rate": 70.0,
+      "net_rr": 370.93,
+      "rw_pf": 1.64,
+      "expectancy": 0.414,
+      "avg_concurrent": 1.96,
+      "max_concurrent": 8,
+      "net_rr_per_unit_exposure": 189.73,
+      "positive_quarter_share": 0.68,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 2,
+        "deeper_only": false,
+        "min_age_days": 0
+      }
+    },
+    "C_two_deeper": {
+      "trades": 887,
+      "win_rate": 70.0,
+      "net_rr": 371.8,
+      "rw_pf": 1.65,
+      "expectancy": 0.419,
+      "avg_concurrent": 1.94,
+      "max_concurrent": 8,
+      "net_rr_per_unit_exposure": 191.91,
+      "positive_quarter_share": 0.68,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 2,
+        "deeper_only": true,
+        "min_age_days": 0
+      }
+    },
+    "D_three_any": {
+      "trades": 980,
+      "win_rate": 70.6,
+      "net_rr": 438.27,
+      "rw_pf": 1.69,
+      "expectancy": 0.447,
+      "avg_concurrent": 2.15,
+      "max_concurrent": 12,
+      "net_rr_per_unit_exposure": 203.82,
+      "positive_quarter_share": 0.82,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 3,
+        "deeper_only": false,
+        "min_age_days": 0
+      }
+    },
+    "E_unlimited": {
+      "trades": 1023,
+      "win_rate": 71.2,
+      "net_rr": 492.64,
+      "rw_pf": 1.74,
+      "expectancy": 0.482,
+      "avg_concurrent": 2.26,
+      "max_concurrent": 17,
+      "net_rr_per_unit_exposure": 218.35,
+      "positive_quarter_share": 0.82,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 99,
+        "deeper_only": false,
+        "min_age_days": 0
+      }
+    },
+    "F_unlimited_deeper": {
+      "trades": 998,
+      "win_rate": 70.9,
+      "net_rr": 482.05,
+      "rw_pf": 1.74,
+      "expectancy": 0.483,
+      "avg_concurrent": 2.21,
+      "max_concurrent": 17,
+      "net_rr_per_unit_exposure": 218.43,
+      "positive_quarter_share": 0.82,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 99,
+        "deeper_only": true,
+        "min_age_days": 0
+      }
+    },
+    "G_two_aged": {
+      "trades": 776,
+      "win_rate": 70.6,
+      "net_rr": 336.66,
+      "rw_pf": 1.68,
+      "expectancy": 0.434,
+      "avg_concurrent": 1.67,
+      "max_concurrent": 8,
+      "net_rr_per_unit_exposure": 201.85,
+      "positive_quarter_share": 0.77,
+      "passes_gate": true,
+      "rule": {
+        "max_open": 2,
+        "deeper_only": false,
+        "min_age_days": 3
+      }
+    }
+  },
+  "best_raw_net_rr": "E_unlimited",
+  "best_risk_adjusted": "F_unlimited_deeper",
+  "account_level_results": {
+    "note": "Per-trade rwPF IMPROVES with more positions, but account drawdown grows FASTER than return. Ranked by CAGR/maxDD, which is the metric that survives a crash.",
+    "A_base_1_per_symbol_risk1.0": {
+      "cagr": 62.4,
+      "max_dd": 32.6,
+      "worst_day": 14.0,
+      "ratio": 1.91,
+      "tripwires": 0
+    },
+    "G_two_aged_risk0.85": {
+      "cagr": 71.6,
+      "max_dd": 49.4,
+      "worst_day": 24.2,
+      "ratio": 1.45,
+      "tripwires": 2
+    },
+    "D_three_any_risk0.8": {
+      "cagr": 87.7,
+      "max_dd": 68.0,
+      "worst_day": 38.4,
+      "ratio": 1.29,
+      "tripwires": 9
+    },
+    "D_three_any_risk0.67": {
+      "cagr": 72.4,
+      "max_dd": 58.5,
+      "worst_day": 33.8,
+      "ratio": 1.24,
+      "tripwires": 4
+    },
+    "E_unlimited_risk0.63": {
+      "cagr": 81.5,
+      "max_dd": 70.5,
+      "worst_day": 43.2,
+      "ratio": 1.16,
+      "tripwires": 7
+    },
+    "E_unlimited_risk1.0": {
+      "cagr": 94.3,
+      "max_dd": 98.4,
+      "worst_day": 87.7,
+      "ratio": 0.96,
+      "tripwires": 44
+    },
+    "portfolio_cap_4_risk1.0": {
+      "cagr": 55.8,
+      "max_dd": 52.6,
+      "ratio": 1.06,
+      "tripwires": 3
+    },
+    "portfolio_cap_6_risk1.0": {
+      "cagr": 62.3,
+      "max_dd": 72.6,
+      "ratio": 0.86,
+      "tripwires": 9
+    }
+  },
+  "verdict": "KEEP one-position-per-symbol. It is not arbitrary conservatism: it is a diversification constraint. Every relaxation concentrates positions precisely during crashes (repeated dips cluster in selloffs across correlated indices), so drawdown grows faster than return. Even portfolio-level caps fail, because 6 concurrent index longs in a crash is the same bet. The way to add trades WITHOUT this failure mode is MORE SYMBOLS, not more positions per symbol - adding DE40 took the book from 509 to 664 trades (+30%) at an unchanged risk shape."
+}
