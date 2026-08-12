@@ -1,0 +1,44 @@
+{
+  "status": "RESEARCH_ONLY",
+  "n_trades": 549,
+  "baseline_mean_r": 0.407,
+  "note": "Pre-registered per the price-action design study. Round-number grids fixed in advance (US30/NAS100/DE40=500, US500=100), never swept. Prior-low windows EXCLUDE the entry bar (including it makes distance trivially zero on every new low, which is exactly when IBS<0.2 fires).",
+  "results": {
+    "H1_round_number_distance": {
+      "spearman_rho": -0.03,
+      "perm_p": 0.487,
+      "verdict": "no effect"
+    },
+    "H3_distance_above_20d_low": {
+      "spearman_rho": -0.06,
+      "perm_p": 0.168,
+      "verdict": "no effect"
+    },
+    "H3b_distance_above_252d_low": {
+      "spearman_rho": 0.03,
+      "perm_p": 0.48,
+      "verdict": "no effect"
+    },
+    "H4_confluence_count": {
+      "spearman_rho": 0.051,
+      "perm_p": 0.225,
+      "verdict": "no effect"
+    },
+    "H2_approached_vs_breached": {
+      "approached_mean_r": 0.203,
+      "breached_mean_r": 0.453,
+      "perm_p": 0.304,
+      "verdict": "no effect - and the sign is OPPOSITE to the folklore: trades that had already breached the level did BETTER"
+    },
+    "near_vs_far_filter": {
+      "near_n": 215,
+      "near_mean_r": 0.53,
+      "near_net_r": 114.0,
+      "far_n": 334,
+      "far_mean_r": 0.328,
+      "far_net_r": 109.5,
+      "verdict": "the near/far split looks appealing but is not statistically distinguishable (H1 p=0.487); filtering to 'near' would DISCARD 109.5R of profit to gain 0.12 mean R on the half retained"
+    }
+  },
+  "conclusion": "SUPPORT/RESISTANCE ADDS NO MEASURABLE EDGE to this book. All four distance measures test flat (|rho| <= 0.06, every p > 0.16). This matches the design study's stated prior and the published record: Osler's order-clustering effects are real but pip-scale and decay within ~2 hours, while this is a multi-day swing book on CFDs; and every standalone technical-level rule tested in the literature (Sullivan/Timmermann/White 1999, Bajgrowicz/Scaillet 2012) lost its edge once data-snooping and costs were handled. Recorded as a REJECTION so it is never re-tested by accident."
+}
