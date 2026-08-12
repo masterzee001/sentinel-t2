@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T04:50:47.600476+00:00",
+  "generated_at": "2026-08-12T05:55:47.742619+00:00",
   "mode": "DEMO_EXECUTION_REAL_ORDERS",
   "engine": "ibs_mean_reversion",
   "open_positions": {},
@@ -13,7 +13,7 @@
     }
   },
   "mt5_health": {
-    "last_success_utc": "2026-08-12T04:50:47.600223+00:00",
+    "last_success_utc": "2026-08-12T05:55:47.742385+00:00",
     "consecutive_failures": 0
   },
   "server_offset_hours": 3.0,

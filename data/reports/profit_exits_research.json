@@ -1,0 +1,405 @@
+{
+  "generated_at": "2026-08-12T05:56:00.598404+00:00",
+  "status": "RESEARCH_ONLY",
+  "give_back": {
+    "realised_r": 244.28,
+    "peak_r": 770.6,
+    "capture_rate_pct": 31.7,
+    "trades_giving_back": 29
+  },
+  "baseline": {
+    "full": {
+      "trades": 664,
+      "win_rate": 69.4,
+      "net_rr": 244.28,
+      "rw_pf": 1.57,
+      "avg_hold": 3.0,
+      "positive_quarter_share": 0.77
+    },
+    "discovery": {
+      "trades": 343,
+      "win_rate": 65.3,
+      "net_rr": 75.2,
+      "rw_pf": 1.31,
+      "avg_hold": 2.9,
+      "positive_quarter_share": 0.64
+    },
+    "holdout": {
+      "trades": 310,
+      "win_rate": 73.2,
+      "net_rr": 153.43,
+      "rw_pf": 1.82,
+      "avg_hold": 3.0,
+      "positive_quarter_share": 0.92
+    }
+  },
+  "results": {
+    "P1_take_profit_0.5u": {
+      "full": {
+        "trades": 695,
+        "win_rate": 71.9,
+        "net_rr": 212.7,
+        "rw_pf": 1.52,
+        "avg_hold": 2.5,
+        "positive_quarter_share": 0.73
+      },
+      "discovery": {
+        "trades": 357,
+        "win_rate": 67.5,
+        "net_rr": 60.19,
+        "rw_pf": 1.25,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 327,
+        "win_rate": 76.1,
+        "net_rr": 138.12,
+        "rw_pf": 1.82,
+        "avg_hold": 2.5,
+        "positive_quarter_share": 0.83
+      },
+      "params": {
+        "take_profit": 0.5
+      }
+    },
+    "P1_take_profit_1.0u": {
+      "full": {
+        "trades": 684,
+        "win_rate": 70.5,
+        "net_rr": 234.53,
+        "rw_pf": 1.56,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.73
+      },
+      "discovery": {
+        "trades": 352,
+        "win_rate": 65.9,
+        "net_rr": 66.8,
+        "rw_pf": 1.27,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 321,
+        "win_rate": 74.8,
+        "net_rr": 153.35,
+        "rw_pf": 1.9,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.83
+      },
+      "params": {
+        "take_profit": 1.0
+      }
+    },
+    "P1_take_profit_1.5u": {
+      "full": {
+        "trades": 681,
+        "win_rate": 70.0,
+        "net_rr": 252.87,
+        "rw_pf": 1.6,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.73
+      },
+      "discovery": {
+        "trades": 352,
+        "win_rate": 65.9,
+        "net_rr": 80.67,
+        "rw_pf": 1.33,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 318,
+        "win_rate": 73.9,
+        "net_rr": 157.82,
+        "rw_pf": 1.89,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.83
+      },
+      "params": {
+        "take_profit": 1.5
+      }
+    },
+    "P1_take_profit_2.0u": {
+      "full": {
+        "trades": 675,
+        "win_rate": 69.8,
+        "net_rr": 254.57,
+        "rw_pf": 1.59,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.77
+      },
+      "discovery": {
+        "trades": 351,
+        "win_rate": 65.8,
+        "net_rr": 86.09,
+        "rw_pf": 1.35,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 313,
+        "win_rate": 73.5,
+        "net_rr": 152.82,
+        "rw_pf": 1.81,
+        "avg_hold": 2.9,
+        "positive_quarter_share": 0.92
+      },
+      "params": {
+        "take_profit": 2.0
+      }
+    },
+    "P2_give_back_0.5u": {
+      "full": {
+        "trades": 728,
+        "win_rate": 63.2,
+        "net_rr": 213.69,
+        "rw_pf": 1.46,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.73
+      },
+      "discovery": {
+        "trades": 373,
+        "win_rate": 61.1,
+        "net_rr": 60.3,
+        "rw_pf": 1.23,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.55
+      },
+      "holdout": {
+        "trades": 344,
+        "win_rate": 64.8,
+        "net_rr": 138.89,
+        "rw_pf": 1.69,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.83
+      },
+      "params": {
+        "give_back": 0.5
+      }
+    },
+    "P2_give_back_1.0u": {
+      "full": {
+        "trades": 716,
+        "win_rate": 65.4,
+        "net_rr": 218.34,
+        "rw_pf": 1.47,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.73
+      },
+      "discovery": {
+        "trades": 367,
+        "win_rate": 63.2,
+        "net_rr": 63.19,
+        "rw_pf": 1.24,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.55
+      },
+      "holdout": {
+        "trades": 338,
+        "win_rate": 66.9,
+        "net_rr": 139.5,
+        "rw_pf": 1.67,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.83
+      },
+      "params": {
+        "give_back": 1.0
+      }
+    },
+    "P2_give_back_1.5u": {
+      "full": {
+        "trades": 705,
+        "win_rate": 66.8,
+        "net_rr": 225.72,
+        "rw_pf": 1.48,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.77
+      },
+      "discovery": {
+        "trades": 361,
+        "win_rate": 63.7,
+        "net_rr": 63.03,
+        "rw_pf": 1.24,
+        "avg_hold": 2.7,
+        "positive_quarter_share": 0.55
+      },
+      "holdout": {
+        "trades": 333,
+        "win_rate": 69.4,
+        "net_rr": 147.03,
+        "rw_pf": 1.72,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.92
+      },
+      "params": {
+        "give_back": 1.5
+      }
+    },
+    "P3_breakeven_after_0.5u": {
+      "full": {
+        "trades": 688,
+        "win_rate": 67.2,
+        "net_rr": 240.74,
+        "rw_pf": 1.54,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.77
+      },
+      "discovery": {
+        "trades": 352,
+        "win_rate": 64.5,
+        "net_rr": 72.03,
+        "rw_pf": 1.29,
+        "avg_hold": 2.8,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 325,
+        "win_rate": 69.2,
+        "net_rr": 153.06,
+        "rw_pf": 1.77,
+        "avg_hold": 2.9,
+        "positive_quarter_share": 0.92
+      },
+      "params": {
+        "breakeven_after": 0.5
+      }
+    },
+    "P3_breakeven_after_1.0u": {
+      "full": {
+        "trades": 677,
+        "win_rate": 68.4,
+        "net_rr": 251.44,
+        "rw_pf": 1.58,
+        "avg_hold": 2.9,
+        "positive_quarter_share": 0.77
+      },
+      "discovery": {
+        "trades": 347,
+        "win_rate": 64.6,
+        "net_rr": 73.89,
+        "rw_pf": 1.3,
+        "avg_hold": 2.9,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 319,
+        "win_rate": 71.8,
+        "net_rr": 161.89,
+        "rw_pf": 1.86,
+        "avg_hold": 3.0,
+        "positive_quarter_share": 0.92
+      },
+      "params": {
+        "breakeven_after": 1.0
+      }
+    },
+    "P4_tp1.0_and_6d": {
+      "full": {
+        "trades": 702,
+        "win_rate": 71.1,
+        "net_rr": 235.07,
+        "rw_pf": 1.54,
+        "avg_hold": 2.5,
+        "positive_quarter_share": 0.77
+      },
+      "discovery": {
+        "trades": 364,
+        "win_rate": 67.0,
+        "net_rr": 73.2,
+        "rw_pf": 1.28,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.55
+      },
+      "holdout": {
+        "trades": 327,
+        "win_rate": 74.9,
+        "net_rr": 147.49,
+        "rw_pf": 1.82,
+        "avg_hold": 2.5,
+        "positive_quarter_share": 0.92
+      },
+      "params": {
+        "take_profit": 1.0,
+        "max_hold": 6
+      }
+    },
+    "P4_giveback1.0_and_6d": {
+      "full": {
+        "trades": 731,
+        "win_rate": 66.1,
+        "net_rr": 213.68,
+        "rw_pf": 1.43,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.73
+      },
+      "discovery": {
+        "trades": 377,
+        "win_rate": 64.5,
+        "net_rr": 71.17,
+        "rw_pf": 1.26,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 343,
+        "win_rate": 67.1,
+        "net_rr": 126.86,
+        "rw_pf": 1.57,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.83
+      },
+      "params": {
+        "give_back": 1.0,
+        "max_hold": 6
+      }
+    },
+    "P4_tp1.5_and_6d": {
+      "full": {
+        "trades": 699,
+        "win_rate": 70.7,
+        "net_rr": 256.78,
+        "rw_pf": 1.58,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.77
+      },
+      "discovery": {
+        "trades": 364,
+        "win_rate": 67.0,
+        "net_rr": 89.0,
+        "rw_pf": 1.34,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.55
+      },
+      "holdout": {
+        "trades": 324,
+        "win_rate": 74.1,
+        "net_rr": 153.4,
+        "rw_pf": 1.83,
+        "avg_hold": 2.6,
+        "positive_quarter_share": 0.92
+      },
+      "params": {
+        "take_profit": 1.5,
+        "max_hold": 6
+      }
+    }
+  },
+  "selection": {
+    "chosen_on_discovery": "P4_tp1.5_and_6d",
+    "discovery": 89.0,
+    "baseline_discovery": 75.2,
+    "holdout": 153.4,
+    "baseline_holdout": 153.43,
+    "VALIDATES_ON_HOLDOUT": false,
+    "verdict": "REJECTED - does not survive the holdout"
+  },
+  "interpretation": {
+    "give_back_is_real_but_concentrated": "The 31.7% 'capture rate' headline is misleading and must not be quoted as an inefficiency: it sums every trade's best unrealised moment, and no strategy can exit every trade at its exact peak. The honest figure is that only 29 of 664 trades (4%) hand back more than 0.5R from their peak - but those give back ~2.98R each, roughly 87R against a 244R book. So the user's concern is real and material, just concentrated in a small minority of trades.",
+    "why_profit_exits_still_fail": "Take-profit and give-back stops cut the reversion move that pays for the losers. This book wins by holding until the bounce completes (IBS>0.8 already detects that); capping the winner at a fixed R removes the right tail while leaving every loser intact. Same structural reason breakeven+partials destroyed the champion engine, and it is why WIN RATE rises on these variants while net R falls - a textbook sign of a bad exit that feels good.",
+    "pre_registered_verdict": "REJECTED. The pre-registered rule was: pick the best variant on discovery, validate on holdout. P4_tp1.5_and_6d won discovery (89.0R vs 75.2R) and produced 153.4R on holdout versus a 153.43R baseline - no improvement. Rejected, and the pick is not re-chosen after seeing the holdout.",
+    "honest_lead_not_a_result": "P1_take_profit_1.5u beats baseline on BOTH halves independently (disc 80.7 vs 75.2, hold 157.8 vs 153.4). That is suggestive, but it was NOT the pre-registered selection and 13 variants were tested, so it is a lead for a future out-of-sample test - not a promotable result.",
+    "important_interaction": "Adding a take-profit to the 6-day time stop ERASES the time stop's gain: 6d alone holds out at 164.1R, 6d+tp1.5 at 153.4R. The two do not compose - the validated change remains the time stop ALONE."
+  }
+}
