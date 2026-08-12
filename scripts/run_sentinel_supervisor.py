@@ -93,6 +93,36 @@ def status_age_seconds(engine: dict) -> float:
     return time.time() - status.stat().st_mtime
 
 
+def log_line(message: str) -> None:
+    """Timestamped supervisor output.
+
+    The engine died five times on 2026-08-12 and left nothing to work from:
+    these lines carried no time, so they could not be lined up against the
+    heartbeat or the engine's own log.
+    """
+    print(f"{datetime.now(UTC).isoformat(timespec='seconds')} {message}", flush=True)
+
+
+def describe_exit(code: int | None) -> str:
+    """Explain how a child ended, in the terms that tell them apart.
+
+    The exit code was previously read only for None-ness and thrown away, so
+    five deaths in one day produced no evidence at all. It is the one number
+    that separates the possibilities: 0 means the engine chose to return, a
+    small positive code means something terminated it deliberately, and a
+    large 0xC0000005-style code means the process crashed - which for this
+    engine points at the MetaTrader5 C extension, since a Python-level failure
+    would have left a traceback in meanrev.log.
+    """
+    if code is None:
+        return "no child of ours (nothing to report)"
+    if code == 0:
+        return "exit 0 - returned normally, so it chose to stop"
+    if code < 0:
+        return f"killed by signal {-code}"
+    return f"exit {code} (0x{code & 0xFFFFFFFF:08X})"
+
+
 def describe_age(seconds: float) -> str:
     """Render an age for an alert without assuming it is finite.
 
@@ -237,7 +267,7 @@ def main() -> int:
     children: dict[str, subprocess.Popen] = {}
     started: dict[str, float] = {}
     notify_telegram("Sentinel SUPERVISOR online: watching MT5 + the mean-reversion engine; daily digest 07:00 WAT.")
-    print("SENTINEL SUPERVISOR online", flush=True)
+    log_line("SENTINEL SUPERVISOR online")
     while True:
         try:
             if not ensure_mt5():
@@ -248,23 +278,28 @@ def main() -> int:
                 age = status_age_seconds(engine)
                 feed_age = data_age_seconds(engine)
                 child = children.get(name)
-                child_dead = child is None or child.poll() is not None
+                # Read the code before start_engine replaces the handle: it is
+                # the only surviving evidence of HOW the last engine ended.
+                exit_code = child.poll() if child is not None else None
+                child_dead = child is None or exit_code is not None
                 child_age = time.time() - started[name] if name in started else math.inf
                 action = decide_action(age, feed_age, child_dead, child_age, engine)
                 # Act first, alert second: a Telegram call that throws must
                 # never be the reason the book fails to come back up.
                 if action == "start":
+                    ended = describe_exit(exit_code)
                     start_engine(name, engine, children, started)
-                    print(f"(re)started {name}", flush=True)
+                    log_line(f"(re)started {name} - previous instance: {ended}")
                     notify_telegram(
-                        f"SUPERVISOR: {name} engine heartbeat {describe_age(age)} - (re)started it."
+                        f"SUPERVISOR: {name} engine heartbeat {describe_age(age)} - (re)started it.\n"
+                        f"Previous instance: {ended}"
                     )
                 elif action == "kill_restart_dead_feed":
                     # A live process with a dead MT5 feed is the silent failure
                     # mode the heartbeat cannot see: force a restart on it.
                     child.kill()
                     start_engine(name, engine, children, started)
-                    print(f"{name}: MT5 feed dead {describe_age(feed_age)} - restarting", flush=True)
+                    log_line(f"{name}: MT5 feed dead {describe_age(feed_age)} - restarting")
                     notify_telegram(
                         f"SUPERVISOR: {name} process is alive but MT5 returned nothing for "
                         f"{describe_age(feed_age)} - restarting it. Check the terminal is logged in."
@@ -272,18 +307,15 @@ def main() -> int:
                 elif action == "kill_restart_hung":
                     child.kill()
                     start_engine(name, engine, children, started)
-                    print(f"{name}: hung {describe_age(age)} - killed and restarted", flush=True)
+                    log_line(f"{name}: hung {describe_age(age)} - killed and restarted")
                     notify_telegram(
                         f"SUPERVISOR: {name} engine hung ({describe_age(age)}) - killed and restarted."
                     )
                 elif action == "wait_first_heartbeat":
-                    print(
-                        f"{name}: started {int(child_age)}s ago, waiting for its first heartbeat",
-                        flush=True,
-                    )
+                    log_line(f"{name}: started {int(child_age)}s ago, waiting for its first heartbeat")
             maybe_send_digest(datetime.now(UTC))
         except Exception as exc:  # Supervisor must never die of its own bugs.
-            print(f"supervisor error: {exc}", flush=True)
+            log_line(f"supervisor error: {exc}")
         time.sleep(CHECK_INTERVAL_SECONDS)
 
 

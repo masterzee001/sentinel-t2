@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-08-12T04:53:33.164263+00:00",
-  "status": "RESEARCH_ONLY",
+  "status": "PROMOTED",
   "results": {
     "H5_time_stop_2d": {
       "full": {
@@ -489,5 +489,12 @@
     "beats_baseline_on_discovery": true,
     "VALIDATES_ON_HOLDOUT": true,
     "verdict": "PROMOTABLE - improves on the half it was never chosen on"
+  },
+  "promotion": {
+    "promoted_utc": "2026-08-12",
+    "parameter": "MAX_HOLD_DAYS",
+    "from": 10,
+    "to": 6,
+    "note": "Wired into scripts/run_mean_reversion_live.py. The verdict below was reached on 2026-08-12 but left as RESEARCH_ONLY, so the live book ran the 10-day stop it had already been shown to beat. This field exists so a promotable result cannot sit unpromoted and unnoticed again."
   }
 }

@@ -96,6 +96,51 @@ def test_offset_change_requires_sustained_confirmation():
     assert state["server_offset_hours"] == 2.0
 
 
+def test_an_unusable_reading_breaks_the_confirmation_streak():
+    """The 2026-08-12 false alarm, in miniature.
+
+    A drifting stale tick does not return a DISAGREEING offset - it returns
+    None, because it is rejected for sitting more than 5 minutes off a whole
+    hour. None used to return early without touching the pending state, so
+    evidence for a change accumulated across an unreliable feed rather than
+    having to be consecutive, and the engine announced "UTC+3 -> UTC+2 (held
+    46 min across 11 reads)" in August against a broker that was measurably
+    still on +3.
+    """
+    module = importlib.import_module("scripts.run_mean_reversion_live")
+    state = {"server_offset_hours": 3.0}
+    module.refresh_server_offset(_Fixed(2.0), state)
+    assert state.get("pending_offset") == 2.0
+    module.refresh_server_offset(_Fixed(None), state)  # feed goes unusable
+    assert "pending_offset" not in state, "a gap must not count towards a change"
+
+    # Even with the clock backdated well past the persistence window, a run
+    # interrupted by an unusable reading must not be enough to re-anchor.
+    state = {"server_offset_hours": 3.0}
+    for _ in range(module.OFFSET_CONFIRMATIONS_REQUIRED):
+        module.refresh_server_offset(_Fixed(2.0), state)
+    state["pending_offset_since"] = (
+        datetime.now(UTC) - timedelta(minutes=module.OFFSET_CONFIRMATION_MINUTES + 1)
+    ).isoformat()
+    module.refresh_server_offset(_Fixed(None), state)
+    assert module.refresh_server_offset(_Fixed(2.0), state) == 3.0
+    assert state["server_offset_hours"] == 3.0
+
+
+def test_a_real_dst_change_still_lands_after_the_streak_resets():
+    """The guard must not become impossible to satisfy: clean consecutive
+    readings held past the window still re-anchor the windows."""
+    module = importlib.import_module("scripts.run_mean_reversion_live")
+    state = {"server_offset_hours": 3.0}
+    module.refresh_server_offset(_Fixed(None), state)
+    for _ in range(module.OFFSET_CONFIRMATIONS_REQUIRED):
+        module.refresh_server_offset(_Fixed(2.0), state)
+    state["pending_offset_since"] = (
+        datetime.now(UTC) - timedelta(minutes=module.OFFSET_CONFIRMATION_MINUTES + 1)
+    ).isoformat()
+    assert module.refresh_server_offset(_Fixed(2.0), state) == 2.0
+
+
 def test_flapping_measurements_do_not_move_the_clock():
     module = importlib.import_module("scripts.run_mean_reversion_live")
     state = {"server_offset_hours": 3.0}

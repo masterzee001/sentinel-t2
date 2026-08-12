@@ -64,7 +64,17 @@ def depth_multiplier(ibs: float) -> float:
     if ibs < DEPTH_TILT["mid"][0]:
         return DEPTH_TILT["mid"][1]
     return DEPTH_TILT["shallow"][1]
-MAX_HOLD_DAYS = 10
+# TIME STOP: 6 days, promoted 2026-08-12. Chosen on the discovery half and
+# then validated on the holdout it was never chosen on, which is the whole
+# point of the split: holdout rwPF 1.87 vs 1.82 for the 10-day incumbent,
+# +164.1R vs +153.4R, and every holdout quarter positive (1.00 vs 0.92).
+# Research (66feeaf) reached the verdict "PROMOTABLE" but stopped at
+# RESEARCH_ONLY and never touched this file, so the book ran 10 days for
+# months after the work that retired it.
+# 7d and 8d score HIGHER on the holdout (1.96, 2.01). They are deliberately
+# NOT chosen: picking them now would be fitting to the half that exists to
+# check the choice, which is the error the split is designed to prevent.
+MAX_HOLD_DAYS = 6
 VOL_WINDOW = 20
 DISASTER_STOP_UNITS = 3.0
 # CONCURRENCY CAP (2026-08-12). The four traded indices correlate 0.68-0.95
@@ -105,6 +115,20 @@ def refresh_server_offset(connector: Any, state: dict[str, Any]) -> float:
     current = state.get("server_offset_hours")
     measured = connector.server_utc_offset_hours()
     if measured is None:
+        # An unusable reading is not evidence FOR a change, so it must break
+        # the streak rather than pass silently. The docstring's defence -- that
+        # a drifting stale tick "cannot hold the same rounded value" -- never
+        # actually fired, because a drifting tick stops returning a DISAGREEING
+        # offset and starts returning None: it is rejected for sitting more
+        # than 5 minutes off a whole hour. None was a no-op here, so evidence
+        # accumulated across an unreliable feed instead of having to be
+        # consecutive, and a pending change survived arbitrary gaps.
+        # That produced a false "UTC+3 -> UTC+2, held 46 min across 11 reads"
+        # on 2026-08-12 -- in August, months from any EET change, and measured
+        # against five symbols that all read +3 within 3 seconds of live.
+        # A real DST change reads cleanly and consecutively, so it still lands.
+        for key in ("pending_offset", "pending_offset_count", "pending_offset_since"):
+            state.pop(key, None)
         return float(current if current is not None else SERVER_OFFSET_FALLBACK_HOURS)
     if current is None:
         state["server_offset_hours"] = measured
