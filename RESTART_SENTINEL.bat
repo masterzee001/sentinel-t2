@@ -12,6 +12,13 @@ REM by the engine we just stopped looks fresh - so without this the book would
 REM sit dead for up to 20 minutes. A missing file reads as infinitely stale and
 REM starts it on the supervisor's first pass. Nothing is lost: the status file
 REM is rewritten from meanrev_state.json every cycle.
+REM
+REM This is only safe because the supervisor now leaves a freshly started
+REM engine alone for ENGINE_GRACE_SECONDS instead of judging it on a heartbeat
+REM it has not written yet. Before that fix this deletion started a silent
+REM kill loop - the engine was killed every check interval and never lived
+REM long enough to write the file. Do not reintroduce the deletion anywhere
+REM the grace period does not apply.
 cd /d "%~dp0"
 
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0STOP_SENTINEL.ps1" -Force

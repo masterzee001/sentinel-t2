@@ -21,6 +21,7 @@ be started by hand while the supervisor runs — it is the single owner.
 from __future__ import annotations
 
 import json
+import math
 import os
 import subprocess
 import sys
@@ -49,6 +50,15 @@ ENGINES = {
 DIGEST_HOUR_UTC = 6  # 07:00 WAT.
 CHECK_INTERVAL_SECONDS = 120
 DIGEST_MARK = PROJECT_ROOT / "data" / "live_paper" / "last_digest_date.txt"
+
+# An engine we have just started has not written a heartbeat yet, so its age
+# reads as infinity — which cleared every staleness threshold instantly and got
+# it killed on the next check, forever, without ever surviving long enough to
+# write the file it was being judged on. Its first cycle connects to MT5 and
+# runs the per-symbol preflight, so it needs room. Well inside stale_seconds
+# (1200) so a genuinely hung engine is still caught. Incident 2026-08-12: the
+# heartbeat file was deleted under a live engine and this loop ran silently.
+ENGINE_GRACE_SECONDS = 600.0
 
 
 def mt5_running() -> bool:
@@ -83,7 +93,55 @@ def status_age_seconds(engine: dict) -> float:
     return time.time() - status.stat().st_mtime
 
 
-def start_engine(name: str, engine: dict, children: dict) -> None:
+def describe_age(seconds: float) -> str:
+    """Render an age for an alert without assuming it is finite.
+
+    status_age_seconds returns infinity when the heartbeat file is absent, and
+    int(infinity) raises OverflowError. That used to fire AFTER the restart had
+    already happened, so the outer handler swallowed it and the alert was never
+    sent — the supervisor restarted the engine over and over in total silence.
+    """
+    if not math.isfinite(seconds):
+        return "never written"
+    return f"{int(seconds)}s"
+
+
+def decide_action(
+    age: float,
+    feed_age: float,
+    child_dead: bool,
+    child_age: float,
+    engine: dict,
+) -> str:
+    """Decide what to do about one engine. Pure, so the paths that kill live
+    processes can be tested without spawning any.
+
+    age        seconds since the heartbeat file last changed (inf if absent)
+    feed_age   seconds since the engine last got an answer out of MT5
+    child_dead whether the process we started has exited
+    child_age  seconds since we started it (inf if we never did)
+    """
+    if child_dead:
+        # Only act once the heartbeat is stale. A fresh heartbeat with no child
+        # of ours means another supervisor's engine is alive and writing it;
+        # starting a second one would put two books on the same account.
+        if age > engine["stale_seconds"]:
+            return "start"
+        return "none"
+    if child_age < ENGINE_GRACE_SECONDS:
+        # Ours, and too young to have reported yet. Nothing it could have done
+        # differently, so nothing to judge it on.
+        return "wait_first_heartbeat"
+    if feed_age > engine["data_stale_seconds"]:
+        return "kill_restart_dead_feed"
+    # Alive but stale gets one extra interval before we kill it: MT5 IPC
+    # hiccups usually self-recover.
+    if age > engine["stale_seconds"] * 3:
+        return "kill_restart_hung"
+    return "none"
+
+
+def start_engine(name: str, engine: dict, children: dict, started: dict) -> None:
     log = open(engine["log"], "a", encoding="utf-8")
     children[name] = subprocess.Popen(
         engine["args"],
@@ -92,6 +150,7 @@ def start_engine(name: str, engine: dict, children: dict) -> None:
         stderr=subprocess.STDOUT,
         creationflags=subprocess.DETACHED_PROCESS,
     )
+    started[name] = time.time()
 
 
 def read_status(engine: dict) -> dict:
@@ -171,6 +230,7 @@ def main() -> int:
     LOCK_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOCK_PATH.write_text(str(os.getpid()), encoding="utf-8")
     children: dict[str, subprocess.Popen] = {}
+    started: dict[str, float] = {}
     notify_telegram("Sentinel SUPERVISOR online: watching MT5 + the mean-reversion engine; daily digest 07:00 WAT.")
     print("SENTINEL SUPERVISOR online", flush=True)
     while True:
@@ -181,33 +241,41 @@ def main() -> int:
                 continue
             for name, engine in ENGINES.items():
                 age = status_age_seconds(engine)
+                feed_age = data_age_seconds(engine)
                 child = children.get(name)
                 child_dead = child is None or child.poll() is not None
-                # A live process with a dead MT5 feed is the silent failure
-                # mode the heartbeat cannot see: force a restart on it.
-                feed_age = data_age_seconds(engine)
-                if feed_age > engine["data_stale_seconds"] and not child_dead:
+                child_age = time.time() - started[name] if name in started else math.inf
+                action = decide_action(age, feed_age, child_dead, child_age, engine)
+                # Act first, alert second: a Telegram call that throws must
+                # never be the reason the book fails to come back up.
+                if action == "start":
+                    start_engine(name, engine, children, started)
+                    print(f"(re)started {name}", flush=True)
+                    notify_telegram(
+                        f"SUPERVISOR: {name} engine heartbeat {describe_age(age)} - (re)started it."
+                    )
+                elif action == "kill_restart_dead_feed":
+                    # A live process with a dead MT5 feed is the silent failure
+                    # mode the heartbeat cannot see: force a restart on it.
+                    child.kill()
+                    start_engine(name, engine, children, started)
+                    print(f"{name}: MT5 feed dead {describe_age(feed_age)} - restarting", flush=True)
                     notify_telegram(
                         f"SUPERVISOR: {name} process is alive but MT5 returned nothing for "
-                        f"{int(feed_age / 60)} min - restarting it. Check the terminal is logged in."
+                        f"{describe_age(feed_age)} - restarting it. Check the terminal is logged in."
                     )
-                    print(f"{name}: MT5 feed dead {int(feed_age)}s - restarting", flush=True)
+                elif action == "kill_restart_hung":
                     child.kill()
-                    start_engine(name, engine, children)
-                    continue
-                if age > engine["stale_seconds"]:
-                    if child_dead:
-                        start_engine(name, engine, children)
-                        notify_telegram(
-                            f"SUPERVISOR: {name} engine heartbeat stale ({int(age)}s) - (re)started it."
-                        )
-                        print(f"(re)started {name}", flush=True)
-                    # If a child is alive but stale, give it one more interval
-                    # before killing: MT5 IPC hiccups usually self-recover.
-                    elif age > engine["stale_seconds"] * 3:
-                        child.kill()
-                        start_engine(name, engine, children)
-                        notify_telegram(f"SUPERVISOR: {name} engine hung ({int(age)}s) - killed and restarted.")
+                    start_engine(name, engine, children, started)
+                    print(f"{name}: hung {describe_age(age)} - killed and restarted", flush=True)
+                    notify_telegram(
+                        f"SUPERVISOR: {name} engine hung ({describe_age(age)}) - killed and restarted."
+                    )
+                elif action == "wait_first_heartbeat":
+                    print(
+                        f"{name}: started {int(child_age)}s ago, waiting for its first heartbeat",
+                        flush=True,
+                    )
             maybe_send_digest(datetime.now(UTC))
         except Exception as exc:  # Supervisor must never die of its own bugs.
             print(f"supervisor error: {exc}", flush=True)
