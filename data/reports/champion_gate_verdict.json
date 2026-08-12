@@ -1,0 +1,36 @@
+{
+  "status": "MEASURED_VERDICT",
+  "engine": "champion (ICT breakout proxy)",
+  "tape": "data/reports/champion_trades_3y.json \u2014 907 Pepperstone trades, 4.2y",
+  "gate_result": {
+    "profit_factor": 1.0728,
+    "gate": 1.1,
+    "positive_quarters": 0.5,
+    "gate_q": 0.6,
+    "verdict": "FAILS ITS OWN PROMOTION GATE"
+  },
+  "cost_sensitivity": {
+    "x1.0": 31.77,
+    "x1.5": 7.65,
+    "x1.66": -0.07,
+    "x2.0": -16.47,
+    "x2.31": -31.42,
+    "note": "breakeven at 1.66x the modelled round trip; the entire edge lies inside the spread-assumption error bar"
+  },
+  "per_symbol": {
+    "US30": {
+      "trades": 507,
+      "net_rr": 2.89,
+      "pf": 1.0116,
+      "note": "507 trades for essentially zero - dead weight"
+    },
+    "NAS100": {
+      "trades": 400,
+      "net_rr": 28.87,
+      "pf": 1.1547,
+      "positive_quarters": 0.5
+    }
+  },
+  "action_taken": "live order execution DISABLED in the supervisor; engine still runs for observation",
+  "open_decision": "full retirement (deleting the engine) left to the user"
+}

@@ -35,10 +35,14 @@ from scripts.run_champion_paper import notify_telegram
 PYTHON = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
 ENGINES = {
     "champion": {
-        # Live again (2026-08-12): killzone windows are now session-anchored
-        # and verified to reproduce the validated broker-clock 12:30-14:45
-        # window on this broker, in both DST seasons.
-        "args": [PYTHON, "-u", "scripts/run_champion_paper.py", "--interval-seconds", "60", "--execute-demo"],
+        # EXECUTION DISABLED 2026-08-12 — the champion FAILS its own promotion
+        # gate on its own tape (907 Pepperstone trades: PF 1.073 vs the 1.10
+        # gate; 50% positive quarters vs the 60% gate) and is NEGATIVE at the
+        # honest cost assumption (-31.4R at 2.31x the modelled round trip,
+        # breakeven at just 1.66x). Its whole edge sits inside the error bar of
+        # the spread estimate. It had never been measured against the gate.
+        # Kept running for observation only; retirement is the user's call.
+        "args": [PYTHON, "-u", "scripts/run_champion_paper.py", "--interval-seconds", "60"],
         "status": PROJECT_ROOT / "data" / "reports" / "champion_paper_status.json",
         "log": PROJECT_ROOT / "data" / "live_paper" / "champion_paper.log",
         "stale_seconds": 300,
