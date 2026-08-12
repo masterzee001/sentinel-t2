@@ -204,6 +204,9 @@ def count_order_result(state: dict[str, Any], demo_order: dict[str, Any]) -> Non
     else:
         reason = str(demo_order.get("reason", "unknown"))[:80]
         counters["refused"][reason] = int(counters["refused"].get(reason, 0)) + 1
+        # Timestamp it: a refusal from a since-fixed condition must not alarm
+        # the health check forever.
+        counters["last_refusal_utc"] = datetime.now(UTC).isoformat()
 
 
 def write_status(state: dict[str, Any], health: dict[str, Any] | None = None) -> None:
