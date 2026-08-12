@@ -242,6 +242,15 @@ data/live_paper/*.log
 data/live_paper/*.err
 data/live_paper/last_digest_date.txt
 
+# The engine's heartbeat. Same class as the files above, but it lives among
+# the research reports and so was tracked by accident: it is rewritten every
+# 5 minutes, which left the tree permanently dirty and leaked timestamp-only
+# diffs into unrelated commits. Nothing reads the committed copy - the
+# supervisor watches its mtime and the health check reads it off disk, and
+# both handle it being absent (a missing file reads as infinitely stale,
+# which correctly starts the engine on a fresh machine).
+data/reports/meanrev_live_status.json
+
 # Credential files - NEVER commit any variant
 .env
 .env.*
