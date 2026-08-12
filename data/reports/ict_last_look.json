@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-08-12T07:32:34.065930+00:00",
+  "status": "RESEARCH_ONLY",
+  "gate": {
+    "min_rwpf": 1.1,
+    "min_q": 0.6,
+    "min_trades": 80
+  },
+  "results": {
+    "sweep_pdl": {
+      "trades": 693,
+      "win_rate": 66.8,
+      "net_rr": 93.45,
+      "rw_pf": 1.2,
+      "expectancy": 0.135,
+      "positive_quarter_share": 0.59,
+      "overlap_with_ibs_pct": 4.5,
+      "passes_gate": false
+    },
+    "sweep_pwl": {
+      "trades": 352,
+      "win_rate": 67.9,
+      "net_rr": 93.04,
+      "rw_pf": 1.39,
+      "expectancy": 0.264,
+      "positive_quarter_share": 0.68,
+      "overlap_with_ibs_pct": 7.4,
+      "passes_gate": true
+    },
+    "fvg_fill": {
+      "trades": 78,
+      "win_rate": 71.8,
+      "net_rr": 23.27,
+      "rw_pf": 1.63,
+      "expectancy": 0.298,
+      "positive_quarter_share": 0.67,
+      "overlap_with_ibs_pct": 51.3,
+      "passes_gate": false
+    },
+    "order_block": {
+      "trades": 325,
+      "win_rate": 63.4,
+      "net_rr": -6.09,
+      "rw_pf": 0.98,
+      "expectancy": -0.019,
+      "positive_quarter_share": 0.41,
+      "overlap_with_ibs_pct": 18.8,
+      "passes_gate": false
+    },
+    "ote": {
+      "trades": 218,
+      "win_rate": 65.6,
+      "net_rr": 48.97,
+      "rw_pf": 1.27,
+      "expectancy": 0.225,
+      "positive_quarter_share": 0.64,
+      "overlap_with_ibs_pct": 41.7,
+      "passes_gate": true
+    }
+  },
+  "verdict": "AN ICT EDGE DOES EXIST, but not the one the champion was built on. The prior-WEEK liquidity sweep (price takes out the prior 5-day low intrabar then closes back above it) clears the gate - 352 trades, rwPF 1.39, 68% positive quarters - and holds in BOTH halves (1.23 / 1.60). Critically it overlaps the IBS book only 7.4% of the time, so it is a genuinely DIFFERENT signal rather than IBS relabelled. Optimal-trade-entry (62-79% retracement) also passes and holds (1.16 / 1.41) but overlaps IBS 41.7%, so much of it is the existing edge in ICT clothing. Order blocks FAIL outright (rwPF 0.98, negative), the prior-DAY sweep fails on quarterly consistency, and fair-value-gap fills are too rare (78 trades). CAVEAT REQUIRED BEFORE ANY PROMOTION: 5 constructs were tested and 2 passed, both exits reuse the IBS exit rule (so part of the measured edge may be the EXIT, not the entry), and neither has faced an adversarial audit. The honest next step is an entry-isolation test - same entries with a neutral exit - and a walk-forward.",
+  "holdout": {
+    "sweep_pwl": {
+      "first_half_rwpf": 1.23,
+      "second_half_rwpf": 1.6,
+      "holds_both": true,
+      "ibs_overlap_pct": 7.4
+    },
+    "ote": {
+      "first_half_rwpf": 1.16,
+      "second_half_rwpf": 1.41,
+      "holds_both": true,
+      "ibs_overlap_pct": 41.7
+    }
+  }
+}

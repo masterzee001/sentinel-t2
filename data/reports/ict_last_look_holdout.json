@@ -1,0 +1,48 @@
+{
+  "sweep_pwl": {
+    "first_half": {
+      "trades": 176,
+      "win_rate": 64.2,
+      "net_rr": 30.26,
+      "rw_pf": 1.23,
+      "expectancy": 0.172,
+      "positive_quarter_share": 0.55,
+      "overlap_with_ibs_pct": 5.7,
+      "passes_gate": false
+    },
+    "second_half": {
+      "trades": 176,
+      "win_rate": 71.6,
+      "net_rr": 62.78,
+      "rw_pf": 1.6,
+      "expectancy": 0.357,
+      "positive_quarter_share": 0.75,
+      "overlap_with_ibs_pct": 9.1,
+      "passes_gate": true
+    },
+    "holds_both": true
+  },
+  "ote": {
+    "first_half": {
+      "trades": 109,
+      "win_rate": 68.8,
+      "net_rr": 15.1,
+      "rw_pf": 1.16,
+      "expectancy": 0.139,
+      "positive_quarter_share": 0.64,
+      "overlap_with_ibs_pct": 45.9,
+      "passes_gate": true
+    },
+    "second_half": {
+      "trades": 109,
+      "win_rate": 62.4,
+      "net_rr": 33.87,
+      "rw_pf": 1.41,
+      "expectancy": 0.311,
+      "positive_quarter_share": 0.67,
+      "overlap_with_ibs_pct": 37.6,
+      "passes_gate": true
+    },
+    "holds_both": true
+  }
+}
