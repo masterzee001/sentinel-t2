@@ -264,7 +264,13 @@ def preflight_min_lots(connector: Any, executor: DemoOrderExecutor, equity: floa
             lines.append(f"{symbol}: {lots} lots (~{implied:.1f}% equity at disaster stop)")
         except Exception as exc:
             print(f"preflight: {symbol} check failed ({exc})", flush=True)
-    message = "MEANREV SIZING AT START:\n" + "\n".join(lines)
+    deep, shallow = DEPTH_TILT["deep"][1], DEPTH_TILT["shallow"][1]
+    message = (
+        "MEANREV SIZING AT START (base size; depth tilt scales each entry):\n"
+        + "\n".join(lines)
+        + f"\nDeepest dips take {deep}x these sizes, shallow ones {shallow}x."
+        + f"\nMax {MAX_CONCURRENT_POSITIONS} positions at once (correlation cap)."
+    )
     if skipped:
         message += "\nWARNING: skipped symbols will not reach the account."
     print(message, flush=True)
