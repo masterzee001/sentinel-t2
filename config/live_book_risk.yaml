@@ -27,6 +27,19 @@
 #   config; 3y forward test max DD 31.6%, worst day -12.2% at 1%/unit).
 #   The DD/daily tripwires below are the only account-level floors left —
 #   they block NEW opens only; exits always run.
+#
+#   ⚠ CRASH ENVELOPE CORRECTED 2026-08-12 — READ THIS BEFORE TRUSTING THE
+#   NUMBERS ABOVE. The four indices correlate 0.68-0.95 (NAS100/US500 0.947,
+#   average 0.80), so concurrent positions are close to ONE leveraged bet.
+#   Measured over 5.4y with the depth tilt live:
+#     uncapped:  peak exposure 36% of equity, worst day -43.8%, maxDD 71%
+#     capped 3:  peak exposure 27%,           worst day -28.7%, maxDD 54%
+#   The engine now caps concurrency at 3 (MAX_CONCURRENT_POSITIONS).
+#   CONSEQUENCE THAT MUST NOT BE GLOSSED: the 18% daily tripwire WILL fire on
+#   a genuine crash day, not only on a malfunction. That is acceptable
+#   behaviour — it halts NEW entries while exits continue — but it means the
+#   original "tripwires can only fire if something is broken" framing no
+#   longer holds for the daily line.
 #   DE40 ADDED (2026-08-11, verified edge rwPF 1.30): 4th meanrev symbol,
 #   own 22:30-22:55 server window. 0.65-0.71 correlated with the US book —
 #   worst legit crash day rises toward ~16%; the 18% daily line stands.

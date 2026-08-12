@@ -460,3 +460,17 @@ def test_depth_tilt_cannot_leak_into_the_next_trade():
     source = (PROJECT_ROOT / "scripts" / "run_mean_reversion_live.py").read_text(encoding="utf-8")
     assert "base_risk = executor.risk_percent" in source
     assert "finally:" in source and "executor.risk_percent = base_risk" in source
+
+
+def test_concurrency_cap_is_enforced():
+    """The four indices correlate 0.68-0.95, so concurrent positions are close
+    to one leveraged bet. Uncapped the depth-tilted book's worst historical day
+    is -43.8%; capped at 3 it is -28.7%. The cap must be in the entry path."""
+    import importlib
+
+    module = importlib.import_module("scripts.run_mean_reversion_live")
+    assert module.MAX_CONCURRENT_POSITIONS == 3
+    source = (PROJECT_ROOT / "scripts" / "run_mean_reversion_live.py").read_text(encoding="utf-8")
+    assert 'len(state["open_positions"]) < MAX_CONCURRENT_POSITIONS' in source, (
+        "the cap must gate ENTRIES; a cap that is defined but never checked protects nothing"
+    )

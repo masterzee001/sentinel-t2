@@ -67,6 +67,15 @@ def depth_multiplier(ibs: float) -> float:
 MAX_HOLD_DAYS = 10
 VOL_WINDOW = 20
 DISASTER_STOP_UNITS = 3.0
+# CONCURRENCY CAP (2026-08-12). The four traded indices correlate 0.68-0.95
+# (NAS100/US500 = 0.947, average 0.80), so concurrent positions are close to
+# one leveraged bet, not four diversified ones. Measured on 5.4y of history,
+# the uncapped depth-tilted book peaks at 36% of equity across four positions
+# and its worst day is -43.8% (2025-04-04) — versus the -16% the risk config
+# had assumed. Capping at 3 cuts the worst day to -28.7% and drawdown from
+# 71% to 54%, for ~19% less compounded return. That is the correct trade
+# before real capital: the tail shrinks faster than the return does.
+MAX_CONCURRENT_POSITIONS = 3
 MAGIC = 22078
 STATE_PATH = PROJECT_ROOT / "data" / "live_paper" / "meanrev_state.json"
 ACTIONS_PATH = PROJECT_ROOT / "data" / "live_paper" / "meanrev_actions.jsonl"
@@ -404,7 +413,11 @@ def main() -> int:
                             notify_telegram(
                                 f"MEANREV CLOSE {symbol} {round(rr, 2)}R ({action['reason']}) @ {price}"
                             )
-                    elif ibs < IBS_ENTRY and risk_unit > 0:
+                    elif (
+                        ibs < IBS_ENTRY
+                        and risk_unit > 0
+                        and len(state["open_positions"]) < MAX_CONCURRENT_POSITIONS
+                    ):
                         position = {
                             "symbol": symbol,
                             "direction": "bullish",

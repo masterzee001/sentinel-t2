@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-08-12T08:11:28.731693+00:00",
+  "correlations": {
+    "US30": {
+      "US30": 1.0,
+      "NAS100": 0.772,
+      "US500": 0.912,
+      "DE40": 0.735
+    },
+    "NAS100": {
+      "US30": 0.772,
+      "NAS100": 1.0,
+      "US500": 0.947,
+      "DE40": 0.684
+    },
+    "US500": {
+      "US30": 0.912,
+      "NAS100": 0.947,
+      "US500": 1.0,
+      "DE40": 0.75
+    },
+    "DE40": {
+      "US30": 0.735,
+      "NAS100": 0.684,
+      "US500": 0.75,
+      "DE40": 1.0
+    }
+  },
+  "configurations": {
+    "flat sizing, no cap": {
+      "worst_day_pct": -23.79,
+      "worst_day": "2025-04-04",
+      "max_exposure_pct": 12.0,
+      "max_concurrent": 4,
+      "avg_exposure_pct": 4.2,
+      "max_drawdown_pct": 46.0,
+      "final_equity_index": 1499.8
+    },
+    "depth tilt, no cap (LIVE NOW)": {
+      "worst_day_pct": -43.78,
+      "worst_day": "2025-04-04",
+      "max_exposure_pct": 36.0,
+      "max_concurrent": 4,
+      "avg_exposure_pct": 5.7,
+      "max_drawdown_pct": 71.2,
+      "final_equity_index": 3254.7
+    },
+    "depth tilt, cap 3 concurrent": {
+      "worst_day_pct": -28.65,
+      "worst_day": "2021-09-20",
+      "max_exposure_pct": 27.0,
+      "max_concurrent": 3,
+      "avg_exposure_pct": 4.7,
+      "max_drawdown_pct": 54.4,
+      "final_equity_index": 2635.3
+    },
+    "depth tilt, cap 2 concurrent": {
+      "worst_day_pct": -18.75,
+      "worst_day": "2025-04-04",
+      "max_exposure_pct": 18.0,
+      "max_concurrent": 2,
+      "avg_exposure_pct": 3.3,
+      "max_drawdown_pct": 37.1,
+      "final_equity_index": 1060.0
+    }
+  },
+  "documented_worst_day_assumption": 16.0,
+  "verdict": "The live configuration's worst historical day is -43.78% (on 2025-04-04) against a documented assumption of -16.0%, at a peak exposure of 36.0% of equity across 4 concurrent positions in instruments correlating ~0.93. The 18% daily tripwire and the 50%/60% drawdown blocks must be read against THESE numbers, not the old assumption."
+}
