@@ -139,22 +139,30 @@ def describe_age(seconds: float) -> str:
 def decide_action(
     age: float,
     feed_age: float,
-    child_dead: bool,
+    child_state: str,
     child_age: float,
     engine: dict,
 ) -> str:
     """Decide what to do about one engine. Pure, so the paths that kill live
     processes can be tested without spawning any.
 
-    age        seconds since the heartbeat file last changed (inf if absent)
-    feed_age   seconds since the engine last got an answer out of MT5
-    child_dead whether the process we started has exited
-    child_age  seconds since we started it (inf if we never did)
+    age         seconds since the heartbeat file last changed (inf if absent)
+    feed_age    seconds since the engine last got an answer out of MT5
+    child_state "alive" | "exited" (we started it and it is gone) | "unknown"
+                (we never started one, so whatever is running is not ours)
+    child_age   seconds since we started it (inf if we never did)
     """
-    if child_dead:
-        # Only act once the heartbeat is stale. A fresh heartbeat with no child
-        # of ours means another supervisor's engine is alive and writing it;
-        # starting a second one would put two books on the same account.
+    if child_state == "exited":
+        # We watched this one die, so there is no ambiguity to wait out. The
+        # heartbeat gate below would hold recovery for up to stale_seconds
+        # (20 min) - long enough to miss an entry window outright, which
+        # nearly happened on 2026-08-12 when the engine died five times.
+        return "start"
+    if child_state == "unknown":
+        # Never started one. A fresh heartbeat therefore means somebody else's
+        # engine is alive and writing it - most likely another supervisor's.
+        # Starting a second would put two books on the same account, so wait
+        # for the heartbeat to go stale before assuming the field is clear.
         if age > engine["stale_seconds"]:
             return "start"
         return "none"
@@ -281,9 +289,14 @@ def main() -> int:
                 # Read the code before start_engine replaces the handle: it is
                 # the only surviving evidence of HOW the last engine ended.
                 exit_code = child.poll() if child is not None else None
-                child_dead = child is None or exit_code is not None
+                if child is None:
+                    child_state = "unknown"
+                elif exit_code is not None:
+                    child_state = "exited"
+                else:
+                    child_state = "alive"
                 child_age = time.time() - started[name] if name in started else math.inf
-                action = decide_action(age, feed_age, child_dead, child_age, engine)
+                action = decide_action(age, feed_age, child_state, child_age, engine)
                 # Act first, alert second: a Telegram call that throws must
                 # never be the reason the book fails to come back up.
                 if action == "start":
