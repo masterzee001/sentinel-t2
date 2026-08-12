@@ -45,6 +45,25 @@ ENTRY_WINDOWS = {
 }
 IBS_ENTRY = 0.2
 IBS_EXIT = 0.8
+# DEPTH TILT (promoted 2026-08-12). Entry depth predicts trade quality:
+# IBS<0.05 earns +0.71R per trade at rwPF 2.25 against +0.29-0.32R for
+# shallower dips — monotone in the threshold, consistent across ALL FOUR
+# symbols and both halves of history. Risk is REALLOCATED toward that tail
+# rather than simply increased: shallow dips are cut to 0.75x, which is why
+# this improves return per unit of drawdown (account-level CAGR/maxDD 2.66
+# vs 2.38 flat) instead of just adding leverage.
+# Honest cost of it: deeper drawdowns (46.7% vs 28.7% on the 3y replay) and
+# a worst day of -23% vs -13%. Set DEPTH_TILT to a flat 1.0 to disable.
+DEPTH_TILT = {"deep": (0.05, 3.0), "mid": (0.10, 1.5), "shallow": (IBS_ENTRY, 0.75)}
+
+
+def depth_multiplier(ibs: float) -> float:
+    """Risk multiplier for an entry, by how deep the dip is."""
+    if ibs < DEPTH_TILT["deep"][0]:
+        return DEPTH_TILT["deep"][1]
+    if ibs < DEPTH_TILT["mid"][0]:
+        return DEPTH_TILT["mid"][1]
+    return DEPTH_TILT["shallow"][1]
 MAX_HOLD_DAYS = 10
 VOL_WINDOW = 20
 DISASTER_STOP_UNITS = 3.0
@@ -397,10 +416,20 @@ def main() -> int:
                             "held_days": 0,
                             "opened_at": server_now.isoformat(),
                         }
+                        tilt = depth_multiplier(ibs)
+                        position["size_multiplier"] = tilt
                         action = {"event": "OPEN", **position}
                         submitted = True
                         if executor:
-                            action["demo_order"] = executor.open_position(position)
+                            # Size this entry by dip depth, then restore the
+                            # base risk so the multiplier can never leak into
+                            # the next trade.
+                            base_risk = executor.risk_percent
+                            executor.risk_percent = base_risk * tilt
+                            try:
+                                action["demo_order"] = executor.open_position(position)
+                            finally:
+                                executor.risk_percent = base_risk
                             position["demo_order"] = action["demo_order"]
                             count_order_result(state, action["demo_order"])
                             submitted = bool(action["demo_order"].get("submitted"))

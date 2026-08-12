@@ -438,3 +438,25 @@ def test_refused_order_does_not_occupy_the_symbol_slot():
     commit = source.index('state["open_positions"][symbol] = position', marker)
     guard = source.rindex("if submitted:", marker, commit)
     assert guard < commit, "the position commit must sit behind the submitted guard"
+
+
+def test_depth_tilt_reallocates_risk_by_dip_depth():
+    """Promoted 2026-08-12: deeper dips earn ~2x the per-trade edge, so risk is
+    REALLOCATED toward them (shallow cut to 0.75x) rather than simply raised —
+    that reallocation is why it improves return per unit of drawdown."""
+    import importlib
+
+    module = importlib.import_module("scripts.run_mean_reversion_live")
+    assert module.depth_multiplier(0.01) == 3.0    # deepest dips
+    assert module.depth_multiplier(0.04) == 3.0
+    assert module.depth_multiplier(0.07) == 1.5    # mid
+    assert module.depth_multiplier(0.15) == 0.75   # shallow: DOWN-weighted
+    assert module.depth_multiplier(0.19) == 0.75
+
+
+def test_depth_tilt_cannot_leak_into_the_next_trade():
+    """The multiplier is applied around a single order and restored, so a deep
+    dip cannot silently triple the size of the next shallow entry."""
+    source = (PROJECT_ROOT / "scripts" / "run_mean_reversion_live.py").read_text(encoding="utf-8")
+    assert "base_risk = executor.risk_percent" in source
+    assert "finally:" in source and "executor.risk_percent = base_risk" in source

@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-08-12T07:46:29.352914+00:00",
+  "status": "RESEARCH_ONLY",
+  "chosen_on_discovery": {
+    "lookback": 5,
+    "reclaim": 0.0
+  },
+  "validation": {
+    "first_half": {
+      "trades": 176,
+      "net_rr": 30.26,
+      "rw_pf": 1.23,
+      "expectancy": 0.172,
+      "q": 0.55,
+      "passes": false
+    },
+    "second_half": {
+      "trades": 176,
+      "net_rr": 62.78,
+      "rw_pf": 1.6,
+      "expectancy": 0.357,
+      "q": 0.75,
+      "passes": true
+    },
+    "validates": true
+  },
+  "union": {
+    "trades": 741,
+    "net_rr": 215.68,
+    "rw_pf": 1.43,
+    "expectancy": 0.291,
+    "q": 0.77,
+    "passes": true
+  },
+  "incumbent": {
+    "trades": 658,
+    "net_rr": 246.41,
+    "rw_pf": 1.58,
+    "expectancy": 0.374,
+    "q": 0.77,
+    "passes": true
+  }
+}

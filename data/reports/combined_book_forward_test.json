@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T03:53:09.818031+00:00",
+  "generated_at": "2026-08-12T07:48:05.956908+00:00",
   "window": {
     "start": "2023-08-08",
     "end": "2026-08-07",
@@ -7,66 +7,61 @@
   },
   "stop_units": 0.0,
   "starting_equity": 3000.0,
-  "ending_equity": 15149.66,
-  "total_return_percent": 405.0,
-  "cagr_percent": 71.6,
-  "max_drawdown_percent": 49.42,
+  "ending_equity": 33718.13,
+  "total_return_percent": 1023.9,
+  "cagr_percent": 124.1,
+  "max_drawdown_percent": 46.72,
   "worst_day": {
-    "day": "2024-12-18",
-    "loss_percent": 24.17
+    "day": "2025-04-04",
+    "loss_percent": 23.32
   },
   "account_blown": false,
   "engine_stats": {
     "champion": {
-      "filled": 651,
-      "at_min_lot": 24,
-      "skipped_min": 5,
+      "filled": 654,
+      "at_min_lot": 18,
+      "skipped_min": 2,
       "skipped_small_stop": 0,
       "skipped_over_ceiling": 0,
-      "pnl": 1232.5
+      "pnl": 2228.12
     },
     "meanrev": {
-      "filled": 428,
-      "at_min_lot": 9,
+      "filled": 342,
+      "at_min_lot": 4,
       "skipped_min": 0,
-      "skipped_over_ceiling": 0,
+      "skipped_over_ceiling": 14,
       "stopped_out": 0,
-      "pnl": 10917.16
+      "pnl": 28490.01
     }
   },
   "tripwire_hits": [
     {
-      "day": "2024-12-18",
-      "tripwire": "daily_loss",
-      "value": 24.17
-    },
-    {
       "day": "2025-04-04",
       "tripwire": "daily_loss",
-      "value": 24.07
+      "value": 23.32
     }
   ],
-  "tripwire_hit_count": 2,
+  "tripwire_hit_count": 1,
   "yearly": {
     "2023": {
-      "end_equity": 3117.79,
-      "return_percent": 3.9,
-      "max_dd": 30.82
+      "end_equity": 3155.38,
+      "return_percent": 5.2,
+      "max_dd": 46.72
     },
     "2024": {
-      "end_equity": 3956.22,
-      "return_percent": 26.9,
-      "max_dd": 31.91
+      "end_equity": 6226.17,
+      "return_percent": 97.3,
+      "max_dd": 24.06
     },
     "2025": {
-      "end_equity": 8342.43,
-      "return_percent": 110.9,
-      "max_dd": 49.42
+      "end_equity": 16624.07,
+      "return_percent": 167.0,
+      "max_dd": 46.7
     },
     "2026": {
-      "end_equity": 15149.66,
-      "return_percent": 81.6,
-      "max_dd": 29.91
+      "end_equity": 33718.13,
+      "return_percent": 102.8,
+      "max_dd": 23.9
     }
   },
   "model_notes": [
@@ -77,182 +72,182 @@
   "curve_last_30": [
     {
       "day": "2026-06-29",
-      "equity_closed": 12977.87,
-      "equity_marked": 12977.87,
+      "equity_closed": 30435.46,
+      "equity_marked": 30435.46,
       "dd": 0.0
     },
     {
       "day": "2026-06-30",
-      "equity_closed": 12917.87,
-      "equity_marked": 12917.87,
-      "dd": 0.46
+      "equity_closed": 30279.45,
+      "equity_marked": 30279.45,
+      "dd": 0.51
     },
     {
       "day": "2026-07-01",
-      "equity_closed": 12917.87,
-      "equity_marked": 12917.87,
-      "dd": 0.46
+      "equity_closed": 30279.45,
+      "equity_marked": 30279.45,
+      "dd": 0.51
     },
     {
       "day": "2026-07-02",
-      "equity_closed": 12973.37,
-      "equity_marked": 12871.79,
-      "dd": 0.82
+      "equity_closed": 30423.75,
+      "equity_marked": 30220.59,
+      "dd": 0.71
     },
     {
       "day": "2026-07-03",
-      "equity_closed": 12871.93,
-      "equity_marked": 12871.93,
-      "dd": 0.82
+      "equity_closed": 30201.67,
+      "equity_marked": 30201.67,
+      "dd": 0.77
     },
     {
       "day": "2026-07-06",
-      "equity_closed": 12811.93,
-      "equity_marked": 12811.93,
+      "equity_closed": 30045.67,
+      "equity_marked": 30045.67,
       "dd": 1.28
     },
     {
       "day": "2026-07-07",
-      "equity_closed": 12746.62,
-      "equity_marked": 12746.62,
-      "dd": 1.78
+      "equity_closed": 29896.38,
+      "equity_marked": 29896.38,
+      "dd": 1.77
     },
     {
       "day": "2026-07-08",
-      "equity_closed": 12746.62,
-      "equity_marked": 12565.42,
-      "dd": 3.18
+      "equity_closed": 29896.38,
+      "equity_marked": 29473.58,
+      "dd": 3.16
     },
     {
       "day": "2026-07-09",
-      "equity_closed": 12497.84,
-      "equity_marked": 12367.34,
-      "dd": 4.7
+      "equity_closed": 29345.94,
+      "equity_marked": 29041.44,
+      "dd": 4.58
     },
     {
       "day": "2026-07-10",
-      "equity_closed": 12434.01,
-      "equity_marked": 12434.01,
-      "dd": 4.19
+      "equity_closed": 29197.01,
+      "equity_marked": 29197.01,
+      "dd": 4.07
     },
     {
       "day": "2026-07-13",
-      "equity_closed": 12434.01,
-      "equity_marked": 12434.01,
-      "dd": 4.19
+      "equity_closed": 29197.01,
+      "equity_marked": 29197.01,
+      "dd": 4.07
     },
     {
       "day": "2026-07-14",
-      "equity_closed": 12462.32,
-      "equity_marked": 12544.6,
-      "dd": 3.34
+      "equity_closed": 29426.76,
+      "equity_marked": 29598.8,
+      "dd": 2.75
     },
     {
       "day": "2026-07-15",
-      "equity_closed": 12591.57,
-      "equity_marked": 12591.57,
-      "dd": 2.98
+      "equity_closed": 29697.0,
+      "equity_marked": 29697.0,
+      "dd": 2.43
     },
     {
       "day": "2026-07-16",
-      "equity_closed": 12590.06,
-      "equity_marked": 12590.06,
-      "dd": 2.99
+      "equity_closed": 29693.49,
+      "equity_marked": 29693.49,
+      "dd": 2.44
     },
     {
       "day": "2026-07-17",
-      "equity_closed": 12590.06,
-      "equity_marked": 12508.94,
-      "dd": 3.61
+      "equity_closed": 29693.49,
+      "equity_marked": 29490.69,
+      "dd": 3.1
     },
     {
       "day": "2026-07-20",
-      "equity_closed": 12588.54,
-      "equity_marked": 12512.74,
-      "dd": 3.58
+      "equity_closed": 29690.06,
+      "equity_marked": 29500.56,
+      "dd": 3.07
     },
     {
       "day": "2026-07-21",
-      "equity_closed": 12956.0,
-      "equity_marked": 13088.8,
+      "equity_closed": 30618.14,
+      "equity_marked": 30950.14,
       "dd": 0.0
     },
     {
       "day": "2026-07-22",
-      "equity_closed": 13014.2,
-      "equity_marked": 13182.2,
+      "equity_closed": 30753.95,
+      "equity_marked": 31173.95,
       "dd": 0.0
     },
     {
       "day": "2026-07-23",
-      "equity_closed": 13077.19,
-      "equity_marked": 13011.99,
-      "dd": 1.29
+      "equity_closed": 30900.94,
+      "equity_marked": 30737.94,
+      "dd": 1.4
     },
     {
       "day": "2026-07-24",
-      "equity_closed": 13273.58,
-      "equity_marked": 13282.18,
+      "equity_closed": 31751.92,
+      "equity_marked": 31773.42,
       "dd": 0.0
     },
     {
       "day": "2026-07-27",
-      "equity_closed": 13403.6,
-      "equity_marked": 13516.06,
+      "equity_closed": 32055.3,
+      "equity_marked": 32351.42,
       "dd": 0.0
     },
     {
       "day": "2026-07-28",
-      "equity_closed": 13458.49,
-      "equity_marked": 13702.41,
+      "equity_closed": 32201.7,
+      "equity_marked": 32862.44,
       "dd": 0.0
     },
     {
       "day": "2026-07-29",
-      "equity_closed": 13516.09,
-      "equity_marked": 13090.93,
-      "dd": 4.46
+      "equity_closed": 32355.3,
+      "equity_marked": 31444.38,
+      "dd": 4.32
     },
     {
       "day": "2026-07-30",
-      "equity_closed": 14728.12,
-      "equity_marked": 14728.12,
-      "dd": 0.0
+      "equity_closed": 32787.02,
+      "equity_marked": 32787.02,
+      "dd": 0.23
     },
     {
       "day": "2026-07-31",
-      "equity_closed": 14656.72,
-      "equity_marked": 14656.72,
-      "dd": 0.48
+      "equity_closed": 32623.83,
+      "equity_marked": 32623.83,
+      "dd": 0.73
     },
     {
       "day": "2026-08-03",
-      "equity_closed": 14721.22,
-      "equity_marked": 14721.22,
-      "dd": 0.05
+      "equity_closed": 32778.63,
+      "equity_marked": 32778.63,
+      "dd": 0.26
     },
     {
       "day": "2026-08-04",
-      "equity_closed": 14847.73,
-      "equity_marked": 14847.73,
+      "equity_closed": 33069.99,
+      "equity_marked": 33069.99,
       "dd": 0.0
     },
     {
       "day": "2026-08-05",
-      "equity_closed": 14988.73,
-      "equity_marked": 14988.73,
+      "equity_closed": 33375.49,
+      "equity_marked": 33375.49,
       "dd": 0.0
     },
     {
       "day": "2026-08-06",
-      "equity_closed": 15055.39,
-      "equity_marked": 14968.43,
-      "dd": 0.14
+      "equity_closed": 33531.04,
+      "equity_marked": 33359.75,
+      "dd": 0.05
     },
     {
       "day": "2026-08-07",
-      "equity_closed": 15149.66,
-      "equity_marked": 15149.66,
+      "equity_closed": 33718.13,
+      "equity_marked": 33718.13,
       "dd": 0.0
     }
   ]

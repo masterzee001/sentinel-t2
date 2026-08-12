@@ -277,7 +277,10 @@ def main() -> int:
                 continue
             stop = (stop_units or DISASTER_STOP_UNITS) * float(trade["risk_unit"])
             marked_equity = equity + floating_pnl()
+            tilt = float(trade.get("size_mult", 1.0))
+            meanrev_sizer.risk_percent = mr_risk_percent * tilt
             lots = meanrev_sizer.lot_size(trade["symbol"], stop, marked_equity)
+            meanrev_sizer.risk_percent = mr_risk_percent
             if lots <= 0:
                 stats["meanrev"]["skipped_min"] += 1
                 trade["_consumed"] = True  # no position -> its exit must not fire

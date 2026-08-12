@@ -75,7 +75,9 @@ def trades_for(frame: pd.DataFrame, symbol: str) -> list[dict]:
             pnl = closes[i] - closes[entry["i"]] - cost - FINANCING_PER_DAY * closes[entry["i"]] * days
             out.append({"symbol": symbol, "entry_time": str(times[entry["i"]]),
                         "exit_time": str(times[i]), "entry_ibs": entry["ibs"],
-                        "rr": pnl / entry["ru"], "hold": i - entry["i"]})
+                        "rr": pnl / entry["ru"], "hold": i - entry["i"],
+                        "entry_price": round(closes[entry["i"]], 5),
+                        "risk_unit": round(entry["ru"], 5), "pnl_points": round(pnl, 5)})
             entry = None
     return out
 
