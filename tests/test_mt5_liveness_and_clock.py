@@ -76,18 +76,22 @@ def test_meanrev_falls_back_to_last_known_offset():
     assert fresh["server_offset_hours"] == 3.0
 
 
-def test_offset_change_requires_confirmation():
-    """A frozen tick can imply a wrong whole-hour offset once; its implied
-    offset drifts, so only a repeated reading may move the clock."""
+def test_offset_change_requires_sustained_confirmation():
+    """A quiet market can serve a stale tick that implies a wrong whole-hour
+    offset for several consecutive reads — three reads span only ~10 minutes
+    at the engine's poll rate, which produced a FALSE 'UTC+3 -> UTC+2 DST
+    change' live on 2026-08-12. The new value must also PERSIST."""
     module = importlib.import_module("scripts.run_mean_reversion_live")
     state = {"server_offset_hours": 3.0}
-    # One-off wrong reading must NOT move the windows.
-    assert module.refresh_server_offset(_Fixed(0.0), state) == 3.0
-    assert state["server_offset_hours"] == 3.0
-    # A real DST change reads consistently and is adopted.
-    for _ in range(module.OFFSET_CONFIRMATIONS_REQUIRED - 1):
+    assert module.refresh_server_offset(_Fixed(0.0), state) == 3.0  # one-off ignored
+    # Many agreeing reads in quick succession must STILL not move the clock.
+    for _ in range(10):
         module.refresh_server_offset(_Fixed(2.0), state)
-    assert state["server_offset_hours"] == 3.0  # not yet confirmed
+    assert state["server_offset_hours"] == 3.0, "count alone must not be enough"
+    # Backdate the first sighting past the persistence window: a real DST
+    # change is permanent, so it survives this test; a frozen tick cannot.
+    held = datetime.now(UTC) - timedelta(minutes=module.OFFSET_CONFIRMATION_MINUTES + 1)
+    state["pending_offset_since"] = held.isoformat()
     assert module.refresh_server_offset(_Fixed(2.0), state) == 2.0
     assert state["server_offset_hours"] == 2.0
 

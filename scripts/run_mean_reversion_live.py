@@ -56,6 +56,13 @@ STATUS_PATH = PROJECT_ROOT / "data" / "reports" / "meanrev_live_status.json"
 
 SERVER_OFFSET_FALLBACK_HOURS = 3.0
 OFFSET_CONFIRMATIONS_REQUIRED = 3
+# A real DST change is permanent; a stale-tick misreading is not. Requiring
+# the new value to persist across a long span defeats the frozen-tick case:
+# a frozen tick's implied offset drifts a full hour every hour, so it cannot
+# hold the same rounded value for 45 minutes. Count alone was too weak — the
+# engine polls every 5 min, so three agreeing reads span only 10 minutes and
+# a quiet market produced a false "UTC+3 -> UTC+2" change (2026-08-12).
+OFFSET_CONFIRMATION_MINUTES = 45.0
 
 
 def refresh_server_offset(connector: Any, state: dict[str, Any]) -> float:
@@ -75,22 +82,29 @@ def refresh_server_offset(connector: Any, state: dict[str, Any]) -> float:
         state["server_offset_hours"] = measured
         return measured
     if measured == float(current):
-        state.pop("pending_offset", None)
-        state.pop("pending_offset_count", None)
+        for key in ("pending_offset", "pending_offset_count", "pending_offset_since"):
+            state.pop(key, None)
         return measured
+    now_iso = datetime.now(UTC).isoformat()
     pending = state.get("pending_offset")
-    count = int(state.get("pending_offset_count", 0)) + 1 if pending == measured else 1
+    if pending == measured:
+        count = int(state.get("pending_offset_count", 0)) + 1
+        first_seen = state.get("pending_offset_since", now_iso)
+    else:
+        count, first_seen = 1, now_iso
     state["pending_offset"] = measured
     state["pending_offset_count"] = count
-    if count < OFFSET_CONFIRMATIONS_REQUIRED:
+    state["pending_offset_since"] = first_seen
+    held_minutes = (datetime.now(UTC) - datetime.fromisoformat(str(first_seen))).total_seconds() / 60.0
+    if count < OFFSET_CONFIRMATIONS_REQUIRED or held_minutes < OFFSET_CONFIRMATION_MINUTES:
         return float(current)
     notify_telegram(
         f"MEANREV: broker server clock moved UTC+{current} -> UTC+{measured} "
-        f"(confirmed {count}x, DST change). Entry windows re-anchored automatically."
+        f"(held {int(held_minutes)} min across {count} reads). Entry windows re-anchored automatically."
     )
     state["server_offset_hours"] = measured
-    state.pop("pending_offset", None)
-    state.pop("pending_offset_count", None)
+    for key in ("pending_offset", "pending_offset_count", "pending_offset_since"):
+        state.pop(key, None)
     return measured
 
 
