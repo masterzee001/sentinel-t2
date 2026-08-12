@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-11T23:03:50.723710+00:00",
-  "mode": "ADVISOR_PAPER_NO_ORDERS",
+  "generated_at": "2026-08-12T03:10:22.424146+00:00",
+  "mode": "DEMO_EXECUTION_REAL_ORDERS",
   "open_positions": [],
   "closed_trades": 2,
   "wins": 0,
@@ -13,7 +13,11 @@
   },
   "parity_note": "Compare risk_weighted_pf and avg rr/trade to replay_expectation once 50+ trades close.",
   "mt5_health": {
-    "last_success_utc": "2026-08-11T23:03:50.723190+00:00",
+    "last_success_utc": "2026-08-12T03:10:22.423492+00:00",
     "consecutive_failures": 0
+  },
+  "demo_orders_since_start": {
+    "submitted": 0,
+    "refused": {}
   }
 }

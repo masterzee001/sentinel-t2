@@ -423,3 +423,24 @@ def test_live_engines_observe_account_every_cycle():
         source = (PROJECT_ROOT / "scripts" / script).read_text(encoding="utf-8")
         assert "observe_account" in source, f"{script} no longer observes account equity per cycle"
         assert "live_book_risk.yaml" in source, f"{script} not wired to the live-book profile"
+
+
+def test_autotrading_disabled_is_detected(tmp_path: Path):
+    """AutoTrading off makes the broker refuse every order (retcode 10027)
+    while the engine looks perfectly healthy — it must be reported loudly."""
+    connector = _ExecutorConnector()
+    connector.mt5.terminal_info = lambda: SimpleNamespace(trade_allowed=False)
+    executor = DemoOrderExecutor(connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL")
+    ok, reason = executor.verify_autotrading_enabled()
+    assert ok is False
+    assert "AutoTrading" in reason and "10027" in reason
+    connector.mt5.terminal_info = lambda: SimpleNamespace(trade_allowed=True)
+    assert executor.verify_autotrading_enabled() == (True, "")
+
+
+def test_autotrading_check_is_non_fatal_when_unreadable(tmp_path: Path):
+    """An unreadable terminal state must not block trading on a false alarm."""
+    connector = _ExecutorConnector()
+    connector.mt5.terminal_info = lambda: None
+    executor = DemoOrderExecutor(connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL")
+    assert executor.verify_autotrading_enabled()[0] is True

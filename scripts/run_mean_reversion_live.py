@@ -286,6 +286,10 @@ def main() -> int:
             connector.shutdown()
             return 1
         print(f"MEANREV DEMO EXECUTION ENABLED on {account.get('server')}", flush=True)
+        autotrading_ok, autotrading_reason = executor.verify_autotrading_enabled()
+        if not autotrading_ok:
+            print(f"WARNING: {autotrading_reason}", flush=True)
+            notify_telegram(f"MEANREV WARNING: {autotrading_reason}")
         preflight_min_lots(connector, executor, float(account.get("equity", 0.0)))
     state = load_state()
     mode = "DEMO EXECUTION" if executor else "paper only"

@@ -70,7 +70,14 @@ def ensure_mt5() -> bool:
     path = os.getenv("MT5_TERMINAL_PATH")
     if not path or not Path(path).exists():
         return False
-    subprocess.Popen([path], creationflags=subprocess.DETACHED_PROCESS)
+    # /config forces AllowLiveTrading=1. The AutoTrading toggle is a GUI
+    # switch that defaults OFF, and while it is off the broker refuses every
+    # programmatic order with retcode 10027 — it silently blocked the first
+    # real signal on Pepperstone (2026-08-12). Nobody can click a button on
+    # a VPS, so it is set at launch.
+    startup_config = PROJECT_ROOT / "config" / "mt5_startup.ini"
+    args = [path, f"/config:{startup_config}"] if startup_config.exists() else [path]
+    subprocess.Popen(args, creationflags=subprocess.DETACHED_PROCESS)
     time.sleep(45)  # First boot needs time to connect before engines start.
     return mt5_running()
 

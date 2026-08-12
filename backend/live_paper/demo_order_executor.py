@@ -111,6 +111,26 @@ class DemoOrderExecutor:
             )
         return account
 
+    def verify_autotrading_enabled(self) -> tuple[bool, str]:
+        """Check the terminal's AutoTrading switch before the day's first order.
+
+        It is a GUI toggle that defaults OFF; while it is off the broker
+        refuses every order with retcode 10027 and the engine looks healthy
+        the whole time. This turns that silent block into a loud one.
+        """
+        try:
+            info = self.connector.mt5.terminal_info()
+        except Exception as exc:  # noqa: BLE001
+            return True, f"could not read terminal state ({exc})"
+        if info is None:
+            return True, "terminal info unavailable"
+        if not getattr(info, "trade_allowed", True):
+            return False, (
+                "AutoTrading is DISABLED in the MT5 terminal - every order will be refused "
+                "(retcode 10027). Enable the AutoTrading button (Ctrl+E)."
+            )
+        return True, ""
+
     def kill_switch_active(self) -> bool:
         return self.kill_switch_path.exists()
 
