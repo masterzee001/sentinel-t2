@@ -128,11 +128,16 @@ def decide_action(
         if age > engine["stale_seconds"]:
             return "start"
         return "none"
-    if child_age < ENGINE_GRACE_SECONDS:
-        # Ours, and too young to have reported yet. Nothing it could have done
-        # differently, so nothing to judge it on.
+    looks_stale = age > engine["stale_seconds"]
+    looks_feedless = feed_age > engine["data_stale_seconds"]
+    if child_age < ENGINE_GRACE_SECONDS and (looks_stale or looks_feedless):
+        # Ours, too young to have reported yet, and only failing because of
+        # that. Nothing it could have done differently, so nothing to judge it
+        # on. Note the guard is deliberately narrow: a young engine that IS
+        # reporting normally falls through to the checks below, so the grace
+        # period buys silence for a slow start rather than blanket immunity.
         return "wait_first_heartbeat"
-    if feed_age > engine["data_stale_seconds"]:
+    if looks_feedless:
         return "kill_restart_dead_feed"
     # Alive but stale gets one extra interval before we kill it: MT5 IPC
     # hiccups usually self-recover.

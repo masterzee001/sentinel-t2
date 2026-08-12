@@ -60,6 +60,14 @@ def test_a_healthy_engine_is_left_alone():
     assert supervisor.decide_action(FRESH, 0.0, False, OLD, ENGINE) == "none"
 
 
+def test_a_young_engine_that_is_reporting_normally_is_not_called_silent():
+    """The grace period buys silence for a slow start, not blanket immunity.
+    The first version returned wait_first_heartbeat for ANY young child, so a
+    perfectly healthy engine logged 'waiting for its first heartbeat' every
+    two minutes while its heartbeat sat 194s old (observed 2026-08-12)."""
+    assert supervisor.decide_action(FRESH, 0.0, False, YOUNG, ENGINE) == "none"
+
+
 def test_a_dead_feed_behind_a_fresh_heartbeat_is_still_caught():
     """The silent failure the heartbeat cannot see must survive this refactor."""
     assert supervisor.decide_action(FRESH, 4000.0, False, OLD, ENGINE) == "kill_restart_dead_feed"
