@@ -1,0 +1,210 @@
+{
+  "generated_at": "2026-08-12T07:28:41.187255+00:00",
+  "status": "RESEARCH_ONLY",
+  "stage1_buckets": {
+    "IBS_0.00-0.05": {
+      "trades": 124,
+      "net_rr": 88.47,
+      "rw_pf": 2.25,
+      "mean_r": 0.7135,
+      "avg_size": 1.0,
+      "net_per_unit_risk": 88.47,
+      "positive_quarter_share": 0.76
+    },
+    "IBS_0.05-0.10": {
+      "trades": 181,
+      "net_rr": 58.09,
+      "rw_pf": 1.48,
+      "mean_r": 0.3209,
+      "avg_size": 1.0,
+      "net_per_unit_risk": 58.09,
+      "positive_quarter_share": 0.68
+    },
+    "IBS_0.10-0.15": {
+      "trades": 166,
+      "net_rr": 48.42,
+      "rw_pf": 1.48,
+      "mean_r": 0.2917,
+      "avg_size": 1.0,
+      "net_per_unit_risk": 48.42,
+      "positive_quarter_share": 0.59
+    },
+    "IBS_0.15-0.20": {
+      "trades": 191,
+      "net_rr": 56.53,
+      "rw_pf": 1.42,
+      "mean_r": 0.2959,
+      "avg_size": 1.0,
+      "net_per_unit_risk": 56.53,
+      "positive_quarter_share": 0.73
+    }
+  },
+  "stage2_tilts": {
+    "flat_baseline": {
+      "full": {
+        "trades": 662,
+        "net_rr": 251.51,
+        "rw_pf": 1.59,
+        "mean_r": 0.3799,
+        "avg_size": 1.0,
+        "net_per_unit_risk": 251.51,
+        "positive_quarter_share": 0.77
+      },
+      "max_dd_r": 53.88,
+      "return_per_dd": 4.67,
+      "discovery": {
+        "trades": 331,
+        "net_rr": 72.47,
+        "rw_pf": 1.31,
+        "mean_r": 0.219,
+        "avg_size": 1.0,
+        "net_per_unit_risk": 72.47,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 331,
+        "net_rr": 179.04,
+        "rw_pf": 1.93,
+        "mean_r": 0.5409,
+        "avg_size": 1.0,
+        "net_per_unit_risk": 179.04,
+        "positive_quarter_share": 0.92
+      }
+    },
+    "mild_2step": {
+      "full": {
+        "trades": 662,
+        "net_rr": 324.79,
+        "rw_pf": 1.62,
+        "mean_r": 0.4906,
+        "avg_size": 1.23,
+        "net_per_unit_risk": 263.98,
+        "positive_quarter_share": 0.68
+      },
+      "max_dd_r": 66.81,
+      "return_per_dd": 4.86,
+      "discovery": {
+        "trades": 331,
+        "net_rr": 95.13,
+        "rw_pf": 1.33,
+        "mean_r": 0.2874,
+        "avg_size": 1.251,
+        "net_per_unit_risk": 76.06,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 331,
+        "net_rr": 229.66,
+        "rw_pf": 1.99,
+        "mean_r": 0.6938,
+        "avg_size": 1.21,
+        "net_per_unit_risk": 189.81,
+        "positive_quarter_share": 0.75
+      }
+    },
+    "stepped_3": {
+      "full": {
+        "trades": 662,
+        "net_rr": 369.02,
+        "rw_pf": 1.66,
+        "mean_r": 0.5574,
+        "avg_size": 1.324,
+        "net_per_unit_risk": 278.71,
+        "positive_quarter_share": 0.73
+      },
+      "max_dd_r": 70.43,
+      "return_per_dd": 5.24,
+      "discovery": {
+        "trades": 331,
+        "net_rr": 104.11,
+        "rw_pf": 1.33,
+        "mean_r": 0.3145,
+        "avg_size": 1.347,
+        "net_per_unit_risk": 77.26,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 331,
+        "net_rr": 264.91,
+        "rw_pf": 2.08,
+        "mean_r": 0.8003,
+        "avg_size": 1.301,
+        "net_per_unit_risk": 203.69,
+        "positive_quarter_share": 0.83
+      }
+    },
+    "linear": {
+      "full": {
+        "trades": 662,
+        "net_rr": 390.08,
+        "rw_pf": 1.63,
+        "mean_r": 0.5892,
+        "avg_size": 1.466,
+        "net_per_unit_risk": 266.07,
+        "positive_quarter_share": 0.77
+      },
+      "max_dd_r": 78.71,
+      "return_per_dd": 4.96,
+      "discovery": {
+        "trades": 331,
+        "net_rr": 109.49,
+        "rw_pf": 1.31,
+        "mean_r": 0.3308,
+        "avg_size": 1.481,
+        "net_per_unit_risk": 73.93,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 331,
+        "net_rr": 280.59,
+        "rw_pf": 2.02,
+        "mean_r": 0.8477,
+        "avg_size": 1.451,
+        "net_per_unit_risk": 193.34,
+        "positive_quarter_share": 0.92
+      }
+    },
+    "aggressive": {
+      "full": {
+        "trades": 662,
+        "net_rr": 431.25,
+        "rw_pf": 1.76,
+        "mean_r": 0.6514,
+        "avg_size": 1.377,
+        "net_per_unit_risk": 313.3,
+        "positive_quarter_share": 0.77
+      },
+      "max_dd_r": 73.29,
+      "return_per_dd": 5.88,
+      "discovery": {
+        "trades": 331,
+        "net_rr": 115.28,
+        "rw_pf": 1.35,
+        "mean_r": 0.3483,
+        "avg_size": 1.416,
+        "net_per_unit_risk": 81.4,
+        "positive_quarter_share": 0.64
+      },
+      "holdout": {
+        "trades": 331,
+        "net_rr": 315.97,
+        "rw_pf": 2.31,
+        "mean_r": 0.9546,
+        "avg_size": 1.337,
+        "net_per_unit_risk": 236.36,
+        "positive_quarter_share": 0.92
+      }
+    }
+  },
+  "selection": {
+    "chosen_on_discovery": "aggressive",
+    "discovery_r_per_risk": 81.4,
+    "baseline": 72.47,
+    "holdout_r_per_risk": 236.36,
+    "baseline_holdout": 179.04,
+    "return_per_drawdown": 5.88,
+    "baseline_return_per_drawdown": 4.67,
+    "VALIDATES": true,
+    "verdict": "PROMOTABLE - beats flat sizing per unit of risk on the untouched half AND per unit of drawdown"
+  }
+}

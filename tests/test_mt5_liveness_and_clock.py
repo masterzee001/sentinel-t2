@@ -143,6 +143,6 @@ def test_supervisor_tolerates_missing_or_unparsable_health(tmp_path: Path):
 
 def test_engines_report_mt5_health_in_status():
     """Regression pin: both engines must publish the liveness signal."""
-    for script in ("run_champion_paper.py", "run_mean_reversion_live.py"):
+    for script in ("run_mean_reversion_live.py",):
         source = (PROJECT_ROOT / "scripts" / script).read_text(encoding="utf-8")
         assert "mt5_health" in source, f"{script} no longer reports MT5 liveness"

@@ -30,7 +30,7 @@ from backend.live_paper.demo_order_executor import DemoExecutionError, DemoOrder
 from backend.market_data.mt5_connector import MT5Connector, MT5ConnectorError
 from backend.risk_manager.risk_governor import RiskGovernor
 from backend.risk_manager.risk_state_store import RiskStateStore
-from scripts.run_champion_paper import notify_telegram
+from backend.shared.telegram_notify import notify_telegram
 
 SYMBOLS = ("US30", "NAS100", "US500", "DE40")
 # Per-symbol entry windows in SERVER time (UTC+3): (hour, minute_from, minute_to).

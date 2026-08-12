@@ -115,7 +115,11 @@ def main() -> int:
     args = parser.parse_args()
     stop_units = float(args.stop_units)
     logger.remove()
-    champion_raw = json.loads(CHAMPION_TRADES.read_text(encoding="utf-8"))["trades"]
+    # Champion RETIRED 2026-08-12 (failed its own gate). Its stored tape is
+    # kept so historical comparisons still reproduce; absent, the study runs
+    # meanrev-only.
+    champion_raw = (json.loads(CHAMPION_TRADES.read_text(encoding="utf-8"))["trades"]
+                    if CHAMPION_TRADES.exists() else [])
     meanrev_raw = json.loads(Path(args.meanrev_trades).read_text(encoding="utf-8"))["trades"]
     champion_sizer = make_sizer(risk_percent=0.5, min_lot_cap=1.5)
     mr_risk_percent = 3.0 * float(args.mr_risk_per_unit)
@@ -146,7 +150,7 @@ def main() -> int:
     finally:
         connector.shutdown()
 
-    champion_days = [day_of(t["timestamp"]) for t in champion_raw]
+    champion_days = [day_of(t["timestamp"]) for t in champion_raw] or [day_of(t["entry_time"]) for t in meanrev_raw]
     meanrev_days = [day_of(t["entry_time"]) for t in meanrev_raw]
     start_day = max(min(champion_days), min(meanrev_days))
     end_day = min(max(champion_days), max(day_of(t["timestamp"]) for t in meanrev_raw))

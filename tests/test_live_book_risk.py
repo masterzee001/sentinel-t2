@@ -280,23 +280,6 @@ def test_unwritable_risk_state_fails_closed_after_three_failures(tmp_path: Path)
     assert "unwritable" in result["reason"]
 
 
-def test_champion_admission_context_stays_pure():
-    """Regression pin (audit 2026-08-11): the champion's brain admission must
-    never receive RiskGovernor-derived flags — the audited backtest brain
-    never saw them, and feeding them would contaminate admission parity.
-    The governor may gate ORDER EXECUTION only."""
-    source = (PROJECT_ROOT / "backend" / "live_paper" / "champion_paper_trader.py").read_text(encoding="utf-8")
-    for forbidden in (
-        "decision_context_from_result",
-        "risk_blocked",
-        "daily_loss_limit_hit",
-        "max_trades_per_day_hit",
-        "high_impact_news_lock_active",
-        "RiskGovernor",
-    ):
-        assert forbidden not in source, f"champion admission contaminated by '{forbidden}'"
-
-
 def test_orders_use_broker_alias_symbol(tmp_path: Path):
     """NAS100 trades as USTEC on MetaQuotes-Demo: candle fetches already
     resolve aliases, and order execution must use the same resolution or the
@@ -419,7 +402,7 @@ def test_stale_quote_check_skipped_when_broker_clock_unknown(tmp_path: Path):
 def test_live_engines_observe_account_every_cycle():
     """Regression pin: both engine loops must feed equity observations all
     day so the daily-loss baseline is not set at the first open attempt."""
-    for script in ("run_champion_paper.py", "run_mean_reversion_live.py"):
+    for script in ("run_mean_reversion_live.py",):
         source = (PROJECT_ROOT / "scripts" / script).read_text(encoding="utf-8")
         assert "observe_account" in source, f"{script} no longer observes account equity per cycle"
         assert "live_book_risk.yaml" in source, f"{script} not wired to the live-book profile"

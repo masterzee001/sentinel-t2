@@ -1,14 +1,18 @@
-"""Sentinel supervisor: keeps the two-engine live book alive and reporting.
+"""Sentinel supervisor: keeps the live book alive and reporting.
 
 One detached process that owns operations:
   1. Ensures the MT5 terminal is running (starts it if not).
-  2. Starts both engines (champion + mean reversion) and restarts either one
-     whose heartbeat goes stale — with a Telegram alert each time.
+  2. Starts the trading engines and restarts any whose heartbeat goes stale —
+     with a Telegram alert each time.
   3. Sends a daily Telegram digest of the whole book at 07:00 WAT.
 
 Heartbeats are the engines' own status files (rewritten every cycle):
-  champion: data/reports/champion_paper_status.json   (stale > 5 min)
   meanrev:  data/reports/meanrev_live_status.json     (stale > 20 min)
+
+The champion engine was RETIRED on 2026-08-12: it failed its own promotion
+gate on its own tape (PF 1.073 vs 1.10; 50% positive quarters vs 60%) and was
+negative at the honest cost assumption (-31.4R at 2.31x the modelled spread,
+breakeven at only 1.66x).
 
 Run at boot via the SentinelSupervisor scheduled task. The engines must NOT
 be started by hand while the supervisor runs — it is the single owner.
@@ -30,24 +34,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.run_champion_paper import notify_telegram
+from backend.shared.telegram_notify import notify_telegram
 
 PYTHON = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
 ENGINES = {
-    "champion": {
-        # EXECUTION DISABLED 2026-08-12 — the champion FAILS its own promotion
-        # gate on its own tape (907 Pepperstone trades: PF 1.073 vs the 1.10
-        # gate; 50% positive quarters vs the 60% gate) and is NEGATIVE at the
-        # honest cost assumption (-31.4R at 2.31x the modelled round trip,
-        # breakeven at just 1.66x). Its whole edge sits inside the error bar of
-        # the spread estimate. It had never been measured against the gate.
-        # Kept running for observation only; retirement is the user's call.
-        "args": [PYTHON, "-u", "scripts/run_champion_paper.py", "--interval-seconds", "60"],
-        "status": PROJECT_ROOT / "data" / "reports" / "champion_paper_status.json",
-        "log": PROJECT_ROOT / "data" / "live_paper" / "champion_paper.log",
-        "stale_seconds": 300,
-        "data_stale_seconds": 1800,
-    },
     "meanrev": {
         "args": [PYTHON, "-u", "scripts/run_mean_reversion_live.py", "--interval-seconds", "300", "--execute-demo"],
         "status": PROJECT_ROOT / "data" / "reports" / "meanrev_live_status.json",
@@ -133,13 +123,8 @@ def data_age_seconds(engine: dict) -> float:
 
 
 def build_digest() -> str:
-    champion = read_status(ENGINES["champion"])
     meanrev = read_status(ENGINES["meanrev"])
     lines = ["SENTINEL DAILY DIGEST"]
-    lines.append(
-        f"Champion: {champion.get('closed_trades', 0)} closed | net {champion.get('net_rr', 0)}R | "
-        f"rwPF {champion.get('risk_weighted_pf', 0)} (target 1.18) | open {len(champion.get('open_positions', []))}"
-    )
     open_mr = meanrev.get("open_positions", {})
     lines.append(
         f"MeanRev: {meanrev.get('closed_trades', 0)} closed | net {meanrev.get('net_rr', 0)}R | "
@@ -147,7 +132,7 @@ def build_digest() -> str:
     )
     for symbol, position in (open_mr or {}).items():
         lines.append(f"  MR open: {symbol} @ {position.get('entry')} day {position.get('held_days')}")
-    lines.append("Both engines demo-only; kill switch: data/live_paper/KILL_SWITCH")
+    lines.append("Demo-only; kill switch: data/live_paper/KILL_SWITCH")
     return "\n".join(lines)
 
 
@@ -186,7 +171,7 @@ def main() -> int:
     LOCK_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOCK_PATH.write_text(str(os.getpid()), encoding="utf-8")
     children: dict[str, subprocess.Popen] = {}
-    notify_telegram("Sentinel SUPERVISOR online: watching MT5 + both engines; daily digest 07:00 WAT.")
+    notify_telegram("Sentinel SUPERVISOR online: watching MT5 + the mean-reversion engine; daily digest 07:00 WAT.")
     print("SENTINEL SUPERVISOR online", flush=True)
     while True:
         try:
