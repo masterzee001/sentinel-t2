@@ -398,11 +398,19 @@ def main() -> int:
                             "opened_at": server_now.isoformat(),
                         }
                         action = {"event": "OPEN", **position}
+                        submitted = True
                         if executor:
                             action["demo_order"] = executor.open_position(position)
                             position["demo_order"] = action["demo_order"]
                             count_order_result(state, action["demo_order"])
-                        state["open_positions"][symbol] = position
+                            submitted = bool(action["demo_order"].get("submitted"))
+                        if submitted:
+                            state["open_positions"][symbol] = position
+                        # A REFUSED order must not occupy the symbol's only
+                        # slot: it would block re-entry for up to 10 days and
+                        # later book a fictional result against a position the
+                        # account never held (found live 2026-08-12 after an
+                        # AutoTrading refusal).
                         record(action)
                         fill = action.get("demo_order", {})
                         suffix = (

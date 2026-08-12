@@ -444,3 +444,14 @@ def test_autotrading_check_is_non_fatal_when_unreadable(tmp_path: Path):
     connector.mt5.terminal_info = lambda: None
     executor = DemoOrderExecutor(connector, _StoreGovernor(RiskStateStore(tmp_path / "s.json")), tmp_path / "KILL")
     assert executor.verify_autotrading_enabled()[0] is True
+
+
+def test_refused_order_does_not_occupy_the_symbol_slot():
+    """A refused order must leave the symbol free to signal again. Committing
+    it to state blocks re-entry for the full hold period and later books a
+    fictional result against a position the account never held."""
+    source = (PROJECT_ROOT / "scripts" / "run_mean_reversion_live.py").read_text(encoding="utf-8")
+    marker = source.index('submitted = bool(action["demo_order"].get("submitted"))')
+    commit = source.index('state["open_positions"][symbol] = position', marker)
+    guard = source.rindex("if submitted:", marker, commit)
+    assert guard < commit, "the position commit must sit behind the submitted guard"
