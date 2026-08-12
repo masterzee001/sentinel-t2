@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-08-12T08:55:56.910613+00:00",
+  "walk_forward": {
+    "trades": 222,
+    "win_rate": 67.6,
+    "net_rr": 44.11,
+    "rw_pf": 1.27,
+    "expectancy": 0.199,
+    "q": 0.69
+  },
+  "passes_gate": true,
+  "lookback_picks": {
+    "2023-Q2": 20,
+    "2023-Q3": 20,
+    "2023-Q4": 20,
+    "2024-Q1": 20,
+    "2024-Q2": 3,
+    "2024-Q3": 3,
+    "2024-Q4": 3,
+    "2025-Q1": 3,
+    "2025-Q2": 3,
+    "2025-Q3": 3,
+    "2025-Q4": 3,
+    "2026-Q1": 3,
+    "2026-Q2": 5,
+    "2026-Q3": 5
+  },
+  "full_sample_by_lookback": {
+    "3": {
+      "trades": 479,
+      "win_rate": 65.8,
+      "net_rr": 79.33,
+      "rw_pf": 1.22,
+      "expectancy": 0.166,
+      "q": 0.64
+    },
+    "5": {
+      "trades": 352,
+      "win_rate": 68.2,
+      "net_rr": 98.74,
+      "rw_pf": 1.42,
+      "expectancy": 0.281,
+      "q": 0.68
+    },
+    "10": {
+      "trades": 247,
+      "win_rate": 66.4,
+      "net_rr": 79.33,
+      "rw_pf": 1.5,
+      "expectancy": 0.321,
+      "q": 0.68
+    },
+    "20": {
+      "trades": 154,
+      "win_rate": 68.2,
+      "net_rr": 80.28,
+      "rw_pf": 1.94,
+      "expectancy": 0.521,
+      "q": 0.81
+    }
+  },
+  "entry_isolation_neutral_exit": {
+    "lb3": 1.22,
+    "lb5": 1.24,
+    "lb10": 0.98,
+    "lb20": 1.09,
+    "note": "With a neutral exit the lb=20 headline (rwPF 1.93) collapses to 1.09 - BELOW the gate. Most of its apparent edge came from the IBS exit, not the sweep entry. lb=10 is outright negative."
+  },
+  "verdict": "PASSES the walk-forward gate but is MARGINAL, and weaker than the streamlined headline implied. True out-of-sample: 222 trades, +44.1R, rwPF 1.27, 69% positive quarters - real, but a long way from the 1.93 that the parameter sweep suggested. Three problems temper it: (1) PARAMETER INSTABILITY - the walk-forward chose lookbacks 20, then 3, then 5. A parameter that keeps moving is being fitted to noise, and there is no single value a live engine could confidently hardcode. (2) ENTRY ISOLATION - at lb=20 the edge collapses to rwPF 1.09 under a neutral exit, so the headline was mostly the IBS exit doing the work; only the short lookbacks (3, 5) carry entry edge, and those are the weaker books. (3) THE DIVERSIFICATION IS ILLUSORY AT THE RISK LEVEL - 7.4% SIGNAL overlap does not mean uncorrelated RISK. A sweep engine would hold LONG positions in the SAME four indices that correlate 0.68-0.95. During a crash its positions stack on top of the mean-reversion book's, which is precisely the concentration the concurrency cap was just added to prevent. It would consume the same risk budget for a weaker edge.",
+  "recommendation": "DO NOT build it as an independent engine with its own risk budget. If it is built at all it must SHARE the concurrency cap with mean reversion, at which point it competes for slots against an edge with rwPF 1.71 - and loses. Better use of the same effort: let the main engine accumulate live trades toward the parity checkpoint. Revisit if a version is found on instruments that are NOT long equity beta."
+}
