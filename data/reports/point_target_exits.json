@@ -1,0 +1,982 @@
+{
+  "generated_at": "2026-08-12T21:31:05.271045+00:00",
+  "status": "RESEARCH_ONLY",
+  "question": "fixed point profit target instead of the IBS/time exit",
+  "point_size": 0.1,
+  "data_span": {
+    "US30": [
+      "2021-03-16",
+      "2026-08-11",
+      1399
+    ],
+    "NAS100": [
+      "2021-03-16",
+      "2026-08-11",
+      1399
+    ],
+    "US500": [
+      "2021-03-16",
+      "2026-08-11",
+      1399
+    ],
+    "DE40": [
+      "2021-03-16",
+      "2026-08-11",
+      1381
+    ]
+  },
+  "results": {
+    "pure_1000pts": {
+      "full": {
+        "trades": 412,
+        "win_rate": 91.5,
+        "net_rr": 202.36,
+        "rw_pf": 3.92,
+        "expectancy": 0.491,
+        "avg_hold": 8.7,
+        "max_hold": 534,
+        "positive_quarter_share": 0.81,
+        "still_open_at_end": 2,
+        "occupancy_pct": 65.5,
+        "entries_blocked": 660
+      },
+      "discovery": {
+        "trades": 127,
+        "win_rate": 88.2,
+        "net_rr": 52.77,
+        "rw_pf": 2.54,
+        "expectancy": 0.416,
+        "avg_hold": 12.4,
+        "max_hold": 350,
+        "positive_quarter_share": 0.7,
+        "still_open_at_end": 2,
+        "occupancy_pct": 79.7,
+        "entries_blocked": 432
+      },
+      "holdout": {
+        "trades": 279,
+        "win_rate": 93.5,
+        "net_rr": 166.8,
+        "rw_pf": 9.93,
+        "expectancy": 0.598,
+        "avg_hold": 5.0,
+        "max_hold": 143,
+        "positive_quarter_share": 0.92,
+        "still_open_at_end": 2,
+        "occupancy_pct": 51.4,
+        "entries_blocked": 219
+      },
+      "params": {
+        "target_points": 1000,
+        "max_hold": null
+      }
+    },
+    "pure_2000pts": {
+      "full": {
+        "trades": 226,
+        "win_rate": 91.2,
+        "net_rr": 198.97,
+        "rw_pf": 3.4,
+        "expectancy": 0.88,
+        "avg_hold": 19.4,
+        "max_hold": 544,
+        "positive_quarter_share": 0.89,
+        "still_open_at_end": 3,
+        "occupancy_pct": 79.9,
+        "entries_blocked": 819
+      },
+      "discovery": {
+        "trades": 36,
+        "win_rate": 88.9,
+        "net_rr": 40.37,
+        "rw_pf": 3.63,
+        "expectancy": 1.121,
+        "avg_hold": 25.8,
+        "max_hold": 351,
+        "positive_quarter_share": 0.83,
+        "still_open_at_end": 4,
+        "occupancy_pct": 91.9,
+        "entries_blocked": 508
+      },
+      "holdout": {
+        "trades": 185,
+        "win_rate": 93.5,
+        "net_rr": 213.12,
+        "rw_pf": 10.73,
+        "expectancy": 1.152,
+        "avg_hold": 9.9,
+        "max_hold": 158,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 3,
+        "occupancy_pct": 68.2,
+        "entries_blocked": 301
+      },
+      "params": {
+        "target_points": 2000,
+        "max_hold": null
+      }
+    },
+    "pure_3000pts": {
+      "full": {
+        "trades": 162,
+        "win_rate": 90.7,
+        "net_rr": 177.45,
+        "rw_pf": 2.72,
+        "expectancy": 1.095,
+        "avg_hold": 28.5,
+        "max_hold": 571,
+        "positive_quarter_share": 0.89,
+        "still_open_at_end": 3,
+        "occupancy_pct": 85.1,
+        "entries_blocked": 872
+      },
+      "discovery": {
+        "trades": 26,
+        "win_rate": 88.5,
+        "net_rr": 51.17,
+        "rw_pf": 4.76,
+        "expectancy": 1.968,
+        "avg_hold": 36.0,
+        "max_hold": 371,
+        "positive_quarter_share": 0.83,
+        "still_open_at_end": 4,
+        "occupancy_pct": 94.2,
+        "entries_blocked": 518
+      },
+      "holdout": {
+        "trades": 132,
+        "win_rate": 93.9,
+        "net_rr": 209.85,
+        "rw_pf": 12.31,
+        "expectancy": 1.59,
+        "avg_hold": 15.1,
+        "max_hold": 164,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 3,
+        "occupancy_pct": 76.0,
+        "entries_blocked": 341
+      },
+      "params": {
+        "target_points": 3000,
+        "max_hold": null
+      }
+    },
+    "pure_4000pts": {
+      "full": {
+        "trades": 123,
+        "win_rate": 87.0,
+        "net_rr": 190.93,
+        "rw_pf": 3.07,
+        "expectancy": 1.552,
+        "avg_hold": 38.8,
+        "max_hold": 622,
+        "positive_quarter_share": 0.82,
+        "still_open_at_end": 3,
+        "occupancy_pct": 89.0,
+        "entries_blocked": 908
+      },
+      "discovery": {
+        "trades": 20,
+        "win_rate": 80.0,
+        "net_rr": 45.37,
+        "rw_pf": 4.23,
+        "expectancy": 2.269,
+        "avg_hold": 46.1,
+        "max_hold": 401,
+        "positive_quarter_share": 0.8,
+        "still_open_at_end": 4,
+        "occupancy_pct": 95.9,
+        "entries_blocked": 523
+      },
+      "holdout": {
+        "trades": 98,
+        "win_rate": 91.8,
+        "net_rr": 207.23,
+        "rw_pf": 15.15,
+        "expectancy": 2.115,
+        "avg_hold": 21.4,
+        "max_hold": 184,
+        "positive_quarter_share": 0.91,
+        "still_open_at_end": 3,
+        "occupancy_pct": 81.9,
+        "entries_blocked": 374
+      },
+      "params": {
+        "target_points": 4000,
+        "max_hold": null
+      }
+    },
+    "pure_5000pts": {
+      "full": {
+        "trades": 104,
+        "win_rate": 89.4,
+        "net_rr": 205.19,
+        "rw_pf": 3.47,
+        "expectancy": 1.973,
+        "avg_hold": 47.2,
+        "max_hold": 593,
+        "positive_quarter_share": 0.94,
+        "still_open_at_end": 3,
+        "occupancy_pct": 90.5,
+        "entries_blocked": 928
+      },
+      "discovery": {
+        "trades": 15,
+        "win_rate": 86.7,
+        "net_rr": 60.76,
+        "rw_pf": 54.6,
+        "expectancy": 4.051,
+        "avg_hold": 38.5,
+        "max_hold": 140,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 4,
+        "occupancy_pct": 95.8,
+        "entries_blocked": 529
+      },
+      "holdout": {
+        "trades": 86,
+        "win_rate": 94.2,
+        "net_rr": 226.79,
+        "rw_pf": 22.66,
+        "expectancy": 2.637,
+        "avg_hold": 26.1,
+        "max_hold": 195,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 3,
+        "occupancy_pct": 85.3,
+        "entries_blocked": 387
+      },
+      "params": {
+        "target_points": 5000,
+        "max_hold": null
+      }
+    },
+    "pure_6000pts": {
+      "full": {
+        "trades": 89,
+        "win_rate": 88.8,
+        "net_rr": 212.79,
+        "rw_pf": 4.16,
+        "expectancy": 2.391,
+        "avg_hold": 55.3,
+        "max_hold": 640,
+        "positive_quarter_share": 0.81,
+        "still_open_at_end": 3,
+        "occupancy_pct": 91.9,
+        "entries_blocked": 940
+      },
+      "discovery": {
+        "trades": 12,
+        "win_rate": 83.3,
+        "net_rr": 51.89,
+        "rw_pf": 7.72,
+        "expectancy": 4.324,
+        "avg_hold": 79.8,
+        "max_hold": 369,
+        "positive_quarter_share": 0.75,
+        "still_open_at_end": 4,
+        "occupancy_pct": 97.3,
+        "entries_blocked": 531
+      },
+      "holdout": {
+        "trades": 74,
+        "win_rate": 94.6,
+        "net_rr": 229.94,
+        "rw_pf": 21.17,
+        "expectancy": 3.107,
+        "avg_hold": 29.8,
+        "max_hold": 211,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 3,
+        "occupancy_pct": 86.1,
+        "entries_blocked": 396
+      },
+      "params": {
+        "target_points": 6000,
+        "max_hold": null
+      }
+    },
+    "pure_7000pts": {
+      "full": {
+        "trades": 73,
+        "win_rate": 87.7,
+        "net_rr": 180.14,
+        "rw_pf": 2.87,
+        "expectancy": 2.468,
+        "avg_hold": 68.6,
+        "max_hold": 712,
+        "positive_quarter_share": 0.87,
+        "still_open_at_end": 3,
+        "occupancy_pct": 93.1,
+        "entries_blocked": 954
+      },
+      "discovery": {
+        "trades": 8,
+        "win_rate": 100.0,
+        "net_rr": 31.12,
+        "rw_pf": null,
+        "expectancy": 3.89,
+        "avg_hold": 45.6,
+        "max_hold": 81,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 4,
+        "occupancy_pct": 97.6,
+        "entries_blocked": 535
+      },
+      "holdout": {
+        "trades": 61,
+        "win_rate": 91.8,
+        "net_rr": 228.17,
+        "rw_pf": 19.97,
+        "expectancy": 3.741,
+        "avg_hold": 37.5,
+        "max_hold": 260,
+        "positive_quarter_share": 0.91,
+        "still_open_at_end": 3,
+        "occupancy_pct": 88.6,
+        "entries_blocked": 407
+      },
+      "params": {
+        "target_points": 7000,
+        "max_hold": null
+      }
+    },
+    "pure_8000pts": {
+      "full": {
+        "trades": 62,
+        "win_rate": 82.3,
+        "net_rr": 156.68,
+        "rw_pf": 2.71,
+        "expectancy": 2.527,
+        "avg_hold": 81.2,
+        "max_hold": 718,
+        "positive_quarter_share": 0.88,
+        "still_open_at_end": 3,
+        "occupancy_pct": 93.8,
+        "entries_blocked": 963
+      },
+      "discovery": {
+        "trades": 8,
+        "win_rate": 100.0,
+        "net_rr": 37.82,
+        "rw_pf": null,
+        "expectancy": 4.728,
+        "avg_hold": 47.0,
+        "max_hold": 82,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 4,
+        "occupancy_pct": 97.9,
+        "entries_blocked": 534
+      },
+      "holdout": {
+        "trades": 51,
+        "win_rate": 86.3,
+        "net_rr": 207.47,
+        "rw_pf": 21.68,
+        "expectancy": 4.068,
+        "avg_hold": 45.3,
+        "max_hold": 265,
+        "positive_quarter_share": 0.91,
+        "still_open_at_end": 3,
+        "occupancy_pct": 90.3,
+        "entries_blocked": 417
+      },
+      "params": {
+        "target_points": 8000,
+        "max_hold": null
+      }
+    },
+    "pure_9000pts": {
+      "full": {
+        "trades": 59,
+        "win_rate": 88.1,
+        "net_rr": 216.48,
+        "rw_pf": 5.03,
+        "expectancy": 3.669,
+        "avg_hold": 87.3,
+        "max_hold": 727,
+        "positive_quarter_share": 0.94,
+        "still_open_at_end": 3,
+        "occupancy_pct": 94.9,
+        "entries_blocked": 969
+      },
+      "discovery": {
+        "trades": 10,
+        "win_rate": 100.0,
+        "net_rr": 61.75,
+        "rw_pf": null,
+        "expectancy": 6.175,
+        "avg_hold": 47.1,
+        "max_hold": 142,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 4,
+        "occupancy_pct": 97.6,
+        "entries_blocked": 532
+      },
+      "holdout": {
+        "trades": 46,
+        "win_rate": 91.3,
+        "net_rr": 229.39,
+        "rw_pf": 34.11,
+        "expectancy": 4.987,
+        "avg_hold": 51.6,
+        "max_hold": 283,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 3,
+        "occupancy_pct": 92.4,
+        "entries_blocked": 424
+      },
+      "params": {
+        "target_points": 9000,
+        "max_hold": null
+      }
+    },
+    "pure_10000pts": {
+      "full": {
+        "trades": 56,
+        "win_rate": 89.3,
+        "net_rr": 248.24,
+        "rw_pf": 4.95,
+        "expectancy": 4.433,
+        "avg_hold": 92.6,
+        "max_hold": 742,
+        "positive_quarter_share": 0.94,
+        "still_open_at_end": 3,
+        "occupancy_pct": 95.5,
+        "entries_blocked": 973
+      },
+      "discovery": {
+        "trades": 8,
+        "win_rate": 87.5,
+        "net_rr": 60.2,
+        "rw_pf": 62.52,
+        "expectancy": 7.526,
+        "avg_hold": 56.0,
+        "max_hold": 149,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 4,
+        "occupancy_pct": 98.2,
+        "entries_blocked": 535
+      },
+      "holdout": {
+        "trades": 45,
+        "win_rate": 95.6,
+        "net_rr": 250.91,
+        "rw_pf": 55.52,
+        "expectancy": 5.576,
+        "avg_hold": 54.5,
+        "max_hold": 261,
+        "positive_quarter_share": 1.0,
+        "still_open_at_end": 3,
+        "occupancy_pct": 92.9,
+        "entries_blocked": 424
+      },
+      "params": {
+        "target_points": 10000,
+        "max_hold": null
+      }
+    },
+    "1000pts_and_6d": {
+      "full": {
+        "trades": 763,
+        "win_rate": 83.2,
+        "net_rr": 51.82,
+        "rw_pf": 1.12,
+        "expectancy": 0.068,
+        "avg_hold": 2.6,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 2,
+        "occupancy_pct": 36.3,
+        "entries_blocked": 366
+      },
+      "discovery": {
+        "trades": 391,
+        "win_rate": 81.1,
+        "net_rr": 1.78,
+        "rw_pf": 1.01,
+        "expectancy": 0.005,
+        "avg_hold": 2.8,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 0,
+        "occupancy_pct": 40.7,
+        "entries_blocked": 215
+      },
+      "holdout": {
+        "trades": 363,
+        "win_rate": 85.7,
+        "net_rr": 42.53,
+        "rw_pf": 1.26,
+        "expectancy": 0.117,
+        "avg_hold": 2.4,
+        "max_hold": 6,
+        "positive_quarter_share": 0.67,
+        "still_open_at_end": 2,
+        "occupancy_pct": 32.0,
+        "entries_blocked": 147
+      },
+      "params": {
+        "target_points": 1000,
+        "max_hold": 6
+      }
+    },
+    "2000pts_and_6d": {
+      "full": {
+        "trades": 662,
+        "win_rate": 73.6,
+        "net_rr": 72.95,
+        "rw_pf": 1.13,
+        "expectancy": 0.11,
+        "avg_hold": 3.6,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 3,
+        "occupancy_pct": 43.6,
+        "entries_blocked": 449
+      },
+      "discovery": {
+        "trades": 334,
+        "win_rate": 69.8,
+        "net_rr": -2.88,
+        "rw_pf": 0.99,
+        "expectancy": -0.009,
+        "avg_hold": 3.9,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 0,
+        "occupancy_pct": 48.6,
+        "entries_blocked": 264
+      },
+      "holdout": {
+        "trades": 319,
+        "win_rate": 77.4,
+        "net_rr": 64.07,
+        "rw_pf": 1.28,
+        "expectancy": 0.201,
+        "avg_hold": 3.3,
+        "max_hold": 6,
+        "positive_quarter_share": 0.55,
+        "still_open_at_end": 3,
+        "occupancy_pct": 39.0,
+        "entries_blocked": 182
+      },
+      "params": {
+        "target_points": 2000,
+        "max_hold": 6
+      }
+    },
+    "3000pts_and_6d": {
+      "full": {
+        "trades": 617,
+        "win_rate": 66.0,
+        "net_rr": 84.68,
+        "rw_pf": 1.14,
+        "expectancy": 0.137,
+        "avg_hold": 4.3,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 3,
+        "occupancy_pct": 48.0,
+        "entries_blocked": 494
+      },
+      "discovery": {
+        "trades": 318,
+        "win_rate": 61.6,
+        "net_rr": -3.06,
+        "rw_pf": 0.99,
+        "expectancy": -0.01,
+        "avg_hold": 4.5,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 0,
+        "occupancy_pct": 53.5,
+        "entries_blocked": 284
+      },
+      "holdout": {
+        "trades": 291,
+        "win_rate": 70.4,
+        "net_rr": 78.88,
+        "rw_pf": 1.32,
+        "expectancy": 0.271,
+        "avg_hold": 4.0,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 3,
+        "occupancy_pct": 43.0,
+        "entries_blocked": 205
+      },
+      "params": {
+        "target_points": 3000,
+        "max_hold": 6
+      }
+    },
+    "4000pts_and_6d": {
+      "full": {
+        "trades": 594,
+        "win_rate": 62.8,
+        "net_rr": 125.63,
+        "rw_pf": 1.2,
+        "expectancy": 0.211,
+        "avg_hold": 4.8,
+        "max_hold": 6,
+        "positive_quarter_share": 0.68,
+        "still_open_at_end": 3,
+        "occupancy_pct": 51.7,
+        "entries_blocked": 523
+      },
+      "discovery": {
+        "trades": 308,
+        "win_rate": 59.1,
+        "net_rr": 22.43,
+        "rw_pf": 1.06,
+        "expectancy": 0.073,
+        "avg_hold": 5.0,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 0,
+        "occupancy_pct": 56.8,
+        "entries_blocked": 297
+      },
+      "holdout": {
+        "trades": 279,
+        "win_rate": 66.3,
+        "net_rr": 83.5,
+        "rw_pf": 1.32,
+        "expectancy": 0.299,
+        "avg_hold": 4.5,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 47.1,
+        "entries_blocked": 221
+      },
+      "params": {
+        "target_points": 4000,
+        "max_hold": 6
+      }
+    },
+    "5000pts_and_6d": {
+      "full": {
+        "trades": 583,
+        "win_rate": 61.1,
+        "net_rr": 173.8,
+        "rw_pf": 1.27,
+        "expectancy": 0.298,
+        "avg_hold": 5.0,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 53.7,
+        "entries_blocked": 537
+      },
+      "discovery": {
+        "trades": 305,
+        "win_rate": 57.7,
+        "net_rr": 48.6,
+        "rw_pf": 1.13,
+        "expectancy": 0.159,
+        "avg_hold": 5.2,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 0,
+        "occupancy_pct": 59.0,
+        "entries_blocked": 301
+      },
+      "holdout": {
+        "trades": 271,
+        "win_rate": 64.2,
+        "net_rr": 102.98,
+        "rw_pf": 1.41,
+        "expectancy": 0.38,
+        "avg_hold": 4.8,
+        "max_hold": 6,
+        "positive_quarter_share": 0.82,
+        "still_open_at_end": 3,
+        "occupancy_pct": 48.7,
+        "entries_blocked": 231
+      },
+      "params": {
+        "target_points": 5000,
+        "max_hold": 6
+      }
+    },
+    "6000pts_and_6d": {
+      "full": {
+        "trades": 565,
+        "win_rate": 59.1,
+        "net_rr": 163.63,
+        "rw_pf": 1.25,
+        "expectancy": 0.29,
+        "avg_hold": 5.3,
+        "max_hold": 6,
+        "positive_quarter_share": 0.68,
+        "still_open_at_end": 3,
+        "occupancy_pct": 55.2,
+        "entries_blocked": 554
+      },
+      "discovery": {
+        "trades": 298,
+        "win_rate": 56.0,
+        "net_rr": 50.03,
+        "rw_pf": 1.13,
+        "expectancy": 0.168,
+        "avg_hold": 5.5,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 0,
+        "occupancy_pct": 60.4,
+        "entries_blocked": 306
+      },
+      "holdout": {
+        "trades": 260,
+        "win_rate": 61.9,
+        "net_rr": 90.51,
+        "rw_pf": 1.35,
+        "expectancy": 0.348,
+        "avg_hold": 5.2,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 50.4,
+        "entries_blocked": 243
+      },
+      "params": {
+        "target_points": 6000,
+        "max_hold": 6
+      }
+    },
+    "7000pts_and_6d": {
+      "full": {
+        "trades": 554,
+        "win_rate": 58.3,
+        "net_rr": 153.45,
+        "rw_pf": 1.24,
+        "expectancy": 0.277,
+        "avg_hold": 5.5,
+        "max_hold": 6,
+        "positive_quarter_share": 0.68,
+        "still_open_at_end": 3,
+        "occupancy_pct": 56.1,
+        "entries_blocked": 562
+      },
+      "discovery": {
+        "trades": 295,
+        "win_rate": 55.3,
+        "net_rr": 47.29,
+        "rw_pf": 1.12,
+        "expectancy": 0.16,
+        "avg_hold": 5.6,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 0,
+        "occupancy_pct": 61.7,
+        "entries_blocked": 310
+      },
+      "holdout": {
+        "trades": 252,
+        "win_rate": 61.1,
+        "net_rr": 82.41,
+        "rw_pf": 1.31,
+        "expectancy": 0.327,
+        "avg_hold": 5.4,
+        "max_hold": 6,
+        "positive_quarter_share": 0.64,
+        "still_open_at_end": 3,
+        "occupancy_pct": 50.9,
+        "entries_blocked": 247
+      },
+      "params": {
+        "target_points": 7000,
+        "max_hold": 6
+      }
+    },
+    "8000pts_and_6d": {
+      "full": {
+        "trades": 550,
+        "win_rate": 57.8,
+        "net_rr": 156.13,
+        "rw_pf": 1.24,
+        "expectancy": 0.284,
+        "avg_hold": 5.6,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 56.8,
+        "entries_blocked": 571
+      },
+      "discovery": {
+        "trades": 293,
+        "win_rate": 55.3,
+        "net_rr": 53.91,
+        "rw_pf": 1.14,
+        "expectancy": 0.184,
+        "avg_hold": 5.7,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 0,
+        "occupancy_pct": 62.2,
+        "entries_blocked": 314
+      },
+      "holdout": {
+        "trades": 250,
+        "win_rate": 60.0,
+        "net_rr": 77.82,
+        "rw_pf": 1.29,
+        "expectancy": 0.311,
+        "avg_hold": 5.6,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 51.8,
+        "entries_blocked": 252
+      },
+      "params": {
+        "target_points": 8000,
+        "max_hold": 6
+      }
+    },
+    "9000pts_and_6d": {
+      "full": {
+        "trades": 548,
+        "win_rate": 57.3,
+        "net_rr": 164.71,
+        "rw_pf": 1.25,
+        "expectancy": 0.301,
+        "avg_hold": 5.7,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 57.2,
+        "entries_blocked": 577
+      },
+      "discovery": {
+        "trades": 291,
+        "win_rate": 54.3,
+        "net_rr": 49.47,
+        "rw_pf": 1.13,
+        "expectancy": 0.17,
+        "avg_hold": 5.8,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 0,
+        "occupancy_pct": 62.4,
+        "entries_blocked": 318
+      },
+      "holdout": {
+        "trades": 250,
+        "win_rate": 60.0,
+        "net_rr": 90.2,
+        "rw_pf": 1.34,
+        "expectancy": 0.361,
+        "avg_hold": 5.6,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 52.4,
+        "entries_blocked": 254
+      },
+      "params": {
+        "target_points": 9000,
+        "max_hold": 6
+      }
+    },
+    "10000pts_and_6d": {
+      "full": {
+        "trades": 545,
+        "win_rate": 57.1,
+        "net_rr": 173.2,
+        "rw_pf": 1.27,
+        "expectancy": 0.318,
+        "avg_hold": 5.8,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 57.5,
+        "entries_blocked": 579
+      },
+      "discovery": {
+        "trades": 289,
+        "win_rate": 54.0,
+        "net_rr": 47.51,
+        "rw_pf": 1.12,
+        "expectancy": 0.164,
+        "avg_hold": 5.8,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 0,
+        "occupancy_pct": 62.6,
+        "entries_blocked": 319
+      },
+      "holdout": {
+        "trades": 249,
+        "win_rate": 59.8,
+        "net_rr": 100.01,
+        "rw_pf": 1.38,
+        "expectancy": 0.402,
+        "avg_hold": 5.7,
+        "max_hold": 6,
+        "positive_quarter_share": 0.73,
+        "still_open_at_end": 3,
+        "occupancy_pct": 52.9,
+        "entries_blocked": 255
+      },
+      "params": {
+        "target_points": 10000,
+        "max_hold": 6
+      }
+    }
+  },
+  "baseline": {
+    "full": {
+      "trades": 685,
+      "win_rate": 69.9,
+      "net_rr": 261.91,
+      "rw_pf": 1.59,
+      "expectancy": 0.382,
+      "avg_hold": 2.8,
+      "max_hold": 6,
+      "positive_quarter_share": 0.82,
+      "still_open_at_end": 2,
+      "occupancy_pct": 34.7,
+      "entries_blocked": 350
+    },
+    "discovery": {
+      "trades": 356,
+      "win_rate": 66.3,
+      "net_rr": 82.21,
+      "rw_pf": 1.32,
+      "expectancy": 0.231,
+      "avg_hold": 2.7,
+      "max_hold": 6,
+      "positive_quarter_share": 0.64,
+      "still_open_at_end": 0,
+      "occupancy_pct": 36.3,
+      "entries_blocked": 196
+    },
+    "holdout": {
+      "trades": 318,
+      "win_rate": 73.3,
+      "net_rr": 164.05,
+      "rw_pf": 1.87,
+      "expectancy": 0.516,
+      "avg_hold": 2.8,
+      "max_hold": 6,
+      "positive_quarter_share": 1.0,
+      "still_open_at_end": 2,
+      "occupancy_pct": 33.6,
+      "entries_blocked": 153
+    },
+    "rule": "IBS>0.8 or 6d (the live book)"
+  },
+  "selection": {
+    "chosen_on_discovery": "pure_9000pts",
+    "discovery_net_rr": 61.75,
+    "baseline_discovery": 82.21,
+    "holdout_net_rr": 229.39,
+    "baseline_holdout": 164.05,
+    "beats_baseline_on_discovery": false,
+    "VALIDATES_ON_HOLDOUT": true,
+    "verdict": "REJECTED - does not survive the holdout"
+  }
+}

@@ -1,0 +1,523 @@
+{
+  "generated_at": "2026-08-12T21:53:34.809545+00:00",
+  "status": "RESEARCH_ONLY",
+  "pip_definition": "1 pip = 1 index point = 10 broker points",
+  "costs_pips": {
+    "US30": 5.0,
+    "NAS100": 3.5,
+    "US500": 0.85,
+    "DE40": 1.75
+  },
+  "all": {
+    "label": "ALL TRADES",
+    "trades": 685,
+    "levels": [
+      {
+        "pips": 10,
+        "reached": 651,
+        "reached_pct": 95.0,
+        "within_24h": 633,
+        "within_24h_pct": 92.4,
+        "median_hours_to_touch": 1
+      },
+      {
+        "pips": 20,
+        "reached": 624,
+        "reached_pct": 91.1,
+        "within_24h": 591,
+        "within_24h_pct": 86.3,
+        "median_hours_to_touch": 3
+      },
+      {
+        "pips": 30,
+        "reached": 585,
+        "reached_pct": 85.4,
+        "within_24h": 550,
+        "within_24h_pct": 80.3,
+        "median_hours_to_touch": 4
+      },
+      {
+        "pips": 40,
+        "reached": 549,
+        "reached_pct": 80.1,
+        "within_24h": 502,
+        "within_24h_pct": 73.3,
+        "median_hours_to_touch": 8
+      },
+      {
+        "pips": 50,
+        "reached": 517,
+        "reached_pct": 75.5,
+        "within_24h": 468,
+        "within_24h_pct": 68.3,
+        "median_hours_to_touch": 9
+      },
+      {
+        "pips": 75,
+        "reached": 457,
+        "reached_pct": 66.7,
+        "within_24h": 397,
+        "within_24h_pct": 58.0,
+        "median_hours_to_touch": 12
+      },
+      {
+        "pips": 100,
+        "reached": 420,
+        "reached_pct": 61.3,
+        "within_24h": 348,
+        "within_24h_pct": 50.8,
+        "median_hours_to_touch": 15
+      },
+      {
+        "pips": 150,
+        "reached": 338,
+        "reached_pct": 49.3,
+        "within_24h": 255,
+        "within_24h_pct": 37.2,
+        "median_hours_to_touch": 16
+      },
+      {
+        "pips": 200,
+        "reached": 262,
+        "reached_pct": 38.2,
+        "within_24h": 199,
+        "within_24h_pct": 29.1,
+        "median_hours_to_touch": 17
+      }
+    ],
+    "realized_in_10_100_band": 165,
+    "realized_in_10_100_band_pct": 24.1,
+    "mfe_in_10_100_band": 231,
+    "mfe_in_10_100_band_pct": 33.7,
+    "median_mfe_pips": 144.7,
+    "median_mae_pips": 142.8,
+    "median_realized_pips": 71.8
+  },
+  "forward_half": {
+    "label": "FORWARD HALF (unseen)",
+    "trades": 343,
+    "levels": [
+      {
+        "pips": 10,
+        "reached": 327,
+        "reached_pct": 95.3,
+        "within_24h": 321,
+        "within_24h_pct": 93.6,
+        "median_hours_to_touch": 1
+      },
+      {
+        "pips": 20,
+        "reached": 317,
+        "reached_pct": 92.4,
+        "within_24h": 303,
+        "within_24h_pct": 88.3,
+        "median_hours_to_touch": 2
+      },
+      {
+        "pips": 30,
+        "reached": 301,
+        "reached_pct": 87.8,
+        "within_24h": 284,
+        "within_24h_pct": 82.8,
+        "median_hours_to_touch": 3
+      },
+      {
+        "pips": 40,
+        "reached": 282,
+        "reached_pct": 82.2,
+        "within_24h": 259,
+        "within_24h_pct": 75.5,
+        "median_hours_to_touch": 5
+      },
+      {
+        "pips": 50,
+        "reached": 265,
+        "reached_pct": 77.3,
+        "within_24h": 240,
+        "within_24h_pct": 70.0,
+        "median_hours_to_touch": 7
+      },
+      {
+        "pips": 75,
+        "reached": 238,
+        "reached_pct": 69.4,
+        "within_24h": 206,
+        "within_24h_pct": 60.1,
+        "median_hours_to_touch": 10
+      },
+      {
+        "pips": 100,
+        "reached": 223,
+        "reached_pct": 65.0,
+        "within_24h": 183,
+        "within_24h_pct": 53.4,
+        "median_hours_to_touch": 13
+      },
+      {
+        "pips": 150,
+        "reached": 189,
+        "reached_pct": 55.1,
+        "within_24h": 146,
+        "within_24h_pct": 42.6,
+        "median_hours_to_touch": 16
+      },
+      {
+        "pips": 200,
+        "reached": 153,
+        "reached_pct": 44.6,
+        "within_24h": 121,
+        "within_24h_pct": 35.3,
+        "median_hours_to_touch": 17
+      }
+    ],
+    "realized_in_10_100_band": 79,
+    "realized_in_10_100_band_pct": 23.0,
+    "mfe_in_10_100_band": 104,
+    "mfe_in_10_100_band_pct": 30.3,
+    "median_mfe_pips": 165.9,
+    "median_mae_pips": 137.8,
+    "median_realized_pips": 102.2
+  },
+  "per_symbol": {
+    "US30": {
+      "label": "US30",
+      "trades": 174,
+      "levels": [
+        {
+          "pips": 10,
+          "reached": 172,
+          "reached_pct": 98.9,
+          "within_24h": 172,
+          "within_24h_pct": 98.9,
+          "median_hours_to_touch": 1
+        },
+        {
+          "pips": 20,
+          "reached": 172,
+          "reached_pct": 98.9,
+          "within_24h": 171,
+          "within_24h_pct": 98.3,
+          "median_hours_to_touch": 2
+        },
+        {
+          "pips": 30,
+          "reached": 168,
+          "reached_pct": 96.6,
+          "within_24h": 163,
+          "within_24h_pct": 93.7,
+          "median_hours_to_touch": 2
+        },
+        {
+          "pips": 40,
+          "reached": 163,
+          "reached_pct": 93.7,
+          "within_24h": 158,
+          "within_24h_pct": 90.8,
+          "median_hours_to_touch": 4
+        },
+        {
+          "pips": 50,
+          "reached": 162,
+          "reached_pct": 93.1,
+          "within_24h": 155,
+          "within_24h_pct": 89.1,
+          "median_hours_to_touch": 6
+        },
+        {
+          "pips": 75,
+          "reached": 157,
+          "reached_pct": 90.2,
+          "within_24h": 145,
+          "within_24h_pct": 83.3,
+          "median_hours_to_touch": 11
+        },
+        {
+          "pips": 100,
+          "reached": 154,
+          "reached_pct": 88.5,
+          "within_24h": 135,
+          "within_24h_pct": 77.6,
+          "median_hours_to_touch": 14
+        },
+        {
+          "pips": 150,
+          "reached": 138,
+          "reached_pct": 79.3,
+          "within_24h": 108,
+          "within_24h_pct": 62.1,
+          "median_hours_to_touch": 17
+        },
+        {
+          "pips": 200,
+          "reached": 117,
+          "reached_pct": 67.2,
+          "within_24h": 92,
+          "within_24h_pct": 52.9,
+          "median_hours_to_touch": 17
+        }
+      ],
+      "realized_in_10_100_band": 5,
+      "realized_in_10_100_band_pct": 2.9,
+      "mfe_in_10_100_band": 18,
+      "mfe_in_10_100_band_pct": 10.3,
+      "median_mfe_pips": 317.2,
+      "median_mae_pips": 293.8,
+      "median_realized_pips": 209.7
+    },
+    "NAS100": {
+      "label": "NAS100",
+      "trades": 178,
+      "levels": [
+        {
+          "pips": 10,
+          "reached": 171,
+          "reached_pct": 96.1,
+          "within_24h": 168,
+          "within_24h_pct": 94.4,
+          "median_hours_to_touch": 1
+        },
+        {
+          "pips": 20,
+          "reached": 169,
+          "reached_pct": 94.9,
+          "within_24h": 163,
+          "within_24h_pct": 91.6,
+          "median_hours_to_touch": 2
+        },
+        {
+          "pips": 30,
+          "reached": 166,
+          "reached_pct": 93.3,
+          "within_24h": 158,
+          "within_24h_pct": 88.8,
+          "median_hours_to_touch": 4
+        },
+        {
+          "pips": 40,
+          "reached": 161,
+          "reached_pct": 90.4,
+          "within_24h": 152,
+          "within_24h_pct": 85.4,
+          "median_hours_to_touch": 7
+        },
+        {
+          "pips": 50,
+          "reached": 157,
+          "reached_pct": 88.2,
+          "within_24h": 144,
+          "within_24h_pct": 80.9,
+          "median_hours_to_touch": 10
+        },
+        {
+          "pips": 75,
+          "reached": 146,
+          "reached_pct": 82.0,
+          "within_24h": 127,
+          "within_24h_pct": 71.3,
+          "median_hours_to_touch": 15
+        },
+        {
+          "pips": 100,
+          "reached": 139,
+          "reached_pct": 78.1,
+          "within_24h": 116,
+          "within_24h_pct": 65.2,
+          "median_hours_to_touch": 16
+        },
+        {
+          "pips": 150,
+          "reached": 116,
+          "reached_pct": 65.2,
+          "within_24h": 89,
+          "within_24h_pct": 50.0,
+          "median_hours_to_touch": 17
+        },
+        {
+          "pips": 200,
+          "reached": 89,
+          "reached_pct": 50.0,
+          "within_24h": 69,
+          "within_24h_pct": 38.8,
+          "median_hours_to_touch": 17
+        }
+      ],
+      "realized_in_10_100_band": 18,
+      "realized_in_10_100_band_pct": 10.1,
+      "mfe_in_10_100_band": 32,
+      "mfe_in_10_100_band_pct": 18.0,
+      "median_mfe_pips": 201.9,
+      "median_mae_pips": 187.7,
+      "median_realized_pips": 129.6
+    },
+    "US500": {
+      "label": "US500",
+      "trades": 170,
+      "levels": [
+        {
+          "pips": 10,
+          "reached": 155,
+          "reached_pct": 91.2,
+          "within_24h": 142,
+          "within_24h_pct": 83.5,
+          "median_hours_to_touch": 9
+        },
+        {
+          "pips": 20,
+          "reached": 136,
+          "reached_pct": 80.0,
+          "within_24h": 112,
+          "within_24h_pct": 65.9,
+          "median_hours_to_touch": 16
+        },
+        {
+          "pips": 30,
+          "reached": 110,
+          "reached_pct": 64.7,
+          "within_24h": 90,
+          "within_24h_pct": 52.9,
+          "median_hours_to_touch": 16
+        },
+        {
+          "pips": 40,
+          "reached": 89,
+          "reached_pct": 52.4,
+          "within_24h": 63,
+          "within_24h_pct": 37.1,
+          "median_hours_to_touch": 18
+        },
+        {
+          "pips": 50,
+          "reached": 66,
+          "reached_pct": 38.8,
+          "within_24h": 50,
+          "within_24h_pct": 29.4,
+          "median_hours_to_touch": 18
+        },
+        {
+          "pips": 75,
+          "reached": 35,
+          "reached_pct": 20.6,
+          "within_24h": 25,
+          "within_24h_pct": 14.7,
+          "median_hours_to_touch": 20
+        },
+        {
+          "pips": 100,
+          "reached": 23,
+          "reached_pct": 13.5,
+          "within_24h": 13,
+          "within_24h_pct": 7.6,
+          "median_hours_to_touch": 21
+        },
+        {
+          "pips": 150,
+          "reached": 9,
+          "reached_pct": 5.3,
+          "within_24h": 4,
+          "within_24h_pct": 2.4,
+          "median_hours_to_touch": 40
+        },
+        {
+          "pips": 200,
+          "reached": 3,
+          "reached_pct": 1.8,
+          "within_24h": 1,
+          "within_24h_pct": 0.6,
+          "median_hours_to_touch": 62
+        }
+      ],
+      "realized_in_10_100_band": 104,
+      "realized_in_10_100_band_pct": 61.2,
+      "mfe_in_10_100_band": 132,
+      "mfe_in_10_100_band_pct": 77.6,
+      "median_mfe_pips": 42.4,
+      "median_mae_pips": 39.5,
+      "median_realized_pips": 29.4
+    },
+    "DE40": {
+      "label": "DE40",
+      "trades": 163,
+      "levels": [
+        {
+          "pips": 10,
+          "reached": 153,
+          "reached_pct": 93.9,
+          "within_24h": 151,
+          "within_24h_pct": 92.6,
+          "median_hours_to_touch": 1
+        },
+        {
+          "pips": 20,
+          "reached": 147,
+          "reached_pct": 90.2,
+          "within_24h": 145,
+          "within_24h_pct": 89.0,
+          "median_hours_to_touch": 2
+        },
+        {
+          "pips": 30,
+          "reached": 141,
+          "reached_pct": 86.5,
+          "within_24h": 139,
+          "within_24h_pct": 85.3,
+          "median_hours_to_touch": 3
+        },
+        {
+          "pips": 40,
+          "reached": 136,
+          "reached_pct": 83.4,
+          "within_24h": 129,
+          "within_24h_pct": 79.1,
+          "median_hours_to_touch": 5
+        },
+        {
+          "pips": 50,
+          "reached": 132,
+          "reached_pct": 81.0,
+          "within_24h": 119,
+          "within_24h_pct": 73.0,
+          "median_hours_to_touch": 8
+        },
+        {
+          "pips": 75,
+          "reached": 119,
+          "reached_pct": 73.0,
+          "within_24h": 100,
+          "within_24h_pct": 61.3,
+          "median_hours_to_touch": 10
+        },
+        {
+          "pips": 100,
+          "reached": 104,
+          "reached_pct": 63.8,
+          "within_24h": 84,
+          "within_24h_pct": 51.5,
+          "median_hours_to_touch": 11
+        },
+        {
+          "pips": 150,
+          "reached": 75,
+          "reached_pct": 46.0,
+          "within_24h": 54,
+          "within_24h_pct": 33.1,
+          "median_hours_to_touch": 14
+        },
+        {
+          "pips": 200,
+          "reached": 53,
+          "reached_pct": 32.5,
+          "within_24h": 37,
+          "within_24h_pct": 22.7,
+          "median_hours_to_touch": 16
+        }
+      ],
+      "realized_in_10_100_band": 38,
+      "realized_in_10_100_band_pct": 23.3,
+      "mfe_in_10_100_band": 49,
+      "mfe_in_10_100_band_pct": 30.1,
+      "median_mfe_pips": 133.3,
+      "median_mae_pips": 187.3,
+      "median_realized_pips": 70.8
+    }
+  }
+}

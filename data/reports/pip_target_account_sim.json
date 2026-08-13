@@ -1,0 +1,2540 @@
+{
+  "generated_at": "2026-08-12T22:07:58.911154+00:00",
+  "status": "RESEARCH_ONLY",
+  "start_balance": 1000.0,
+  "stop_out_level": 20.0,
+  "usd_per_pip_per_lot": {
+    "US30": 1.0,
+    "NAS100": 1.0,
+    "US500": 1.0,
+    "DE40": 1.15
+  },
+  "margin_per_lot": {
+    "US30": 269.08,
+    "NAS100": 148.53,
+    "US500": 38.74,
+    "DE40": 152.03
+  },
+  "results": {
+    "1m_10p_1lot": {
+      "final": 1089.01,
+      "blown": false,
+      "trades": 16,
+      "wins": 15,
+      "max_dd": 0.5,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "1m_10p_2lot": {
+      "final": 1187.56,
+      "blown": false,
+      "trades": 16,
+      "wins": 15,
+      "max_dd": 1.4,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "1m_10p_3lot": {
+      "final": 1268.91,
+      "blown": false,
+      "trades": 15,
+      "wins": 14,
+      "max_dd": 2.1,
+      "stopped_out": 0,
+      "skipped": 2
+    },
+    "1m_10p_4lot": {
+      "final": 1298.88,
+      "blown": false,
+      "trades": 13,
+      "wins": 12,
+      "max_dd": 2.8,
+      "stopped_out": 0,
+      "skipped": 4
+    },
+    "1m_10p_5lot": {
+      "final": 1397.56,
+      "blown": false,
+      "trades": 13,
+      "wins": 12,
+      "max_dd": 3.4,
+      "stopped_out": 0,
+      "skipped": 4
+    },
+    "1m_10p_6lot": {
+      "final": 1320.26,
+      "blown": false,
+      "trades": 9,
+      "wins": 8,
+      "max_dd": 2.8,
+      "stopped_out": 0,
+      "skipped": 8
+    },
+    "1m_10p_7lot": {
+      "final": 1235.3,
+      "blown": false,
+      "trades": 6,
+      "wins": 5,
+      "max_dd": 5.0,
+      "stopped_out": 0,
+      "skipped": 11
+    },
+    "1m_10p_8lot": {
+      "final": 1334.8,
+      "blown": false,
+      "trades": 5,
+      "wins": 5,
+      "max_dd": 5.7,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "1m_10p_9lot": {
+      "final": 1322.6,
+      "blown": false,
+      "trades": 4,
+      "wins": 4,
+      "max_dd": 6.4,
+      "stopped_out": 0,
+      "skipped": 13
+    },
+    "1m_10p_10lot": {
+      "final": 1358.44,
+      "blown": false,
+      "trades": 4,
+      "wins": 4,
+      "max_dd": 7.1,
+      "stopped_out": 0,
+      "skipped": 13
+    },
+    "1m_20p_1lot": {
+      "final": 1230.43,
+      "blown": false,
+      "trades": 15,
+      "wins": 15,
+      "max_dd": 5.9,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "1m_20p_2lot": {
+      "final": 1470.02,
+      "blown": false,
+      "trades": 15,
+      "wins": 15,
+      "max_dd": 13.1,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "1m_20p_3lot": {
+      "final": 1647.95,
+      "blown": false,
+      "trades": 14,
+      "wins": 14,
+      "max_dd": 19.3,
+      "stopped_out": 0,
+      "skipped": 2
+    },
+    "1m_20p_4lot": {
+      "final": 1820.35,
+      "blown": false,
+      "trades": 13,
+      "wins": 13,
+      "max_dd": 9.3,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "1m_20p_5lot": {
+      "final": 1954.92,
+      "blown": false,
+      "trades": 12,
+      "wins": 12,
+      "max_dd": 11.1,
+      "stopped_out": 0,
+      "skipped": 4
+    },
+    "1m_20p_6lot": {
+      "final": 2033.61,
+      "blown": false,
+      "trades": 11,
+      "wins": 11,
+      "max_dd": 13.1,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "1m_20p_7lot": {
+      "final": 1755.51,
+      "blown": false,
+      "trades": 7,
+      "wins": 7,
+      "max_dd": 16.5,
+      "stopped_out": 0,
+      "skipped": 9
+    },
+    "1m_20p_8lot": {
+      "final": 1703.56,
+      "blown": false,
+      "trades": 5,
+      "wins": 5,
+      "max_dd": 5.7,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "1m_20p_9lot": {
+      "final": 1791.51,
+      "blown": false,
+      "trades": 5,
+      "wins": 5,
+      "max_dd": 6.4,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "1m_20p_10lot": {
+      "final": 1703.22,
+      "blown": false,
+      "trades": 4,
+      "wins": 4,
+      "max_dd": 25.6,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "1m_30p_1lot": {
+      "final": 1357.45,
+      "blown": false,
+      "trades": 14,
+      "wins": 14,
+      "max_dd": 8.6,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "1m_30p_2lot": {
+      "final": 1724.93,
+      "blown": false,
+      "trades": 14,
+      "wins": 14,
+      "max_dd": 12.8,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "1m_30p_3lot": {
+      "final": 2087.39,
+      "blown": false,
+      "trades": 14,
+      "wins": 14,
+      "max_dd": 18.8,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "1m_30p_4lot": {
+      "final": 2250.16,
+      "blown": false,
+      "trades": 12,
+      "wins": 12,
+      "max_dd": 12.4,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "1m_30p_5lot": {
+      "final": 2562.7,
+      "blown": false,
+      "trades": 12,
+      "wins": 12,
+      "max_dd": 13.7,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "1m_30p_6lot": {
+      "final": 2875.24,
+      "blown": false,
+      "trades": 12,
+      "wins": 12,
+      "max_dd": 14.8,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "1m_30p_7lot": {
+      "final": 2617.82,
+      "blown": false,
+      "trades": 9,
+      "wins": 9,
+      "max_dd": 19.6,
+      "stopped_out": 0,
+      "skipped": 6
+    },
+    "1m_30p_8lot": {
+      "final": 2848.94,
+      "blown": false,
+      "trades": 9,
+      "wins": 9,
+      "max_dd": 20.8,
+      "stopped_out": 0,
+      "skipped": 6
+    },
+    "1m_30p_9lot": {
+      "final": 2236.48,
+      "blown": false,
+      "trades": 5,
+      "wins": 5,
+      "max_dd": 25.3,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "1m_30p_10lot": {
+      "final": 2373.87,
+      "blown": false,
+      "trades": 5,
+      "wins": 5,
+      "max_dd": 26.7,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "1m_50p_1lot": {
+      "final": 1548.21,
+      "blown": false,
+      "trades": 13,
+      "wins": 13,
+      "max_dd": 54.2,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "1m_50p_2lot": {
+      "final": 24.2,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 97.6,
+      "stopped_out": 1,
+      "skipped": 16
+    },
+    "1m_50p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "1m_50p_4lot": {
+      "final": 0.8,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 99.9,
+      "stopped_out": 1,
+      "skipped": 16
+    },
+    "1m_50p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "1m_50p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "1m_50p_7lot": {
+      "final": 4051.88,
+      "blown": false,
+      "trades": 10,
+      "wins": 10,
+      "max_dd": 31.9,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "1m_50p_8lot": {
+      "final": 4487.86,
+      "blown": false,
+      "trades": 10,
+      "wins": 10,
+      "max_dd": 34.7,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "1m_50p_9lot": {
+      "final": 4923.84,
+      "blown": false,
+      "trades": 10,
+      "wins": 10,
+      "max_dd": 37.3,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "1m_50p_10lot": {
+      "final": 3579.39,
+      "blown": false,
+      "trades": 6,
+      "wins": 6,
+      "max_dd": 23.8,
+      "stopped_out": 0,
+      "skipped": 9
+    },
+    "2m_10p_1lot": {
+      "final": 1154.04,
+      "blown": false,
+      "trades": 27,
+      "wins": 25,
+      "max_dd": 1.7,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_10p_2lot": {
+      "final": 1308.07,
+      "blown": false,
+      "trades": 27,
+      "wins": 25,
+      "max_dd": 3.2,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_10p_3lot": {
+      "final": 1436.97,
+      "blown": false,
+      "trades": 25,
+      "wins": 23,
+      "max_dd": 4.6,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "2m_10p_4lot": {
+      "final": 1542.58,
+      "blown": false,
+      "trades": 23,
+      "wins": 21,
+      "max_dd": 6.0,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "2m_10p_5lot": {
+      "final": 1692.61,
+      "blown": false,
+      "trades": 23,
+      "wins": 21,
+      "max_dd": 7.2,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "2m_10p_6lot": {
+      "final": 1752.37,
+      "blown": false,
+      "trades": 21,
+      "wins": 19,
+      "max_dd": 8.6,
+      "stopped_out": 0,
+      "skipped": 7
+    },
+    "2m_10p_7lot": {
+      "final": 1644.9,
+      "blown": false,
+      "trades": 16,
+      "wins": 14,
+      "max_dd": 3.5,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "2m_10p_8lot": {
+      "final": 1409.81,
+      "blown": false,
+      "trades": 8,
+      "wins": 7,
+      "max_dd": 13.0,
+      "stopped_out": 0,
+      "skipped": 20
+    },
+    "2m_10p_9lot": {
+      "final": 1535.15,
+      "blown": false,
+      "trades": 7,
+      "wins": 7,
+      "max_dd": 14.4,
+      "stopped_out": 0,
+      "skipped": 21
+    },
+    "2m_10p_10lot": {
+      "final": 1594.62,
+      "blown": false,
+      "trades": 7,
+      "wins": 7,
+      "max_dd": 15.8,
+      "stopped_out": 0,
+      "skipped": 21
+    },
+    "2m_20p_1lot": {
+      "final": 1409.71,
+      "blown": false,
+      "trades": 26,
+      "wins": 26,
+      "max_dd": 5.1,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_20p_2lot": {
+      "final": 1819.41,
+      "blown": false,
+      "trades": 26,
+      "wins": 26,
+      "max_dd": 8.7,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_20p_3lot": {
+      "final": 2242.86,
+      "blown": false,
+      "trades": 26,
+      "wins": 26,
+      "max_dd": 12.8,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "2m_20p_4lot": {
+      "final": 2536.68,
+      "blown": false,
+      "trades": 24,
+      "wins": 24,
+      "max_dd": 16.3,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "2m_20p_5lot": {
+      "final": 2825.7,
+      "blown": false,
+      "trades": 23,
+      "wins": 23,
+      "max_dd": 18.5,
+      "stopped_out": 0,
+      "skipped": 4
+    },
+    "2m_20p_6lot": {
+      "final": 2994.86,
+      "blown": false,
+      "trades": 21,
+      "wins": 21,
+      "max_dd": 19.3,
+      "stopped_out": 0,
+      "skipped": 6
+    },
+    "2m_20p_7lot": {
+      "final": 3202.53,
+      "blown": false,
+      "trades": 20,
+      "wins": 20,
+      "max_dd": 9.2,
+      "stopped_out": 0,
+      "skipped": 7
+    },
+    "2m_20p_8lot": {
+      "final": 2677.04,
+      "blown": false,
+      "trades": 13,
+      "wins": 13,
+      "max_dd": 13.3,
+      "stopped_out": 0,
+      "skipped": 14
+    },
+    "2m_20p_9lot": {
+      "final": 2732.73,
+      "blown": false,
+      "trades": 12,
+      "wins": 12,
+      "max_dd": 14.9,
+      "stopped_out": 0,
+      "skipped": 15
+    },
+    "2m_20p_10lot": {
+      "final": 2452.91,
+      "blown": false,
+      "trades": 9,
+      "wins": 9,
+      "max_dd": 16.9,
+      "stopped_out": 0,
+      "skipped": 18
+    },
+    "2m_30p_1lot": {
+      "final": 1648.44,
+      "blown": false,
+      "trades": 25,
+      "wins": 25,
+      "max_dd": 6.7,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_30p_2lot": {
+      "final": 2296.87,
+      "blown": false,
+      "trades": 25,
+      "wins": 25,
+      "max_dd": 10.8,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_30p_3lot": {
+      "final": 2945.31,
+      "blown": false,
+      "trades": 25,
+      "wins": 25,
+      "max_dd": 13.6,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_30p_4lot": {
+      "final": 3418.62,
+      "blown": false,
+      "trades": 23,
+      "wins": 23,
+      "max_dd": 13.0,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "2m_30p_5lot": {
+      "final": 4023.28,
+      "blown": false,
+      "trades": 23,
+      "wins": 23,
+      "max_dd": 14.4,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "2m_30p_6lot": {
+      "final": 4627.94,
+      "blown": false,
+      "trades": 23,
+      "wins": 23,
+      "max_dd": 15.5,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "2m_30p_7lot": {
+      "final": 4799.41,
+      "blown": false,
+      "trades": 21,
+      "wins": 21,
+      "max_dd": 19.3,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "2m_30p_8lot": {
+      "final": 4880.23,
+      "blown": false,
+      "trades": 19,
+      "wins": 19,
+      "max_dd": 18.2,
+      "stopped_out": 0,
+      "skipped": 7
+    },
+    "2m_30p_9lot": {
+      "final": 4322.34,
+      "blown": false,
+      "trades": 14,
+      "wins": 14,
+      "max_dd": 14.7,
+      "stopped_out": 0,
+      "skipped": 12
+    },
+    "2m_30p_10lot": {
+      "final": 4404.33,
+      "blown": false,
+      "trades": 13,
+      "wins": 13,
+      "max_dd": 16.3,
+      "stopped_out": 0,
+      "skipped": 13
+    },
+    "2m_50p_1lot": {
+      "final": 1752.71,
+      "blown": false,
+      "trades": 24,
+      "wins": 22,
+      "max_dd": 60.2,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "2m_50p_2lot": {
+      "final": 60.2,
+      "blown": false,
+      "trades": 9,
+      "wins": 7,
+      "max_dd": 96.4,
+      "stopped_out": 1,
+      "skipped": 19
+    },
+    "2m_50p_3lot": {
+      "final": 91.3,
+      "blown": false,
+      "trades": 9,
+      "wins": 7,
+      "max_dd": 95.5,
+      "stopped_out": 1,
+      "skipped": 19
+    },
+    "2m_50p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 8,
+      "wins": 7,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 1
+    },
+    "2m_50p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 1
+    },
+    "2m_50p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 10,
+      "wins": 8,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "2m_50p_7lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 9
+    },
+    "2m_50p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 9
+    },
+    "2m_50p_9lot": {
+      "final": 5260.37,
+      "blown": false,
+      "trades": 12,
+      "wins": 11,
+      "max_dd": 84.5,
+      "stopped_out": 0,
+      "skipped": 14
+    },
+    "2m_50p_10lot": {
+      "final": 5733.74,
+      "blown": false,
+      "trades": 12,
+      "wins": 11,
+      "max_dd": 91.9,
+      "stopped_out": 0,
+      "skipped": 14
+    },
+    "3m_10p_1lot": {
+      "final": 1140.59,
+      "blown": false,
+      "trades": 41,
+      "wins": 32,
+      "max_dd": 24.5,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "3m_10p_2lot": {
+      "final": 1387.04,
+      "blown": false,
+      "trades": 41,
+      "wins": 34,
+      "max_dd": 44.7,
+      "stopped_out": 0,
+      "skipped": 4
+    },
+    "3m_10p_3lot": {
+      "final": 1466.88,
+      "blown": false,
+      "trades": 35,
+      "wins": 28,
+      "max_dd": 68.8,
+      "stopped_out": 0,
+      "skipped": 11
+    },
+    "3m_10p_4lot": {
+      "final": 1718.98,
+      "blown": false,
+      "trades": 33,
+      "wins": 28,
+      "max_dd": 87.3,
+      "stopped_out": 0,
+      "skipped": 13
+    },
+    "3m_10p_5lot": {
+      "final": 126.72,
+      "blown": false,
+      "trades": 2,
+      "wins": 1,
+      "max_dd": 87.7,
+      "stopped_out": 1,
+      "skipped": 44
+    },
+    "3m_10p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "3m_10p_7lot": {
+      "final": 1977.99,
+      "blown": false,
+      "trades": 25,
+      "wins": 22,
+      "max_dd": 70.6,
+      "stopped_out": 0,
+      "skipped": 21
+    },
+    "3m_10p_8lot": {
+      "final": 2104.95,
+      "blown": false,
+      "trades": 22,
+      "wins": 20,
+      "max_dd": 14.3,
+      "stopped_out": 0,
+      "skipped": 24
+    },
+    "3m_10p_9lot": {
+      "final": 2094.8,
+      "blown": false,
+      "trades": 20,
+      "wins": 18,
+      "max_dd": 15.8,
+      "stopped_out": 0,
+      "skipped": 26
+    },
+    "3m_10p_10lot": {
+      "final": 1860.64,
+      "blown": false,
+      "trades": 13,
+      "wins": 12,
+      "max_dd": 17.2,
+      "stopped_out": 0,
+      "skipped": 33
+    },
+    "3m_20p_1lot": {
+      "final": 1540.92,
+      "blown": false,
+      "trades": 40,
+      "wins": 38,
+      "max_dd": 23.1,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "3m_20p_2lot": {
+      "final": 2131.15,
+      "blown": false,
+      "trades": 40,
+      "wins": 39,
+      "max_dd": 52.4,
+      "stopped_out": 0,
+      "skipped": 2
+    },
+    "3m_20p_3lot": {
+      "final": 2731.87,
+      "blown": false,
+      "trades": 39,
+      "wins": 39,
+      "max_dd": 66.2,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "3m_20p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "3m_20p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "3m_20p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "3m_20p_7lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 4,
+      "wins": 3,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 10
+    },
+    "3m_20p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 11
+    },
+    "3m_20p_9lot": {
+      "final": 4906.43,
+      "blown": false,
+      "trades": 27,
+      "wins": 27,
+      "max_dd": 38.3,
+      "stopped_out": 0,
+      "skipped": 18
+    },
+    "3m_20p_10lot": {
+      "final": 4973.33,
+      "blown": false,
+      "trades": 25,
+      "wins": 25,
+      "max_dd": 78.1,
+      "stopped_out": 0,
+      "skipped": 20
+    },
+    "3m_30p_1lot": {
+      "final": 1927.16,
+      "blown": false,
+      "trades": 39,
+      "wins": 39,
+      "max_dd": 21.9,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "3m_30p_2lot": {
+      "final": 2895.88,
+      "blown": false,
+      "trades": 39,
+      "wins": 39,
+      "max_dd": 51.4,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "3m_30p_3lot": {
+      "final": 3860.19,
+      "blown": false,
+      "trades": 38,
+      "wins": 38,
+      "max_dd": 64.3,
+      "stopped_out": 0,
+      "skipped": 5
+    },
+    "3m_30p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "3m_30p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "3m_30p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "3m_30p_7lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 5,
+      "wins": 4,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 9
+    },
+    "3m_30p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 11
+    },
+    "3m_30p_9lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 11
+    },
+    "3m_30p_10lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 11
+    },
+    "3m_50p_1lot": {
+      "final": 2319.93,
+      "blown": false,
+      "trades": 38,
+      "wins": 36,
+      "max_dd": 42.4,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "3m_50p_2lot": {
+      "final": 3673.04,
+      "blown": false,
+      "trades": 38,
+      "wins": 36,
+      "max_dd": 56.7,
+      "stopped_out": 0,
+      "skipped": 1
+    },
+    "3m_50p_3lot": {
+      "final": 4897.75,
+      "blown": false,
+      "trades": 37,
+      "wins": 35,
+      "max_dd": 66.2,
+      "stopped_out": 0,
+      "skipped": 3
+    },
+    "3m_50p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "3m_50p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "3m_50p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "3m_50p_7lot": {
+      "final": 9162.96,
+      "blown": false,
+      "trades": 33,
+      "wins": 31,
+      "max_dd": 90.4,
+      "stopped_out": 0,
+      "skipped": 10
+    },
+    "3m_50p_8lot": {
+      "final": 10329.1,
+      "blown": false,
+      "trades": 33,
+      "wins": 31,
+      "max_dd": 92.2,
+      "stopped_out": 0,
+      "skipped": 10
+    },
+    "3m_50p_9lot": {
+      "final": 11598.43,
+      "blown": false,
+      "trades": 33,
+      "wins": 31,
+      "max_dd": 92.5,
+      "stopped_out": 0,
+      "skipped": 10
+    },
+    "3m_50p_10lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 11
+    },
+    "1y_10p_1lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 65,
+      "wins": 53,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "1y_10p_2lot": {
+      "final": 48.07,
+      "blown": false,
+      "trades": 65,
+      "wins": 54,
+      "max_dd": 96.8,
+      "stopped_out": 1,
+      "skipped": 86
+    },
+    "1y_10p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 63,
+      "wins": 52,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 6
+    },
+    "1y_10p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 59,
+      "wins": 51,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 10
+    },
+    "1y_10p_5lot": {
+      "final": 53.16,
+      "blown": false,
+      "trades": 11,
+      "wins": 8,
+      "max_dd": 95.8,
+      "stopped_out": 1,
+      "skipped": 144
+    },
+    "1y_10p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 11,
+      "wins": 8,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 9
+    },
+    "1y_10p_7lot": {
+      "final": 133.35,
+      "blown": false,
+      "trades": 10,
+      "wins": 7,
+      "max_dd": 90.0,
+      "stopped_out": 1,
+      "skipped": 145
+    },
+    "1y_10p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 5,
+      "wins": 4,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 15
+    },
+    "1y_10p_9lot": {
+      "final": 79.71,
+      "blown": false,
+      "trades": 27,
+      "wins": 24,
+      "max_dd": 96.8,
+      "stopped_out": 1,
+      "skipped": 128
+    },
+    "1y_10p_10lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 25,
+      "wins": 22,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 44
+    },
+    "1y_20p_1lot": {
+      "final": 7.38,
+      "blown": false,
+      "trades": 65,
+      "wins": 59,
+      "max_dd": 99.6,
+      "stopped_out": 1,
+      "skipped": 85
+    },
+    "1y_20p_2lot": {
+      "final": 10.85,
+      "blown": false,
+      "trades": 3,
+      "wins": 0,
+      "max_dd": 98.9,
+      "stopped_out": 1,
+      "skipped": 152
+    },
+    "1y_20p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "1y_20p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 1
+    },
+    "1y_20p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 15
+    },
+    "1y_20p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 20
+    },
+    "1y_20p_7lot": {
+      "final": 60.51,
+      "blown": false,
+      "trades": 22,
+      "wins": 19,
+      "max_dd": 97.6,
+      "stopped_out": 1,
+      "skipped": 133
+    },
+    "1y_20p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 20,
+      "wins": 17,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 36
+    },
+    "1y_20p_9lot": {
+      "final": 263.91,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 88.7,
+      "stopped_out": 0,
+      "skipped": 154
+    },
+    "1y_20p_10lot": {
+      "final": 27.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 97.7,
+      "stopped_out": 1,
+      "skipped": 154
+    },
+    "1y_30p_1lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 65,
+      "wins": 62,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "1y_30p_2lot": {
+      "final": 30.85,
+      "blown": false,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 97.1,
+      "stopped_out": 1,
+      "skipped": 152
+    },
+    "1y_30p_3lot": {
+      "final": 15.48,
+      "blown": false,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 98.6,
+      "stopped_out": 1,
+      "skipped": 152
+    },
+    "1y_30p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 1
+    },
+    "1y_30p_5lot": {
+      "final": 107.27,
+      "blown": false,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 90.2,
+      "stopped_out": 1,
+      "skipped": 150
+    },
+    "1y_30p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 15
+    },
+    "1y_30p_7lot": {
+      "final": 14.37,
+      "blown": false,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 98.8,
+      "stopped_out": 1,
+      "skipped": 149
+    },
+    "1y_30p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 9,
+      "wins": 7,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 28
+    },
+    "1y_30p_9lot": {
+      "final": 263.91,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 88.7,
+      "stopped_out": 0,
+      "skipped": 154
+    },
+    "1y_30p_10lot": {
+      "final": 27.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 97.7,
+      "stopped_out": 1,
+      "skipped": 154
+    },
+    "1y_50p_1lot": {
+      "final": 4373.96,
+      "blown": false,
+      "trades": 135,
+      "wins": 129,
+      "max_dd": 97.2,
+      "stopped_out": 0,
+      "skipped": 0
+    },
+    "1y_50p_2lot": {
+      "final": 30.85,
+      "blown": false,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 97.2,
+      "stopped_out": 1,
+      "skipped": 152
+    },
+    "1y_50p_3lot": {
+      "final": 75.48,
+      "blown": false,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 93.4,
+      "stopped_out": 1,
+      "skipped": 152
+    },
+    "1y_50p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 1
+    },
+    "1y_50p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 15
+    },
+    "1y_50p_6lot": {
+      "final": 147.68,
+      "blown": false,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 87.2,
+      "stopped_out": 1,
+      "skipped": 150
+    },
+    "1y_50p_7lot": {
+      "final": 5.62,
+      "blown": false,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 99.5,
+      "stopped_out": 1,
+      "skipped": 150
+    },
+    "1y_50p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 5,
+      "wins": 3,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 15
+    },
+    "1y_50p_9lot": {
+      "final": 263.91,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 88.7,
+      "stopped_out": 0,
+      "skipped": 154
+    },
+    "1y_50p_10lot": {
+      "final": 27.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 97.7,
+      "stopped_out": 1,
+      "skipped": 154
+    },
+    "2y_10p_1lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 49,
+      "wins": 37,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 28
+    },
+    "2y_10p_2lot": {
+      "final": 1.41,
+      "blown": false,
+      "trades": 34,
+      "wins": 26,
+      "max_dd": 99.9,
+      "stopped_out": 2,
+      "skipped": 305
+    },
+    "2y_10p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 31,
+      "wins": 23,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 4
+    },
+    "2y_10p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 29,
+      "wins": 21,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 15
+    },
+    "2y_10p_5lot": {
+      "final": 28.26,
+      "blown": false,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 97.5,
+      "stopped_out": 1,
+      "skipped": 335
+    },
+    "2y_10p_6lot": {
+      "final": 143.06,
+      "blown": false,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 87.8,
+      "stopped_out": 1,
+      "skipped": 335
+    },
+    "2y_10p_7lot": {
+      "final": 211.31,
+      "blown": false,
+      "trades": 13,
+      "wins": 8,
+      "max_dd": 85.0,
+      "stopped_out": 1,
+      "skipped": 328
+    },
+    "2y_10p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 9,
+      "wins": 7,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 26
+    },
+    "2y_10p_9lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 9,
+      "wins": 8,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 26
+    },
+    "2y_10p_10lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 18,
+      "wins": 15,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 62
+    },
+    "2y_20p_1lot": {
+      "final": 4.69,
+      "blown": false,
+      "trades": 32,
+      "wins": 25,
+      "max_dd": 99.6,
+      "stopped_out": 2,
+      "skipped": 304
+    },
+    "2y_20p_2lot": {
+      "final": 67.58,
+      "blown": false,
+      "trades": 27,
+      "wins": 22,
+      "max_dd": 94.6,
+      "stopped_out": 1,
+      "skipped": 312
+    },
+    "2y_20p_3lot": {
+      "final": 71.76,
+      "blown": false,
+      "trades": 8,
+      "wins": 7,
+      "max_dd": 94.5,
+      "stopped_out": 1,
+      "skipped": 333
+    },
+    "2y_20p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 6,
+      "wins": 5,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "2y_20p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 6,
+      "wins": 5,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "2y_20p_6lot": {
+      "final": 91.91,
+      "blown": false,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 93.6,
+      "stopped_out": 1,
+      "skipped": 335
+    },
+    "2y_20p_7lot": {
+      "final": 154.78,
+      "blown": false,
+      "trades": 16,
+      "wins": 14,
+      "max_dd": 93.8,
+      "stopped_out": 1,
+      "skipped": 324
+    },
+    "2y_20p_8lot": {
+      "final": 75.61,
+      "blown": false,
+      "trades": 16,
+      "wins": 14,
+      "max_dd": 97.3,
+      "stopped_out": 1,
+      "skipped": 324
+    },
+    "2y_20p_9lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 12,
+      "wins": 11,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 19
+    },
+    "2y_20p_10lot": {
+      "final": 209.44,
+      "blown": false,
+      "trades": 12,
+      "wins": 11,
+      "max_dd": 92.7,
+      "stopped_out": 1,
+      "skipped": 329
+    },
+    "2y_30p_1lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 29,
+      "wins": 24,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "2y_30p_2lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 27,
+      "wins": 22,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 4
+    },
+    "2y_30p_3lot": {
+      "final": 59.13,
+      "blown": false,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 96.0,
+      "stopped_out": 1,
+      "skipped": 333
+    },
+    "2y_30p_4lot": {
+      "final": 103.03,
+      "blown": false,
+      "trades": 14,
+      "wins": 10,
+      "max_dd": 92.9,
+      "stopped_out": 2,
+      "skipped": 327
+    },
+    "2y_30p_5lot": {
+      "final": 64.54,
+      "blown": false,
+      "trades": 13,
+      "wins": 10,
+      "max_dd": 95.9,
+      "stopped_out": 2,
+      "skipped": 328
+    },
+    "2y_30p_6lot": {
+      "final": 207.81,
+      "blown": false,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 87.6,
+      "stopped_out": 1,
+      "skipped": 335
+    },
+    "2y_30p_7lot": {
+      "final": 14.05,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.8,
+      "stopped_out": 1,
+      "skipped": 339
+    },
+    "2y_30p_8lot": {
+      "final": 46.0,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 96.1,
+      "stopped_out": 1,
+      "skipped": 340
+    },
+    "2y_30p_9lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 7
+    },
+    "2y_30p_10lot": {
+      "final": 22.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.2,
+      "stopped_out": 1,
+      "skipped": 340
+    },
+    "2y_50p_1lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 34,
+      "wins": 27,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 0
+    },
+    "2y_50p_2lot": {
+      "final": 3.73,
+      "blown": false,
+      "trades": 30,
+      "wins": 24,
+      "max_dd": 99.8,
+      "stopped_out": 2,
+      "skipped": 306
+    },
+    "2y_50p_3lot": {
+      "final": 83.35,
+      "blown": false,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 95.5,
+      "stopped_out": 1,
+      "skipped": 331
+    },
+    "2y_50p_4lot": {
+      "final": 29.78,
+      "blown": false,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 98.6,
+      "stopped_out": 1,
+      "skipped": 333
+    },
+    "2y_50p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 21,
+      "wins": 16,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 13
+    },
+    "2y_50p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 27,
+      "wins": 20,
+      "max_dd": 100.0,
+      "stopped_out": 3,
+      "skipped": 17
+    },
+    "2y_50p_7lot": {
+      "final": 14.05,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.8,
+      "stopped_out": 1,
+      "skipped": 339
+    },
+    "2y_50p_8lot": {
+      "final": 46.0,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 96.1,
+      "stopped_out": 1,
+      "skipped": 340
+    },
+    "2y_50p_9lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 7
+    },
+    "2y_50p_10lot": {
+      "final": 22.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.2,
+      "stopped_out": 1,
+      "skipped": 340
+    },
+    "3y_10p_1lot": {
+      "final": 4.52,
+      "blown": false,
+      "trades": 235,
+      "wins": 193,
+      "max_dd": 99.7,
+      "stopped_out": 2,
+      "skipped": 288
+    },
+    "3y_10p_2lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 217,
+      "wins": 180,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 5
+    },
+    "3y_10p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 49,
+      "wins": 44,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 11
+    },
+    "3y_10p_4lot": {
+      "final": 4.65,
+      "blown": false,
+      "trades": 101,
+      "wins": 89,
+      "max_dd": 99.7,
+      "stopped_out": 3,
+      "skipped": 447
+    },
+    "3y_10p_5lot": {
+      "final": 157.33,
+      "blown": false,
+      "trades": 40,
+      "wins": 36,
+      "max_dd": 91.3,
+      "stopped_out": 1,
+      "skipped": 512
+    },
+    "3y_10p_6lot": {
+      "final": 94.47,
+      "blown": false,
+      "trades": 53,
+      "wins": 48,
+      "max_dd": 95.3,
+      "stopped_out": 1,
+      "skipped": 497
+    },
+    "3y_10p_7lot": {
+      "final": 155.46,
+      "blown": false,
+      "trades": 34,
+      "wins": 29,
+      "max_dd": 89.7,
+      "stopped_out": 1,
+      "skipped": 516
+    },
+    "3y_10p_8lot": {
+      "final": 233.78,
+      "blown": false,
+      "trades": 69,
+      "wins": 60,
+      "max_dd": 91.9,
+      "stopped_out": 1,
+      "skipped": 483
+    },
+    "3y_10p_9lot": {
+      "final": 243.6,
+      "blown": false,
+      "trades": 29,
+      "wins": 26,
+      "max_dd": 90.4,
+      "stopped_out": 1,
+      "skipped": 523
+    },
+    "3y_10p_10lot": {
+      "final": 227.43,
+      "blown": false,
+      "trades": 43,
+      "wins": 39,
+      "max_dd": 91.6,
+      "stopped_out": 1,
+      "skipped": 509
+    },
+    "3y_20p_1lot": {
+      "final": 1.39,
+      "blown": false,
+      "trades": 176,
+      "wins": 158,
+      "max_dd": 99.9,
+      "stopped_out": 1,
+      "skipped": 345
+    },
+    "3y_20p_2lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 174,
+      "wins": 155,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "3y_20p_3lot": {
+      "final": 43.28,
+      "blown": false,
+      "trades": 43,
+      "wins": 36,
+      "max_dd": 97.5,
+      "stopped_out": 1,
+      "skipped": 502
+    },
+    "3y_20p_4lot": {
+      "final": 90.92,
+      "blown": false,
+      "trades": 19,
+      "wins": 14,
+      "max_dd": 94.2,
+      "stopped_out": 1,
+      "skipped": 532
+    },
+    "3y_20p_5lot": {
+      "final": 17.49,
+      "blown": false,
+      "trades": 7,
+      "wins": 5,
+      "max_dd": 98.6,
+      "stopped_out": 1,
+      "skipped": 545
+    },
+    "3y_20p_6lot": {
+      "final": 207.46,
+      "blown": false,
+      "trades": 13,
+      "wins": 11,
+      "max_dd": 90.6,
+      "stopped_out": 1,
+      "skipped": 541
+    },
+    "3y_20p_7lot": {
+      "final": 61.36,
+      "blown": false,
+      "trades": 9,
+      "wins": 6,
+      "max_dd": 95.2,
+      "stopped_out": 1,
+      "skipped": 543
+    },
+    "3y_20p_8lot": {
+      "final": 16.58,
+      "blown": false,
+      "trades": 7,
+      "wins": 4,
+      "max_dd": 98.6,
+      "stopped_out": 0,
+      "skipped": 543
+    },
+    "3y_20p_9lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 7,
+      "wins": 4,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 25
+    },
+    "3y_20p_10lot": {
+      "final": 51.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 95.3,
+      "stopped_out": 1,
+      "skipped": 551
+    },
+    "3y_30p_1lot": {
+      "final": 35.13,
+      "blown": false,
+      "trades": 44,
+      "wins": 34,
+      "max_dd": 97.5,
+      "stopped_out": 1,
+      "skipped": 494
+    },
+    "3y_30p_2lot": {
+      "final": 26.01,
+      "blown": false,
+      "trades": 29,
+      "wins": 22,
+      "max_dd": 98.5,
+      "stopped_out": 1,
+      "skipped": 520
+    },
+    "3y_30p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 39,
+      "wins": 30,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 17
+    },
+    "3y_30p_4lot": {
+      "final": 130.63,
+      "blown": false,
+      "trades": 14,
+      "wins": 11,
+      "max_dd": 93.7,
+      "stopped_out": 1,
+      "skipped": 538
+    },
+    "3y_30p_5lot": {
+      "final": 105.69,
+      "blown": false,
+      "trades": 19,
+      "wins": 14,
+      "max_dd": 94.9,
+      "stopped_out": 1,
+      "skipped": 529
+    },
+    "3y_30p_6lot": {
+      "final": 66.17,
+      "blown": false,
+      "trades": 10,
+      "wins": 7,
+      "max_dd": 96.8,
+      "stopped_out": 1,
+      "skipped": 542
+    },
+    "3y_30p_7lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 16
+    },
+    "3y_30p_8lot": {
+      "final": 212.19,
+      "blown": false,
+      "trades": 6,
+      "wins": 4,
+      "max_dd": 86.7,
+      "stopped_out": 1,
+      "skipped": 546
+    },
+    "3y_30p_9lot": {
+      "final": 278.56,
+      "blown": false,
+      "trades": 10,
+      "wins": 6,
+      "max_dd": 86.0,
+      "stopped_out": 1,
+      "skipped": 542
+    },
+    "3y_30p_10lot": {
+      "final": 51.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 95.3,
+      "stopped_out": 1,
+      "skipped": 551
+    },
+    "3y_50p_1lot": {
+      "final": 23.87,
+      "blown": false,
+      "trades": 30,
+      "wins": 22,
+      "max_dd": 99.3,
+      "stopped_out": 2,
+      "skipped": 510
+    },
+    "3y_50p_2lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 30,
+      "wins": 22,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 11
+    },
+    "3y_50p_3lot": {
+      "final": 23.82,
+      "blown": false,
+      "trades": 31,
+      "wins": 24,
+      "max_dd": 99.2,
+      "stopped_out": 2,
+      "skipped": 516
+    },
+    "3y_50p_4lot": {
+      "final": 114.74,
+      "blown": false,
+      "trades": 20,
+      "wins": 14,
+      "max_dd": 95.9,
+      "stopped_out": 1,
+      "skipped": 529
+    },
+    "3y_50p_5lot": {
+      "final": 57.25,
+      "blown": false,
+      "trades": 19,
+      "wins": 13,
+      "max_dd": 98.2,
+      "stopped_out": 1,
+      "skipped": 530
+    },
+    "3y_50p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 15,
+      "wins": 10,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 16
+    },
+    "3y_50p_7lot": {
+      "final": 95.64,
+      "blown": false,
+      "trades": 5,
+      "wins": 2,
+      "max_dd": 93.7,
+      "stopped_out": 1,
+      "skipped": 546
+    },
+    "3y_50p_8lot": {
+      "final": 29.54,
+      "blown": false,
+      "trades": 6,
+      "wins": 3,
+      "max_dd": 98.1,
+      "stopped_out": 1,
+      "skipped": 545
+    },
+    "3y_50p_9lot": {
+      "final": 281.36,
+      "blown": false,
+      "trades": 9,
+      "wins": 5,
+      "max_dd": 86.9,
+      "stopped_out": 1,
+      "skipped": 542
+    },
+    "3y_50p_10lot": {
+      "final": 51.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 95.3,
+      "stopped_out": 1,
+      "skipped": 551
+    },
+    "4y_10p_1lot": {
+      "final": 6.88,
+      "blown": false,
+      "trades": 12,
+      "wins": 8,
+      "max_dd": 99.3,
+      "stopped_out": 2,
+      "skipped": 748
+    },
+    "4y_10p_2lot": {
+      "final": 3.58,
+      "blown": false,
+      "trades": 12,
+      "wins": 8,
+      "max_dd": 99.6,
+      "stopped_out": 2,
+      "skipped": 750
+    },
+    "4y_10p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 4,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 1
+    },
+    "4y_10p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_10p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_10p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "4y_10p_7lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 27
+    },
+    "4y_10p_8lot": {
+      "final": 28.4,
+      "blown": false,
+      "trades": 4,
+      "wins": 2,
+      "max_dd": 97.2,
+      "stopped_out": 1,
+      "skipped": 757
+    },
+    "4y_10p_9lot": {
+      "final": 14.95,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.5,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_10p_10lot": {
+      "final": 66.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 93.3,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_20p_1lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 12,
+      "wins": 8,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 24
+    },
+    "4y_20p_2lot": {
+      "final": 63.95,
+      "blown": false,
+      "trades": 4,
+      "wins": 1,
+      "max_dd": 93.8,
+      "stopped_out": 1,
+      "skipped": 758
+    },
+    "4y_20p_3lot": {
+      "final": 29.81,
+      "blown": false,
+      "trades": 4,
+      "wins": 1,
+      "max_dd": 97.2,
+      "stopped_out": 1,
+      "skipped": 758
+    },
+    "4y_20p_4lot": {
+      "final": 38.82,
+      "blown": false,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 96.4,
+      "stopped_out": 1,
+      "skipped": 759
+    },
+    "4y_20p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_20p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 3
+    },
+    "4y_20p_7lot": {
+      "final": 46.85,
+      "blown": false,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 95.7,
+      "stopped_out": 1,
+      "skipped": 752
+    },
+    "4y_20p_8lot": {
+      "final": 25.08,
+      "blown": false,
+      "trades": 8,
+      "wins": 6,
+      "max_dd": 97.7,
+      "stopped_out": 1,
+      "skipped": 752
+    },
+    "4y_20p_9lot": {
+      "final": 14.95,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.5,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_20p_10lot": {
+      "final": 66.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 93.3,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_30p_1lot": {
+      "final": 3.94,
+      "blown": false,
+      "trades": 6,
+      "wins": 2,
+      "max_dd": 99.6,
+      "stopped_out": 2,
+      "skipped": 755
+    },
+    "4y_30p_2lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 6,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 9
+    },
+    "4y_30p_3lot": {
+      "final": 63.53,
+      "blown": false,
+      "trades": 4,
+      "wins": 1,
+      "max_dd": 94.2,
+      "stopped_out": 1,
+      "skipped": 758
+    },
+    "4y_30p_4lot": {
+      "final": 83.77,
+      "blown": false,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 92.5,
+      "stopped_out": 1,
+      "skipped": 759
+    },
+    "4y_30p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_30p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_30p_7lot": {
+      "final": 24.72,
+      "blown": false,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 97.5,
+      "stopped_out": 1,
+      "skipped": 759
+    },
+    "4y_30p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 12
+    },
+    "4y_30p_9lot": {
+      "final": 14.95,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.5,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_30p_10lot": {
+      "final": 66.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 93.3,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_50p_1lot": {
+      "final": 1.94,
+      "blown": false,
+      "trades": 6,
+      "wins": 2,
+      "max_dd": 99.8,
+      "stopped_out": 2,
+      "skipped": 754
+    },
+    "4y_50p_2lot": {
+      "final": 11.8,
+      "blown": false,
+      "trades": 6,
+      "wins": 2,
+      "max_dd": 98.9,
+      "stopped_out": 2,
+      "skipped": 756
+    },
+    "4y_50p_3lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 6,
+      "wins": 2,
+      "max_dd": 100.0,
+      "stopped_out": 2,
+      "skipped": 9
+    },
+    "4y_50p_4lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_50p_5lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_50p_6lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 3,
+      "wins": 1,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 2
+    },
+    "4y_50p_7lot": {
+      "final": 24.72,
+      "blown": false,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 97.5,
+      "stopped_out": 1,
+      "skipped": 759
+    },
+    "4y_50p_8lot": {
+      "final": 0.0,
+      "blown": true,
+      "trades": 2,
+      "wins": 0,
+      "max_dd": 100.0,
+      "stopped_out": 1,
+      "skipped": 12
+    },
+    "4y_50p_9lot": {
+      "final": 14.95,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 98.5,
+      "stopped_out": 1,
+      "skipped": 760
+    },
+    "4y_50p_10lot": {
+      "final": 66.5,
+      "blown": false,
+      "trades": 1,
+      "wins": 0,
+      "max_dd": 93.3,
+      "stopped_out": 1,
+      "skipped": 760
+    }
+  }
+}
