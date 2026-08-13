@@ -479,32 +479,30 @@ python scripts/run_sentinel_live.py
 
 The live monitor repeatedly scans the configured symbols in `config/monitoring.yaml`, prints heartbeat summaries, raises terminal alerts when a symbol changes confidence state, such as `WARM -> HOT` or `HOT -> EXECUTION_READY`, and appends live-data collector records when `config/live_data.yaml` is present. It handles unavailable broker symbols without stopping the monitor and remains Advisor Mode only. BTCUSD is included as an experimental observer-mode symbol and is journaled only as diagnostics with execution blocked.
 
-Start Sentinel with one command:
+Start, stop and check Sentinel with the four buttons in the project root:
 
-```powershell
-.\START_SENTINEL.ps1
-```
+| button | what it does |
+| --- | --- |
+| `CHECK_SENTINEL.bat` | Read-only health report: supervisor, engine, MT5, feed age, open positions, refusals, kill switch. Changes nothing. |
+| `START_SENTINEL.bat` | Starts the supervisor, which then starts MT5 and the engine. Rarely needed - the supervisor starts automatically at Windows logon. |
+| `STOP_SENTINEL.bat` | Stops the supervisor, then the engine. Refuses while a position is open unless given `-Force`; add `-IncludeMT5` to close the terminal too. |
+| `RESTART_SENTINEL.bat` | Stops and restarts so the running processes pick up current code. |
 
-The startup script opens separate terminals for the Telegram bot, Streamlit dashboard, and live monitor when available. It writes local process state to `.sentinel_runtime/sentinel_processes.json`, prints the Dashboard URL (`http://localhost:8502/`), keeps Mode as `Advisor`, and keeps Execution `Disabled`. To verify commands without launching terminals, run:
+The supervisor is the single owner of the engines. Do not start an engine by
+hand while it is running - two books on one account is the failure that rule
+exists to prevent. It writes a timestamped `data/live_paper/supervisor.log`
+itself, so it logs the same way however it was launched.
 
-```powershell
-.\START_SENTINEL.ps1 -DryRun
-```
-
-Stop Sentinel:
-
-```powershell
-.\STOP_SENTINEL.ps1
-```
-
-The stop script reads the PID state written by startup and stops only those Sentinel-launched processes. If a process already exited, it reports `NOT RUNNING`.
+To halt new entries without stopping anything, create an empty
+`data/live_paper/KILL_SWITCH` file. Exits keep running; only new orders are
+blocked. Delete the file to resume.
 
 Startup troubleshooting:
 
-- If the dashboard terminal exits, confirm dependencies are installed with `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`.
-- If the Telegram bot exits, confirm `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are present in `.env` and `config/telegram_bot.yaml` has the bot enabled.
-- If the live monitor exits, confirm MetaTrader 5 is installed, open, logged in to the configured demo account, and broker symbols are discoverable with `python scripts/list_symbols.py`.
-- If PowerShell blocks script execution, run from an allowed shell session with `powershell -ExecutionPolicy Bypass -File .\START_SENTINEL.ps1`.
+- If `CHECK_SENTINEL` says the supervisor is not running, double-click `START_SENTINEL.bat`.
+- If MetaTrader 5 is down, the supervisor relaunches it within a couple of minutes; if it cannot, it alerts on Telegram.
+- If orders are refused with `retcode=10027`, AutoTrading is off in MT5 - click the `Algo Trading` button so it is green (Ctrl+E).
+- If PowerShell blocks script execution, the `.bat` wrappers already pass `-ExecutionPolicy Bypass`.
 
 Live monitor scan intervals are configured by environment:
 

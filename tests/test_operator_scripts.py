@@ -76,6 +76,46 @@ def test_restart_clears_the_status_file_so_the_engine_comes_back_at_once():
     assert "del" in RESTART_BAT
 
 
+def test_the_retired_stack_launcher_is_gone():
+    """START_SENTINEL.ps1 started the Telegram bot, the Streamlit dashboard and
+    run_sentinel_live.py. Two of those no longer exist and the third is the
+    retired live monitor - and it would have started them ALONGSIDE the
+    supervisor, which is the single owner of the engines."""
+    assert not (PROJECT_ROOT / "START_SENTINEL.ps1").exists()
+
+
+def test_the_operator_buttons_are_exactly_the_supported_ones():
+    buttons = sorted(p.name for p in PROJECT_ROOT.glob("*_SENTINEL.*"))
+    assert buttons == [
+        "CHECK_SENTINEL.bat",
+        "RESTART_SENTINEL.bat",
+        "START_SENTINEL.bat",
+        "STOP_SENTINEL.bat",
+        "STOP_SENTINEL.ps1",
+    ]
+
+
+def test_supervisor_writes_its_own_log_rather_than_relying_on_redirection():
+    """The logon autostart runs pythonw, which has nowhere to send stdout, so
+    a redirect-only design logged nothing on the one path that matters."""
+    src = (PROJECT_ROOT / "scripts" / "run_sentinel_supervisor.py").read_text(encoding="utf-8")
+    assert "SUPERVISOR_LOG" in src
+    assert 'SUPERVISOR_LOG.open("a"' in src
+    assert "except OSError" in src, "a failed write must never stop the supervisor"
+
+
+def test_launchers_do_not_also_redirect_into_the_same_log():
+    """Self-logging plus redirection would write every line twice. Comments may
+    mention the log; only actual redirection into it is the problem."""
+    for name in ("START_SENTINEL.bat", "RESTART_SENTINEL.bat"):
+        code = _code_only((PROJECT_ROOT / name).read_text(encoding="utf-8"), ("rem ", "::"))
+        for line in code.splitlines():
+            if "supervisor.log" in line:
+                assert ">" not in line and "RedirectStandardOutput" not in line, (
+                    f"{name} redirects into supervisor.log, which the supervisor already writes"
+                )
+
+
 def test_restart_goes_through_the_supervisor_not_the_engine():
     """The supervisor is the single owner of the engines - starting an engine
     by hand alongside it produces two competing books."""

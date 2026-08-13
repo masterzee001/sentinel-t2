@@ -93,14 +93,31 @@ def status_age_seconds(engine: dict) -> float:
     return time.time() - status.stat().st_mtime
 
 
-def log_line(message: str) -> None:
-    """Timestamped supervisor output.
+SUPERVISOR_LOG = PROJECT_ROOT / "data" / "live_paper" / "supervisor.log"
+LOG_MAX_BYTES = 1_000_000
 
-    The engine died five times on 2026-08-12 and left nothing to work from:
-    these lines carried no time, so they could not be lined up against the
-    heartbeat or the engine's own log.
+
+def log_line(message: str) -> None:
+    """Timestamped supervisor output, written to its own file.
+
+    Writing the file directly rather than relying on redirected stdout: the
+    supervisor normally starts from the Windows logon script under pythonw,
+    which has nowhere to send stdout, so every line was being discarded on the
+    one launch path that matters. The engine died five times on 2026-08-12 and
+    left nothing to work from - partly because these lines had no timestamp,
+    and partly because on a logon start they were never written at all.
     """
-    print(f"{datetime.now(UTC).isoformat(timespec='seconds')} {message}", flush=True)
+    line = f"{datetime.now(UTC).isoformat(timespec='seconds')} {message}"
+    print(line, flush=True)
+    try:
+        SUPERVISOR_LOG.parent.mkdir(parents=True, exist_ok=True)
+        if SUPERVISOR_LOG.exists() and SUPERVISOR_LOG.stat().st_size > LOG_MAX_BYTES:
+            SUPERVISOR_LOG.replace(SUPERVISOR_LOG.with_suffix(".log.1"))
+        with SUPERVISOR_LOG.open("a", encoding="utf-8") as handle:
+            handle.write(line + "\n")
+    except OSError:
+        # Logging must never be the reason the supervisor stops supervising.
+        pass
 
 
 def describe_exit(code: int | None) -> str:

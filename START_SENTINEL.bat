@@ -6,6 +6,10 @@ REM
 REM You normally do NOT need this - the supervisor starts automatically when
 REM you log in to Windows. Use it only if CHECK_SENTINEL says the supervisor
 REM is not running.
+REM
+REM No output redirection here on purpose: the supervisor writes its own
+REM timestamped data\live_paper\supervisor.log, so it logs identically however
+REM it was launched.
 cd /d "%~dp0"
 del /q "data\live_paper\supervisor.lock" 2>nul
 start "" /min ".venv\Scripts\pythonw.exe" -u scripts\run_sentinel_supervisor.py
