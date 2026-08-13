@@ -61,9 +61,18 @@ DIGEST_MARK = PROJECT_ROOT / "data" / "live_paper" / "last_digest_date.txt"
 ENGINE_GRACE_SECONDS = 600.0
 
 
+# The supervisor runs under pythonw (no console). A console program like
+# tasklist spawned from a console-less process gets a brand-new console
+# window, and on Windows 11 the default console host is Windows Terminal -
+# so every 120s health check flashed a PowerShell-looking window at the
+# operator (reported 2026-08-13). CREATE_NO_WINDOW runs it invisibly.
+NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
+
 def mt5_running() -> bool:
     result = subprocess.run(
-        ["tasklist", "/FI", "IMAGENAME eq terminal64.exe"], capture_output=True, text=True
+        ["tasklist", "/FI", "IMAGENAME eq terminal64.exe"],
+        capture_output=True, text=True, creationflags=NO_WINDOW,
     )
     return "terminal64.exe" in (result.stdout or "")
 
@@ -278,7 +287,10 @@ def another_supervisor_alive() -> bool:
         other_pid = int(LOCK_PATH.read_text(encoding="utf-8").strip())
     except (ValueError, OSError):
         return False
-    result = subprocess.run(["tasklist", "/FI", f"PID eq {other_pid}"], capture_output=True, text=True)
+    result = subprocess.run(
+        ["tasklist", "/FI", f"PID eq {other_pid}"],
+        capture_output=True, text=True, creationflags=NO_WINDOW,
+    )
     return "python" in (result.stdout or "").lower()
 
 

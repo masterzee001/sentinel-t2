@@ -107,6 +107,19 @@ def test_the_button_points_at_the_moved_implementation():
     assert r"scripts\stop_sentinel.ps1" in bat
 
 
+def test_supervisor_console_subprocesses_never_open_windows():
+    """The supervisor runs under pythonw. A console program spawned from a
+    console-less process gets a NEW console window - on Windows 11 a Windows
+    Terminal window - so the 120s tasklist health check flashed a
+    PowerShell-looking window at the operator every two minutes (2026-08-13).
+    Every subprocess.run in the supervisor must pass CREATE_NO_WINDOW."""
+    src = (PROJECT_ROOT / "scripts" / "run_sentinel_supervisor.py").read_text(encoding="utf-8")
+    assert "CREATE_NO_WINDOW" in src
+    runs = src.count("subprocess.run(")
+    flagged = src.count("creationflags=NO_WINDOW")
+    assert runs == flagged, f"{runs - flagged} subprocess.run call(s) can still open a console window"
+
+
 def test_supervisor_writes_its_own_log_rather_than_relying_on_redirection():
     """The logon autostart runs pythonw, which has nowhere to send stdout, so
     a redirect-only design logged nothing on the one path that matters."""
