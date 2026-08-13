@@ -26,7 +26,7 @@ def _code_only(text: str, comment_markers: tuple[str, ...]) -> str:
     return "\n".join(kept)
 
 
-STOP_PS1 = _code_only((PROJECT_ROOT / "STOP_SENTINEL.ps1").read_text(encoding="utf-8"), ("#",))
+STOP_PS1 = _code_only((PROJECT_ROOT / "scripts" / "stop_sentinel.ps1").read_text(encoding="utf-8"), ("#",))
 RESTART_BAT = _code_only(
     (PROJECT_ROOT / "RESTART_SENTINEL.bat").read_text(encoding="utf-8"), ("rem ", "::")
 )
@@ -91,8 +91,20 @@ def test_the_operator_buttons_are_exactly_the_supported_ones():
         "RESTART_SENTINEL.bat",
         "START_SENTINEL.bat",
         "STOP_SENTINEL.bat",
-        "STOP_SENTINEL.ps1",
     ]
+
+
+def test_the_root_holds_only_things_the_operator_clicks():
+    """The stop logic needs PowerShell, but it is implementation - it lives in
+    scripts/ with the rest of the code, not beside the buttons."""
+    assert not (PROJECT_ROOT / "STOP_SENTINEL.ps1").exists()
+    assert (PROJECT_ROOT / "scripts" / "stop_sentinel.ps1").exists()
+    assert sorted(p.name for p in PROJECT_ROOT.glob("*.ps1")) == []
+
+
+def test_the_button_points_at_the_moved_implementation():
+    bat = (PROJECT_ROOT / "STOP_SENTINEL.bat").read_text(encoding="utf-8")
+    assert r"scripts\stop_sentinel.ps1" in bat
 
 
 def test_supervisor_writes_its_own_log_rather_than_relying_on_redirection():

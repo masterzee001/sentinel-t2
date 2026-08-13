@@ -6,6 +6,6 @@ REM unless you pass -Force. MetaTrader 5 is left running; add -IncludeMT5 if
 REM you also want to close the terminal, which is what actually cuts internet
 REM usage.
 cd /d "%~dp0"
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0STOP_SENTINEL.ps1" %*
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\stop_sentinel.ps1" %*
 echo.
 pause

@@ -18,7 +18,9 @@ param(
 # first and the supervisor simply puts them back.
 
 $ErrorActionPreference = "Stop"
-$ProjectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+# Lives in scripts/, so the project root is one level up. The operator
+# clicks STOP_SENTINEL.bat in the root; this is the implementation.
+$ProjectRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $LockPath = Join-Path $ProjectRoot "data\live_paper\supervisor.lock"
 $StatusPath = Join-Path $ProjectRoot "data\reports\meanrev_live_status.json"
 
@@ -80,7 +82,7 @@ if ($openCount -gt 0 -and -not $Force -and -not $DryRun) {
     Write-Host "  stopped at that window, the position is held another day with"
     Write-Host "  nothing watching it."
     Write-Host ""
-    Write-Host "  If you want to stop anyway:   .\STOP_SENTINEL.ps1 -Force"
+    Write-Host "  If you want to stop anyway:   .\STOP_SENTINEL.bat -Force"
     Write-Host "  To halt NEW entries but keep exits running, use the kill switch"
     Write-Host "  instead - create this empty file:"
     Write-Host ("    {0}" -f (Join-Path $ProjectRoot "data\live_paper\KILL_SWITCH"))

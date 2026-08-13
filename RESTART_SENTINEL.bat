@@ -21,7 +21,7 @@ REM long enough to write the file. Do not reintroduce the deletion anywhere
 REM the grace period does not apply.
 cd /d "%~dp0"
 
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0STOP_SENTINEL.ps1" -Force
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\stop_sentinel.ps1" -Force
 if exist "data\reports\meanrev_live_status.json" del /q "data\reports\meanrev_live_status.json"
 del /q "data\live_paper\supervisor.lock" 2>nul
 
