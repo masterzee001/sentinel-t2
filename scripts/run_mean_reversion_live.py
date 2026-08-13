@@ -428,18 +428,31 @@ def main() -> int:
                     if position:
                         position["held_days"] = int(position.get("held_days", 0)) + 1
                         if ibs > IBS_EXIT or position["held_days"] >= MAX_HOLD_DAYS:
-                            rr = (price - float(position["entry"])) / float(position["risk_unit"])
+                            # Close FIRST, then score the trade on what the
+                            # account actually got. Scoring on the signal price
+                            # excludes the spread from every result, so the book
+                            # would flatter itself against the replay
+                            # expectation it exists to be measured against
+                            # (found live 2026-08-12: DE40 signalled 26350.7 and
+                            # filled 26372.6 - 0.124R given away and unrecorded).
+                            demo_close = executor.close_symbol_positions(symbol) if executor else None
+                            exit_price = price
+                            if demo_close and demo_close.get("fill_price"):
+                                exit_price = float(demo_close["fill_price"])
+                            rr = (exit_price - float(position["entry"])) / float(position["risk_unit"])
                             action = {
                                 "event": "CLOSE",
                                 "symbol": symbol,
-                                "exit_price": price,
+                                "exit_price": exit_price,
+                                "signal_price": price,
+                                "exit_slippage": round(exit_price - price, 5),
                                 "rr": round(rr, 3),
                                 "held_days": position["held_days"],
                                 "reason": "ibs_exit" if ibs > IBS_EXIT else "timeout",
                                 "time": server_now.isoformat(),
                             }
-                            if executor:
-                                action["demo_close"] = executor.close_symbol_positions(symbol)
+                            if demo_close is not None:
+                                action["demo_close"] = demo_close
                             state["closed_trades"].append({**position, **action})
                             del state["open_positions"][symbol]
                             record(action)
@@ -454,7 +467,11 @@ def main() -> int:
                         position = {
                             "symbol": symbol,
                             "direction": "bullish",
+                            # Provisional: replaced by the actual fill once the
+                            # order returns. Sizing below needs a price and the
+                            # fill does not exist yet.
                             "entry": price,
+                            "signal_price": price,
                             "stop_loss": round(price - DISASTER_STOP_UNITS * risk_unit, 5),
                             "take_profit": 0.0,
                             "risk_unit": round(risk_unit, 5),
@@ -479,6 +496,17 @@ def main() -> int:
                             position["demo_order"] = action["demo_order"]
                             count_order_result(state, action["demo_order"])
                             submitted = bool(action["demo_order"].get("submitted"))
+                            # Re-anchor the trade to the price the account got.
+                            # Sizing above deliberately used the signal price -
+                            # it is all that exists before the order - but every
+                            # result from here on must be measured from the fill,
+                            # or the spread never appears in the book's numbers.
+                            fill = action["demo_order"].get("fill_price")
+                            if submitted and fill:
+                                position["entry"] = float(fill)
+                                position["entry_slippage"] = round(float(fill) - price, 5)
+                                action["entry"] = position["entry"]
+                                action["entry_slippage"] = position["entry_slippage"]
                         if submitted:
                             state["open_positions"][symbol] = position
                         # A REFUSED order must not occupy the symbol's only
@@ -493,8 +521,12 @@ def main() -> int:
                             if fill.get("submitted")
                             else (f"\nDEMO ORDER NOT SENT: {fill.get('reason')}" if fill else "")
                         )
+                        slip = position.get("entry_slippage")
+                        # Report the FILL, not the signal. The operator reads
+                        # this to know what the account did.
+                        slip_note = f" (signal {price}, slipped {slip:+})" if slip else ""
                         notify_telegram(
-                            f"MEANREV OPEN {symbol} long @ {price} (IBS {round(ibs, 2)})\n"
+                            f"MEANREV OPEN {symbol} long @ {position['entry']}{slip_note} (IBS {round(ibs, 2)})\n"
                             f"no server SL (audited no-stop book) | exit IBS>{IBS_EXIT} or {MAX_HOLD_DAYS}d{suffix}"
                         )
                 save_state(state)

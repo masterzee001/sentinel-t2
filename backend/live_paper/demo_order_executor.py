@@ -299,8 +299,22 @@ class DemoOrderExecutor:
             }
             result = mt5.order_send(request)
             if result is not None and getattr(result, "retcode", None) == mt5.TRADE_RETCODE_DONE:
-                closed.append(int(open_position.ticket))
-        return {"closed_tickets": closed}
+                closed.append({
+                    "ticket": int(open_position.ticket),
+                    "volume": float(open_position.volume),
+                    # The price the account actually got. Without this the book
+                    # can only score itself on the signal price it asked for,
+                    # which silently excludes the spread from every result.
+                    "fill_price": float(getattr(result, "price", request["price"]) or request["price"]),
+                })
+        volume = sum(c["volume"] for c in closed)
+        return {
+            "closed_tickets": [c["ticket"] for c in closed],
+            "closed": closed,
+            # Volume-weighted, so a position closed in pieces still reports one
+            # honest exit price.
+            "fill_price": (sum(c["fill_price"] * c["volume"] for c in closed) / volume) if volume else None,
+        }
 
     def position_still_open(self, symbol: str) -> bool:
         """Return whether a sentinel-champion position remains open on the symbol."""
